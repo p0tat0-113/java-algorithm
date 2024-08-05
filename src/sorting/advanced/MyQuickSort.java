@@ -48,13 +48,18 @@ public class MyQuickSort implements AdvancedSort{
 
     @Override
     public void sort(int[] arr, int s, int e){
-        int m = process(arr,s,e);
-        //System.out.println(m);
-        //System.out.println(Arrays.toString(arr));
+        /*int m = process(arr,s,e);
         if (m-s > 1){//배열의 길이가 적어도 2이상은 되어야 한다는 것.
             sort(arr,s,m-1);
         }
         if (e-m > 1) {
+            sort(arr,m+1, e);
+        }*/
+
+        if (s<e){//그냥 이렇게 하는게 더 깔끔한 듯.
+            int m = process(arr,s,e);
+
+            sort(arr,s,m-1);
             sort(arr,m+1, e);
         }
     }
