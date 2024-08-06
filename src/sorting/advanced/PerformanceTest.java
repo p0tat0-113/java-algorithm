@@ -6,15 +6,16 @@ import java.util.*;
 
 public class PerformanceTest {
     public static void main(String[] args) {
-        AdvancedSort[] arr = {new MergeSort(),new SwitchingMergeSort(), new MyQuickSort(), new QuickSort()};
+        AdvancedSort[] arr = {new MergeSort(),new SwitchingMergeSort(), /*new MyQuickSort(),*//* new QuickSort()*/ new QuickSortUpgrade(), new MyQuickSortUpgrade()};
 
-        test(arr, 1000_000);
+        test(arr, 100_000);
     }
 
     private static void test(AdvancedSort[] arr, int size){
         for (AdvancedSort advancedSort : arr) {
             int[] randomArr = GenerateArr.generateRandomArr(size);
             int[] sortedArr = GenerateArr.generateSortedArr(size);
+            int[] reversedSortedArr = GenerateArr.generateReversedSortedArr(size);
             int[] duplicatedArr = GenerateArr.generateDuplicatedArr(size);
 
             System.out.println("============================");
@@ -25,15 +26,20 @@ public class PerformanceTest {
             long end = System.currentTimeMillis();
             System.out.println("소요시간: "+(end-start)+"ms");
 
-            /*start = System.currentTimeMillis();
+            start = System.currentTimeMillis();
             advancedSort.sort(sortedArr,0,size-1);
             end = System.currentTimeMillis();
-            System.out.println("소요시간: "+(end-start)+"ms");*/
+            System.out.println("소요시간: "+(end-start)+"ms");
 
-            /*start = System.currentTimeMillis();
+            start = System.currentTimeMillis();
+            advancedSort.sort(reversedSortedArr,0,size-1);
+            end = System.currentTimeMillis();
+            System.out.println("소요시간: "+(end-start)+"ms");
+
+            start = System.currentTimeMillis();
             advancedSort.sort(duplicatedArr,0,size-1);
             end = System.currentTimeMillis();
-            System.out.println("소요시간: "+(end-start)+"ms");*/
+            System.out.println("소요시간: "+(end-start)+"ms");
         }
 
         /*System.out.println("============================");
