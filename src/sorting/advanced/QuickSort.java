@@ -13,8 +13,11 @@ package sorting.advanced;
 * 매우 드문 경우이긴 하지만 최악의 경우로 정렬된 배열, 혹은 거의 정렬된 배열이 입력되면 n^2의 시간복잡도를 보인다.
 * 또한 배열에 중복이 많아도 구역이 불균등 하게 분할되면서 성능이 떨어진다.
 *
+* 실제로 성능 테스트를 해보니까 QuickSort의 경우 정렬되고, 중복된 길이 100_000의 배열을 넣으니까 구역을 균등하게 나누지 못하고 깊이가 너무 깊어져서 그런지 스택 오버 플로우가 발생함.
+*
 * 그런데 이 약점들 또한 보완할 수 있는 방법이 있음.*/
 
+import sorting.GenerateArr;
 import java.util.Arrays;
 
 public class QuickSort implements AdvancedSort{
@@ -27,6 +30,11 @@ public class QuickSort implements AdvancedSort{
 
         arr = new int[]{2,4,5,1,3};
         quickSort.sort(arr,0,4);
+        System.out.println(Arrays.toString(arr));
+
+        arr = GenerateArr.generateRandomArr(100);
+        System.out.println(Arrays.toString(arr));
+        quickSort.sort(arr,0,99);
         System.out.println(Arrays.toString(arr));
     }
 
