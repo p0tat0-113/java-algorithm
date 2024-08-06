@@ -34,6 +34,14 @@ public class GenerateArr {
         return nums;
     }
 
+    public static int[] generateReversedSortedArr(int size){
+        int[] nums = new int[size];
+        for (int i = 0; i < size; i++) {
+            nums[i] = size-i;
+        }
+        return nums;
+    }
+
     public static int[] generateDuplicatedArr(int size){
         int[] nums = new int[size];
         for (int i = 0; i < size; i++) {
