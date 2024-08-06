@@ -41,13 +41,13 @@ public class MergeSort implements AdvancedSort{
 
     @Override
     public void sort(int[] arr, int s, int e){
-        if (s<e) {//배열의 길이가 1이 아니라면 재귀 호출 반복
+        if (s<e) {//배열의 길이가 1보다 크다면 재귀 호출 반복
             int m = (s+e)/2;//중간 지점의 인덱스를 구함.
             sort(arr,s,m);
             sort(arr,m+1,e);
             merge(arr,s,m,e);
         }
-        return;
+        return;//배열의 길이가 1이하면 그대로 return
     }
 
     //[2,1,4,3]  0,1,3  0,1-2,3
@@ -58,17 +58,17 @@ public class MergeSort implements AdvancedSort{
         int tmp_idx = 0;
 
         //주배열 arr에서 보조배열인 tmp로 옮기는데 n
-        while(left <= m && right <= e){
+        while(left <= m && right <= e){//둘 다 아직 남아있다면, 비교해서 둘 중 작은 것은 tmp에 옮김.
             if (arr[left] < arr[right]){
                 tmp[tmp_idx++] = arr[left++];
             } else {
                 tmp[tmp_idx++] = arr[right++];
             }
         }
-        while(left <= m){
+        while(left <= m){//왼쪽만 남아있다면, 비교없이 tmp에 옮김.
             tmp[tmp_idx++] = arr[left++];
         }
-        while (right <= e){
+        while (right <= e){//오른쪽만 남아있다면, 비교없이 tmp에 옮김.
             tmp[tmp_idx++] = arr[right++];
         }
 
