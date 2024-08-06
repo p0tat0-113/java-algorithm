@@ -5,11 +5,10 @@ package sorting.advanced;
 * 어찌어찌 하다보니 잘 구현됨! 속도도 개빨라! 자바가 제공하는 sort()보다도 더 빠름!!!!!!
 * */
 
+import sorting.GenerateArr;
 import sorting.basic.PerformanceTest;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class MyQuickSort implements AdvancedSort{
@@ -24,7 +23,7 @@ public class MyQuickSort implements AdvancedSort{
         myQuickSort.sort(arr,0,4);
         System.out.println(Arrays.toString(arr));
 
-        arr = PerformanceTest.generateArr(100);
+        arr = GenerateArr.generateRandomArr(100);
         System.out.println(Arrays.toString(arr));
         myQuickSort.sort(arr,0,99);
         System.out.println(Arrays.toString(arr));

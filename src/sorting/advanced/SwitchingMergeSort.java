@@ -7,11 +7,10 @@ package sorting.advanced;
 * 스위칭 병합 정렬의 점화식: T(n) = 2T(n/2)+n 병합정렬과 점근적 복잡도는 nlogn 으로 같지만 그래도 조금 더 빠르다.
 * */
 
+import sorting.GenerateArr;
 import sorting.basic.PerformanceTest;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class SwitchingMergeSort implements AdvancedSort{
@@ -26,7 +25,7 @@ public class SwitchingMergeSort implements AdvancedSort{
         switchingMergeSort.sort(arr,0,4);
         System.out.println(Arrays.toString(arr));
 
-        arr = PerformanceTest.generateArr(100);
+        arr = GenerateArr.generateRandomArr(100);
         System.out.println(Arrays.toString(arr));
         switchingMergeSort.sort(arr,0,99);
         System.out.println(Arrays.toString(arr));
