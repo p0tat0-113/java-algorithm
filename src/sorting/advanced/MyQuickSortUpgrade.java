@@ -10,15 +10,16 @@ package sorting.advanced;
 
 import sorting.GenerateArr;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Arrays;
+import java.io.InputStreamReader;
 import java.util.Random;
 
 public class MyQuickSortUpgrade implements AdvancedSort{
     public static void main(String[] args) throws IOException {
         MyQuickSortUpgrade myQuickSort = new MyQuickSortUpgrade();
 
-        int[] arr = {1,2,3,4,5};
+        /*int[] arr = {1,2,3,4,5};
         myQuickSort.sort(arr,0,4);
         System.out.println(Arrays.toString(arr));
 
@@ -29,9 +30,9 @@ public class MyQuickSortUpgrade implements AdvancedSort{
         arr = GenerateArr.generateRandomArr(100);
         System.out.println(Arrays.toString(arr));
         myQuickSort.sort(arr,0,99);
-        System.out.println(Arrays.toString(arr));
+        System.out.println(Arrays.toString(arr));*/
 
-        /*BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int num = Integer.parseInt(br.readLine());
         int[] arr = new int[num];
@@ -45,21 +46,13 @@ public class MyQuickSortUpgrade implements AdvancedSort{
         for (int i = 0; i < num; i++) {
             sb.append(arr[i]).append("\n");
         }
-        System.out.println(sb);*/
+        System.out.println(sb);
     }
 
     private Random random = new Random();
 
     @Override
     public void sort(int[] arr, int s, int e){
-        /*int m = process(arr,s,e);
-        if (m-s > 1){//배열의 길이가 적어도 2이상은 되어야 한다는 것.
-            sort(arr,s,m-1);
-        }
-        if (e-m > 1) {
-            sort(arr,m+1, e);
-        }*/
-
         if (s<e){//그냥 이렇게 하는게 더 깔끔한 듯.
             int randomIndex = random.nextInt(e-s)+s;//랜덤한 인덱스의 숫자를 맨 앞으로 보내서 Privot이 되게 함. 정렬된 배열이 들어왔을 때 최대한 균등하게 분할되게 할 수 있다.
             int temp = arr[s];
