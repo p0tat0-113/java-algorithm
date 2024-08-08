@@ -55,7 +55,7 @@ public class HeapSort implements AdvancedSort {
     }
 
     //서브 트리를 힙 구조로 수선함. 스며내리기 알고리즘.
-    private void percolateDown(int[] arr, int rootIdx, int length) {//root는 root의 인덱스, n은 배열의 크기
+    private void percolateDown(int[] arr, int rootIdx, int length) {//root는 root의 인덱스, length는 percolateDown이 인식하고 있는 힙의 크기
         int child = (2 * rootIdx) + 1; //왼쪽 자식의 인덱스, 힙 구조는 각 레벨을 꽉 채우고, 마지막 레벨의 경우 왼쪽부터 채우기 때문에 이런 공식을 사용할 수 있다.
         int right = (2 * rootIdx) + 2; //오른쪽 자식의 인덱스
 
