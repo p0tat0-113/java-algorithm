@@ -14,14 +14,17 @@ package sorting.advanced;
 
 import sorting.GenerateArr;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Random;
 
 public class QuickSortUpgrade implements AdvancedSort{
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         QuickSortUpgrade quickSort = new QuickSortUpgrade();
 
-        int[] arr = {1,2,3,4,5};
+        /*int[] arr = {1,2,3,4,5};
         quickSort.sort(arr,0,4);
         System.out.println(Arrays.toString(arr));
 
@@ -32,7 +35,23 @@ public class QuickSortUpgrade implements AdvancedSort{
         arr = GenerateArr.generateRandomArr(100);
         System.out.println(Arrays.toString(arr));
         quickSort.sort(arr,0,99);
-        System.out.println(Arrays.toString(arr));
+        System.out.println(Arrays.toString(arr));*/
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int num = Integer.parseInt(br.readLine());
+        int[] arr = new int[num];
+        for (int i = 0; i < num; i++) {
+            arr[i] = Integer.parseInt(br.readLine());
+        }
+
+        quickSort.sort(arr, 0, arr.length-1);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < num; i++) {
+            sb.append(arr[i]).append("\n");
+        }
+        System.out.println(sb);
     }
 
     private Random random = new Random();
