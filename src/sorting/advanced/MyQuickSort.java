@@ -64,11 +64,11 @@ public class MyQuickSort implements AdvancedSort{
     }
 
     private int process(int[] arr, int s, int e){
-        int pivot = s;
+        int pivot = s;//맨 앞에 있는 원소를 Pivot으로 정함.
         int low = pivot+1;
         int high = e;
 
-        while (low<=high){
+        while (low<=high){//high와 low가 교차되면 반복을 중단함.
             if (arr[low] < arr[pivot]){
                 low++;
             }
@@ -84,6 +84,7 @@ public class MyQuickSort implements AdvancedSort{
             }
         }
 
+        //low와 교차된 high의 위치와 Pivot을 맞바꾼다. 이 시점에 high는 Pivot보다 작은 숫자들의 영역의 끝에 위치해있다.
         //[1,2,3,4,5]이런 상황에서도 high가 pivot과 같아지면서 자연스럽게 그대로 유지됨.
         int temp = arr[pivot];
         arr[pivot] = arr[high];
