@@ -6,9 +6,9 @@ import java.util.*;
 
 public class PerformanceTest {
     public static void main(String[] args) {
-        AdvancedSort[] algorithm = {new MergeSort(),new SwitchingMergeSort(), new QuickSortUpgrade(), new MyQuickSortUpgrade(), new HeapSort()};
+        AdvancedSort[] algorithm = {new MergeSort(),new SwitchingMergeSort(),/*new MyQuickSort() ,*/new QuickSortUpgrade(), new MyQuickSortUpgrade(), new HeapSort()};
 
-        test(algorithm, 100_000);
+        test(algorithm, 10_000_000);
     }
 
     private static void test(AdvancedSort[] algorithm, int size){
@@ -31,7 +31,7 @@ public class PerformanceTest {
             for (int[] arr : arrs) {
                 long start = System.currentTimeMillis();
 
-                advancedSort.sort(randomArr,0,size-1);
+                advancedSort.sort(arr,0,size-1);
 
                 long end = System.currentTimeMillis();
                 System.out.print("소요시간: "+(end-start)+"ms ");
