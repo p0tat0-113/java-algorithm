@@ -12,7 +12,7 @@ public class GenerateArr {
         HashSet<Integer> set = new HashSet<>();
 
         while (set.size() < size){
-            set.add(random.nextInt(size)+1);
+            set.add(random.nextInt());
         }
 
         ArrayList<Integer> list = new ArrayList<>(set);
