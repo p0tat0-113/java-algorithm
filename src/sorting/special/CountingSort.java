@@ -31,6 +31,7 @@ public class CountingSort {
         }
 
         //누적합을 구함. 각 인덱스에는 나보다 작거나 같은 숫자들이 몇개가 있는지가 들어감.
+        //그러니까 같은 수들 중에서 가장 마지막 수의 배열상에 정렬될 인덱스인 것이다.
         for (int i = 1; i < countArr.length; i++) {
             countArr[i] = countArr[i] + countArr[i-1];
         }
