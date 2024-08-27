@@ -13,35 +13,40 @@
 해시맵에 담고, 엔트리셋으로 뽑은 다음에 다시 리스트에 담아서 정렬하면 될 듯.
 */
 
+//좀 더 빠르게 작동될 수 있도록 개선해보려고 함.
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Map;
 
-public class Baek1302 {
+public class Baek1302_2 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int num = Integer.parseInt(br.readLine());
 
+        int maxNum = 0;
+        String maxBookName = "~";
+
         HashMap<String, Integer> map = new HashMap<>();
         for (int i = 0; i < num; i++) {
             String book = br.readLine();
             map.put(book, map.getOrDefault(book, 0)+1);
+
+            int count = map.get(book);
+            if (maxNum < count){
+                maxNum = count;
+                maxBookName = book;
+            } else if (maxNum == count) {
+                if (book.compareTo(maxBookName) < 0){
+                    maxBookName = book;
+                }
+            }
+            //System.out.println(maxNum);
+            //System.out.println(maxBookName);
         }
 
-        ArrayList<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
-        list.sort((o1, o2) -> {
-            if (o1.getValue().compareTo(o2.getValue()) == 0){
-                return o1.getKey().compareTo(o2.getKey());
-            } else {
-                return o1.getValue().compareTo(o2.getValue())*-1;
-            }
-        });
-
-        System.out.println(list.get(0).getKey());
+        System.out.println(maxBookName);
     }
 }
