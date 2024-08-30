@@ -34,5 +34,8 @@ public class PriorityQueue1 {
         System.out.println(customQueue1.poll());
         System.out.println(customQueue1.poll());
         System.out.println(customQueue1.poll());
+
+        //완전이진트리를 힙구조로 수선하는데는 O(n)
+        //삽입, 삭제 연산을 하는데는 O(logn)의 시간복잡도를 가진다.
     }
 }
