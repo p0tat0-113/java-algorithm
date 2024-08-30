@@ -1,4 +1,4 @@
-package collections.queue;
+package java_study.collections.queue;
 
 import java.util.Comparator;
 import java.util.List;
