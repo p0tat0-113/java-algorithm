@@ -20,60 +20,73 @@ N×N의 표에 수 N2개 채워져 있다. 채워진 수에는 한 가지 특징
 //풀긴 풀었는데 뭔가 찝찝하네..
 
 //개같이 시간 초과됨. 오버헤드를 줄여야 함. 스위칭 병합 정렬같이 주배열과 보조배열을 바꿔가면서 하면 되지 않을까...?
-//그리고 비교횟수를 최대한 줄여야 하는데.. 지금의 방법은 잘못됐음.
+//생각해보니 애초에 비교횟수를 최대한 줄여야 하는데.. 지금의 방법은 잘못됐음.
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
-public class Baek2075 {
+public class Baek2075_1 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int num = Integer.parseInt(br.readLine());
 
-        ArrayList<ArrayDeque<Integer>> list = new ArrayList<>();
-        for (int i = 0; i < num; i++) {
-            list.add(new ArrayDeque<>());
-        }
+        int[] arr = new int[num*num];
 
         for (int i = 0; i < num; i++) {
-            String[] input = br.readLine().split(" ");
+            StringTokenizer stringTokenizer = new StringTokenizer(br.readLine());
 
-            for (int j = 0; j < num; j++) {
-                list.get(j).offer(Integer.parseInt(input[j]));
+            for (int j = i; j < num*num; j = j+5) {
+                arr[j] = Integer.parseInt(stringTokenizer.nextToken());
             }
         }
 
-        //System.out.println(list);
+        System.out.println(Arrays.toString(arr));
 
-        ArrayDeque<Integer> temp;
-        ArrayList<Integer> result = new ArrayList<>();
+        split(arr,0,arr.length-1,num);
+        System.out.println(Arrays.toString(arr));;
+    }
 
-        for (ArrayDeque<Integer> deque : list) {
-            temp = new ArrayDeque<>(result);
-            result.clear();
+    private static void split(int[] arr, int start, int end, int depth){
+        if (depth > 0) {
+            int mid = start + depth/2*5;
 
-            while(!temp.isEmpty() && !deque.isEmpty()) {
-                if (temp.peek() < deque.peek()){
-                    result.add(temp.poll());
-                } else {
-                    result.add(deque.poll());
-                }
-            }
+            split(arr, start, mid-1, depth/2);
+            split(arr, mid, end, depth/2);
 
-            while(!temp.isEmpty()) {
-                result.add(temp.poll());
-            }
-            while(!deque.isEmpty()) {
-                result.add(deque.poll());
+            merge(arr,start,mid,end);
+        } else {
+            return;
+        }
+    }
+
+    private static void merge(int[] arr, int start, int mid, int end) {
+        int[] temp = new int[end-start+1];
+        int tempIdx = 0;
+
+        int left = start;
+        int right = mid;
+        //(end-start)/2+1
+
+        while(left < mid && right < end+1){
+            if(arr[left] > arr[right]) {
+                temp[tempIdx++] = arr[left++];
+            } else {
+                temp[tempIdx++] = arr[right++];
             }
         }
+        while (left < mid) {
+            temp[tempIdx++] = arr[left++];
+        }
+        while (right < end+1) {
+            temp[tempIdx++] = arr[right++];
+        }
 
-        //System.out.println(result);
-
-        System.out.println(result.get(result.size()-num));
+        for (int i = 0; i < tempIdx; i++) {
+            arr[start+i] = temp[i];
+        }
     }
 }
