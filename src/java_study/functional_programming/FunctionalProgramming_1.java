@@ -2,7 +2,7 @@ package java_study.functional_programming;
 
 import java.util.List;
 
-public class FunctionalProgrammingRunner {
+public class FunctionalProgramming_1 {
 
     public static void main(String[] args) {
         List<String> list = List.of("Apple", "Banana", "Cat");
