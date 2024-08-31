@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class FunctionalInterface {
+public class FunctionalInterface_8 {
     public static void main(String[] args) {
         //람다 표현식을 쓸 때 화면 뒤에서 무슨 일이 일어나는지 알아본다.
 
