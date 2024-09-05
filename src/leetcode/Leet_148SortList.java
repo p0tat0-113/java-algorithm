@@ -21,11 +21,11 @@ public class Leet_148SortList {
     //노드 간의 연결구조를 사용한다는 점을 제외하면 일반적인 병합정렬과 구조자체는 비슷하다.
 
     private static ListNode mergeSort(ListNode headNode){
-        if (headNode.nextNode != null) {
+        if (headNode.next != null) {
             ListNode midNode = getMidNode(headNode);//중간 노드 얻어옴.
 
-            ListNode rightHeadNode = midNode.nextNode;//midNode보다 한 칸 뒤의 노드, 분할된 오른쪽 노드의 머리다.
-            midNode.nextNode = null;//midNode의 연결을 끊어버림. headNode를 머리로 둔 리스트와 rightHeadNode를 머리로 둔 리스트 둘로 쪼개짐.
+            ListNode rightHeadNode = midNode.next;//midNode보다 한 칸 뒤의 노드, 분할된 오른쪽 노드의 머리다.
+            midNode.next = null;//midNode의 연결을 끊어버림. headNode를 머리로 둔 리스트와 rightHeadNode를 머리로 둔 리스트 둘로 쪼개짐.
 
             //밑바닥에 도달할 때까지 재귀적으로 쪼갬.
             ListNode leftListNode = mergeSort(headNode);
@@ -42,37 +42,37 @@ public class Leet_148SortList {
 
         while (leftListNode != null && rightListNode != null) {
             if (leftListNode.val < rightListNode.val) {
-                currentNode.nextNode = leftListNode;
-                currentNode = currentNode.nextNode;//currentNode는 항상 제일 끝 노드의 참조값을 가리켜야 한다.
+                currentNode.next = leftListNode;
+                currentNode = currentNode.next;//currentNode는 항상 제일 끝 노드의 참조값을 가리켜야 한다.
 
-                leftListNode = leftListNode.nextNode;
+                leftListNode = leftListNode.next;
 
             } else if (rightListNode.val < leftListNode.val) {
-                currentNode.nextNode = rightListNode;
-                currentNode = currentNode.nextNode;
+                currentNode.next = rightListNode;
+                currentNode = currentNode.next;
 
-                rightListNode = rightListNode.nextNode;
+                rightListNode = rightListNode.next;
             }
         }
 
         while (leftListNode != null) {
-            currentNode.nextNode = leftListNode;
-            currentNode = currentNode.nextNode;
+            currentNode.next = leftListNode;
+            currentNode = currentNode.next;
 
-            leftListNode = leftListNode.nextNode;
+            leftListNode = leftListNode.next;
         }
 
         while (rightListNode != null) {
-            currentNode.nextNode = rightListNode;
-            currentNode = currentNode.nextNode;
+            currentNode.next = rightListNode;
+            currentNode = currentNode.next;
 
-            rightListNode = rightListNode.nextNode;
+            rightListNode = rightListNode.next;
         }
 
-        return tempHeadNode.nextNode;
+        return tempHeadNode.next;
     }
 
-    //중간노드를 구하는 메서드
+    //중간노드를 구하는 메서드, 정확히는 중간노드보다 한칸 앞의 노드의 참조값을 반환한다.
     //이 메서드에서 반환한 중간노드의 참조값이 연결리스트를 반으로 자르는 기준점이 된다.
     //ListNode의 내부 구현이 너무 빈약해서, 중간 노드를 얻기 위해 이런 힘든 방법을 써야한다.
     private static ListNode getMidNode(ListNode head){
@@ -82,14 +82,14 @@ public class Leet_148SortList {
         ListNode two = head;//두칸씩 전진
 
         while (two != null) {
-            two = two.nextNode;
+            two = two.next;
             if (two == null) {
                 break;
             }
-            two = two.nextNode;
+            two = two.next;
 
             midNode = one;
-            one = one.nextNode;
+            one = one.next;
         }
         return midNode;
     }
@@ -97,14 +97,14 @@ public class Leet_148SortList {
     //문제의 설명에 따라 연결리스트의 노드를 간단하게 구현함.
     private static class ListNode{
         int val;
-        ListNode nextNode;
+        ListNode next;
 
         public ListNode() {
         }
 
-        public ListNode(int val, ListNode nextNode) {
+        public ListNode(int val, ListNode next) {
             this.val = val;
-            this.nextNode = nextNode;
+            this.next = next;
         }
 
         @Override
@@ -114,7 +114,7 @@ public class Leet_148SortList {
             while (node != null) {
                 sb.append(node.val);
                 sb.append(" -> ");
-                node = node.nextNode;
+                node = node.next;
             }
 
             return sb.toString();
