@@ -22,7 +22,7 @@ public class Leet_148SortList {
 
     private static ListNode mergeSort(ListNode headNode){
         if (headNode.next != null) {
-            ListNode midNode = getMidNode(headNode);//중간 노드 얻어옴.
+            ListNode midNode = getLeftListTailNode(headNode);//중간 노드 얻어옴.
 
             ListNode rightHeadNode = midNode.next;//midNode보다 한 칸 뒤의 노드, 분할된 오른쪽 노드의 머리다.
             midNode.next = null;//midNode의 연결을 끊어버림. headNode를 머리로 둔 리스트와 rightHeadNode를 머리로 둔 리스트 둘로 쪼개짐.
@@ -72,26 +72,23 @@ public class Leet_148SortList {
         return tempHeadNode.next;
     }
 
-    //중간노드를 구하는 메서드, 정확히는 중간노드보다 한칸 앞의 노드의 참조값을 반환한다.
-    //이 메서드에서 반환한 중간노드의 참조값이 연결리스트를 반으로 자르는 기준점이 된다.
-    //ListNode의 내부 구현이 너무 빈약해서, 중간 노드를 얻기 위해 이런 힘든 방법을 써야한다.
-    private static ListNode getMidNode(ListNode head){
-        //두칸씩 전진하는 tempNode가 null이 되게 되면, midNode는 그 연결 리스트의 중간 노드를 가리키게 되어있다.
-        ListNode midNode = head;
-        ListNode one = head;//한칸씩 전진
-        ListNode two = head;//두칸씩 전진
+    //리스트 분할 후 왼쪽 리스트의 말단 노드가 될 노드를 찾아서 반환해주는 메서드
+    //ListNode의 구현이 빈약해서 노드 연결을 전부 탐색하는 방식을 써야한다.
+    private static ListNode getLeftListTailNode(ListNode head){
+        int length = 0; //먼저 전체 길이를 구함.
 
-        while (two != null) {
-            two = two.next;
-            if (two == null) {
-                break;
-            }
-            two = two.next;
-
-            midNode = one;
-            one = one.next;
+        ListNode tempNode = head;
+        while (tempNode != null) {
+            length++;
+            tempNode = tempNode.next;
         }
-        return midNode;
+
+        int halfLength = length/2 -1; //반절의 길이를 구함.
+        for (int i = 0; i < halfLength; i++) {
+            head = head.next;
+        }
+
+        return head;
     }
 
     //문제의 설명에 따라 연결리스트의 노드를 간단하게 구현함.
@@ -120,24 +117,4 @@ public class Leet_148SortList {
             return sb.toString();
         }
     }
-
-    //처음에는 정말 단순하게 인덱스로 연결리스트의 각 노드에 접근하는 방식으로 하려고 했으나, 연결리스트 특성 상 배열의 길이가 길어질수록 너무 느릴 것 같아 포기.
-    /*private static int getLength(ListNode head) {
-        int length = 0;
-        ListNode tempNode = head;
-        while (tempNode != null) {
-            length++;
-            tempNode = tempNode.nextNode;
-        }
-
-        return length;
-    }*/
-
-    /*private static ListNode getNode(ListNode root, int index) {
-        ListNode node = root;
-        for (int i = 0; i < index; i++) {
-            node = node.nextNode;
-        }
-        return node;
-    }*/
 }
