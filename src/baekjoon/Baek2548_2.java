@@ -1,4 +1,4 @@
-/*문제
+package baekjoon;/*문제
 정보초등학교의 연아는 여러 개의 자연수가 주어졌을 때, 이를 대표할 수 있는 대표 자연수에 대하여 연구하였다. 그 결과 어떤 자연수가 다음과 같은 성질을 가지면 대표 자연수로 적당할 것이라고 판단하였다.
 
 “대표 자연수는 주어진 모든 자연수들에 대하여 그 차이를 계산하여 그 차이들 전체의 합을 최소로 하는 자연수이다.”
@@ -13,20 +13,19 @@
 출력
 첫째 줄에 대표 자연수를 출력한다. 대표 자연수가 두 개 이상일 경우 그 중 제일 작은 것을 출력한다.*/
 
-//부르트포스 및 정렬 문제
+//부르트포스 및 정렬 문제.. 인 줄 알았으나, 이 문제를 훨씬 빠르게 푼 사람들이 있는 것을 확인했고, 어떻게 대표 자연수가 될 수 있을까를 잘 생각해보니까 답이 나왔음.
+//입력받은 숫자들을 정렬한 다음에 중간 인덱스의 숫자를 뱉으면 됨!
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
-public class Baek2548_1 {
+public class Baek2548_2 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int minSum = 2100000000;
-        int minNum = 10000;
 
         int num = Integer.parseInt(br.readLine());
-
         String[] strings = br.readLine().split(" ");
 
         //문자열 배열을 정수형 배열로 치환
@@ -35,24 +34,8 @@ public class Baek2548_1 {
             arr[i] = Integer.parseInt(strings[i]);
         }
 
-        //부르트 포스 연산 및 최소값 구하기
-        for (int i = 0; i < num; i++) {
-            int sum = 0;
-            int pivot = arr[i];
-            for (int j = 0; j < num; j++) {
-                sum += (arr[j] - pivot) >= 0 ? arr[j] - pivot : (arr[j] - pivot)*-1;
-            }
+        Arrays.sort(arr);
 
-            if (sum < minSum){
-                minSum = sum;
-                minNum = pivot;
-            } else if (sum == minSum) {
-                if (pivot < minNum){
-                    minNum = pivot;
-                }
-            }
-        }
-
-        System.out.println(minNum);
+        System.out.println(arr[(num-1)/2]);
     }
 }
