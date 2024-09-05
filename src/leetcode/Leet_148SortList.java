@@ -1,6 +1,6 @@
 package leetcode;
 
-public class Leet_148_sort_list {
+public class Leet_148SortList {
 
     public static void main(String[] args) {
         /*ListNode root = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5, new ListNode(6,null))))));
@@ -94,6 +94,7 @@ public class Leet_148_sort_list {
         return midNode;
     }
 
+    //문제의 설명에 따라 연결리스트의 노드를 간단하게 구현함.
     private static class ListNode{
         int val;
         ListNode nextNode;
