@@ -6,7 +6,10 @@ public class Leet_148SortList {
         /*ListNode root = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5, new ListNode(6,null))))));
         System.out.println(getMidNode(root));*/
 
-        ListNode root = new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3, null))));
+        //ListNode root = new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3, null))));
+        //다 푼 줄 알았는데 연결 리스트의 길이가 길어지니까 정렬이 안되는 상황에 빠짐. [4,2,1,3,4,2,1,3]으로 테스트를 해보니까 가장 마지막에 [1,2,3,4] [1,2,3,4]가 merge되는 과정에서 문제가 발생함.
+        //문제 해결함. merge()메서드의 조건문을 잘못 작성해서, 양쪽 리스트의 비교 값이 같은 경우 계속 대치 상황에 빠지는 문제였음.
+        ListNode root = new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3, new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3, null))))))));
         System.out.println(sortList(root));
     }
 
@@ -14,12 +17,11 @@ public class Leet_148SortList {
         if (head == null) {
             return head;
         }
-
         return mergeSort(head);
     }
 
     //노드 간의 연결구조를 사용한다는 점을 제외하면 일반적인 병합정렬과 구조자체는 비슷하다.
-
+    //퀵정렬이나 힙정렬로 구현할 수는 없을까 생각해봤는데 서로 멀리 떨어진 노드 간에 교환이 필요한 정렬 방식으로는 효율적으로 구현하기 힘든 듯 하다.
     private static ListNode mergeSort(ListNode headNode){
         if (headNode.next != null) {
             ListNode midNode = getLeftListTailNode(headNode);//중간 노드 얻어옴.
@@ -36,12 +38,13 @@ public class Leet_148SortList {
 
         return headNode;
     }
+
     private static ListNode merge(ListNode leftListNode, ListNode rightListNode) {
         ListNode tempHeadNode = new ListNode();//임시로 머리가 되어줄 노드, tempHeadNode에 왼쪽과 오른쪽 연결리스트의 각 노드들을 붙일 것이다.
         ListNode currentNode = tempHeadNode;//tempHeadNode로 시작되는 연결리스트의 최후미 노드의 참조값을 저장함.
 
         while (leftListNode != null && rightListNode != null) {
-            if (leftListNode.val < rightListNode.val) {
+            if (leftListNode.val <= rightListNode.val) {//부등호에 주의해야함. `<`를 넣으면 양 쪽 리스트의 비교값이 같은 경우 무기한 대치 상태에 빠진다.
                 currentNode.next = leftListNode;
                 currentNode = currentNode.next;//currentNode는 항상 제일 끝 노드의 참조값을 가리켜야 한다.
 
@@ -55,7 +58,7 @@ public class Leet_148SortList {
             }
         }
 
-        while (leftListNode != null) {
+        /*while (leftListNode != null) {
             currentNode.next = leftListNode;
             currentNode = currentNode.next;
 
@@ -67,6 +70,13 @@ public class Leet_148SortList {
             currentNode = currentNode.next;
 
             rightListNode = rightListNode.next;
+        }*/
+        //생각해보니까 이 부분은 연결리스트의 장점을 살리는 것이 훨씬 효율적일 것 같다.
+
+        if (leftListNode != null) {
+            currentNode.next = leftListNode;
+        } else if (rightListNode != null) {
+            currentNode.next = rightListNode;
         }
 
         return tempHeadNode.next;
