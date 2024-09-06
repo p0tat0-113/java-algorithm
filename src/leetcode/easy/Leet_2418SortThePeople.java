@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.easy;
 
 /*
 사람의 이름과 신장이 담긴 각각의 배열 2개가 주어진다. i번째 이름과 신장이 매치되어있는 구조다.
@@ -12,9 +12,6 @@ package leetcode;
 */
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.TreeMap;
 
 public class Leet_2418SortThePeople {
 

@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.medium;
 
 /*
 또 연결리스트를 정렬하는 문제다... 그런데 이번에는 삽입정렬을 구현하라고 함....

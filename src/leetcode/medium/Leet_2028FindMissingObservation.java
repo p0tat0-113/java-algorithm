@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.medium;
 
 /*
 mediun난이도인데 문제가 좀 쉽지 않음...

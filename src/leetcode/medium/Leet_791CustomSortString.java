@@ -1,7 +1,6 @@
-package leetcode;
+package leetcode.medium;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 
 public class Leet_791CustomSortString {

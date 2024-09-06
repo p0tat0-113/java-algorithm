@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.medium;
 
 /*
 주어진 정수 배열을 정렬하기만 하는 아주 단순한 문제이다. 단 절대로 내장 정렬 함수는 쓰지 말라고 한다. 정렬 알고리즘을 직접 구현하라고 함.
