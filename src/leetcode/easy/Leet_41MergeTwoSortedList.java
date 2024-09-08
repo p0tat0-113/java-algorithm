@@ -2,30 +2,11 @@ package leetcode.easy;
 
 public class Leet_41MergeTwoSortedList {
 
-    private static class ListNode{
-        int val;
-        ListNode next;
+    public static void main(String[] args) {
+        ListNode list1 = new ListNode(1, new ListNode(2, new ListNode(4, null)));
+        ListNode list2 = new ListNode(1, new ListNode(3, new ListNode(4, null)));
 
-        public ListNode() {
-        }
-
-        public ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-
-        @Override
-        public String toString() {
-            ListNode node = this;
-            StringBuilder sb = new StringBuilder();
-            while (node != null) {
-                sb.append(node.val);
-                sb.append(" -> ");
-                node = node.next;
-            }
-
-            return sb.toString();
-        }
+        System.out.println(mergeTwoLists(list1, list2));
     }
 
     //오름차순으로 정렬해야 함. 병합 정렬의 병합 과정과 똑같다.
@@ -34,7 +15,7 @@ public class Leet_41MergeTwoSortedList {
         ListNode currentNode = tempHeadNode;//맨 뒤 노드의 참조값을 가리킨다.
 
         while (list1 != null && list2 != null) {
-            if(list1.val <= list2.val) {
+            if(list1.val <= list2.val) {//처음에 이 부분을 <로 잘못 써서 비교하는 노드의 값이 같을 때 무한히 교착상태에 빠지는 문제가 있었음.
                 currentNode.next = list1;
                 currentNode = currentNode.next;
 
@@ -64,10 +45,29 @@ public class Leet_41MergeTwoSortedList {
         return tempHeadNode.next;
     }
 
-    public static void main(String[] args) {
-        ListNode list1 = new ListNode(1, new ListNode(2, new ListNode(4, null)));
-        ListNode list2 = new ListNode(1, new ListNode(3, new ListNode(4, null)));
+    private static class ListNode{
+        int val;
+        ListNode next;
 
-        System.out.println(mergeTwoLists(list1, list2));
+        public ListNode() {
+        }
+
+        public ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
+
+        @Override
+        public String toString() {
+            ListNode node = this;
+            StringBuilder sb = new StringBuilder();
+            while (node != null) {
+                sb.append(node.val);
+                sb.append(" -> ");
+                node = node.next;
+            }
+
+            return sb.toString();
+        }
     }
 }
