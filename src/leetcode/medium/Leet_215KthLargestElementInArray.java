@@ -30,9 +30,12 @@ public class Leet_215KthLargestElementInArray {
         //k-1번 힙에서 루트를 꺼내고, 스며내리기를 해서 그 다음으로 큰 수를 루트로 올린다.
         for (int i = 0; i < k-1; i++) {
             //루트노드와 맨 끝 노드를 교환한다.
-            int temp = nums[0];
+            /*int temp = nums[0];
             nums[0] = nums[nums.length-1-i];
-            nums[nums.length-1-i] = temp;
+            nums[nums.length-1-i] = temp;*/
+
+            //지금 이 문제에서 해야하는 것은 정렬이 아니라, 그냥 루트(힙에서 가장 큰 원소)를 제거하는 것이기 때문에 교환을 할 필요가 없다.
+            nums[0] = nums[nums.length-1-i];
 
             //맨 끝 부분을 제외하고 스며내리기
             percolateDown(nums,nums.length-2-i,0);//nums.length-1-1-i
@@ -47,12 +50,8 @@ public class Leet_215KthLargestElementInArray {
     private void buildHeap(int[] nums) {
         int buildStartIdx;
 
-        //nums의 길이가 짝수인지, 홀수인지에 따라 말단 서브트리의 루트를 구하는 공식이 다르다.
-        if (nums.length%2 == 0) {
-            buildStartIdx = (nums.length-2)/2;//nums.length-1-1
-        } else {
-            buildStartIdx = (nums.length-3)/2;//nums.length-1-2
-        }
+        //nums의 길이가 짝수인지, 홀수인지에 따라 말단 서브트리의 루트를 구하는 공식이 다르다. <- 아님. k번째 원소의 부모는 (k-1)/2다.
+        buildStartIdx = (nums.length-2)/2;//nums.length-1-1
 
         for (int rootIdx = buildStartIdx; rootIdx >= 0 ; rootIdx--) {
             percolateDown(nums, nums.length-1, rootIdx);
