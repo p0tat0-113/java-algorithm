@@ -6,17 +6,17 @@ package sorting.basic;
 
 import java.util.Arrays;
 
-public class InjectionSort implements Sort {
+public class InsertionSort implements Sort {
 
     public static void main(String[] args) {
-        InjectionSort injectionSort = new InjectionSort();
+        InsertionSort insertionSort = new InsertionSort();
 
         int[] arr = {1,2,3,4,5};
-        injectionSort.sort(arr);
+        insertionSort.sort(arr);
         System.out.println(Arrays.toString(arr));
 
         arr = new int[]{3,4,5,2,1};
-        injectionSort.sort(arr);
+        insertionSort.sort(arr);
         System.out.println(Arrays.toString(arr));
     }
 

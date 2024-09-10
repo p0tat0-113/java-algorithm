@@ -6,7 +6,7 @@ import java.util.*;
 
 public class PerformanceTest {
     public static void main(String[] args) {
-        Sort[] arr = {new BubbleSort(),new InjectionSort(), new SelectionSort()};
+        Sort[] arr = {new BubbleSort(),new InsertionSort(), new SelectionSort()};
 
         int[] nums = GenerateArr.generateRandomArr(20000);
 
