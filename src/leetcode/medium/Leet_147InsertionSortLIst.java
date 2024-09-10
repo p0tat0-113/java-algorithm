@@ -27,7 +27,8 @@ public class Leet_147InsertionSortLIst {
         ListNode node = tailOfSmallList.next;//비교하고 삽입될 노드, 부분 배열의 맨 끝에 노드에 바로 붙어있는 노드다.
 
         while (node != null) {
-            while (currentNode != node) {
+            //이 부분 하나 바꿔준걸로 리트코드 상에서 실행속도가 꽤 빨라짐.
+            while (currentNode != tailOfSmallList) {//개선사항 currentNode != node -> currentNode != tailOfSmallList currentNode가 tailOfSmallList를 가리키게 되면 currentNode.next는 node를 가리키게 되기 때문에 아무런 의미가 없음.
                 if (currentNode.next.val > node.val) {//node가 중간에 들어갈 자리를 찾았으면
                     tailOfSmallList.next = node.next;//tailOfSmallList -> node -> node.next 연결을 tailOfSmallList -> node.next 이렇게 만든다. node를 깍두기로 만들어버림ㅠ
                     //node.next = null; 바로 뒤에서 node.next = currentNode.next 연산을 하기 때문에 무의미하다.
