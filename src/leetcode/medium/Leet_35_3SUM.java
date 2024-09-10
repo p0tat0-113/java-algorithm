@@ -102,12 +102,12 @@ public class Leet_35_3SUM {
                     break;
                 }
 
-                if (nums[head] + nums[tail] == targetNum) {
+                if (nums[head] + nums[tail] == targetNum) {//조합을 찾으면
                     ArrayList<Integer> list = new ArrayList<>(List.of(num, nums[head], nums[tail]));
-                    list.sort(null);
+                    list.sort(null);//이미 나온 숫자 조합을 걸러내기 위해 정렬한 다음에 셋에 집어넣었음. 이 과정이 비효율적이었다.
                     result.add(list);
 
-                    head++;
+                    head++;//다른 조합도 찾기 위해 계속 전진
                     tail--;
                 }
 
