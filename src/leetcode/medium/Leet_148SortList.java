@@ -9,7 +9,8 @@ public class Leet_148SortList {
         //ListNode root = new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3, null))));
         //다 푼 줄 알았는데 연결 리스트의 길이가 길어지니까 정렬이 안되는 상황에 빠짐. [4,2,1,3,4,2,1,3]으로 테스트를 해보니까 가장 마지막에 [1,2,3,4] [1,2,3,4]가 merge되는 과정에서 문제가 발생함.
         //문제 해결함. merge()메서드의 조건문을 잘못 작성해서, 양쪽 리스트의 비교 값이 같은 경우 계속 대치 상황에 빠지는 문제였음.
-        ListNode root = new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3, new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3, null))))))));
+        //ListNode root = new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3, new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3, null))))))));
+        ListNode root = new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3, null))));
         System.out.println(sortList(root));
     }
 
@@ -85,20 +86,22 @@ public class Leet_148SortList {
     //리스트 분할 후 왼쪽 리스트의 말단 노드가 될 노드를 찾아서 반환해주는 메서드
     //ListNode의 구현이 빈약해서 노드 연결을 전부 탐색하는 방식을 써야한다.
     private static ListNode getLeftListTailNode(ListNode head){
-        int length = 0; //먼저 전체 길이를 구함.
+        //두칸씩 전진하는 tempNode가 null이 되게 되면, midNode는 그 연결 리스트의 중간 노드를 가리키게 되어있다. 러너스 전략
+        ListNode midNode = head;
+        ListNode slow = head;//한칸씩 전진
+        ListNode fast = head;//두칸씩 전진
 
-        ListNode tempNode = head;
-        while (tempNode != null) {
-            length++;
-            tempNode = tempNode.next;
+        while (fast != null) {
+            fast = fast.next;
+            if (fast == null) {
+                break;
+            }
+            fast = fast.next;
+
+            midNode = slow;//중간노드보다 한 칸 앞 노드를 가리키게 하기 위해서 이렇게 함.
+            slow = slow.next;
         }
-
-        int halfLength = length/2 -1; //반절의 길이를 구함.
-        for (int i = 0; i < halfLength; i++) {
-            head = head.next;
-        }
-
-        return head;
+        return midNode;
     }
 
     //문제의 설명에 따라 연결리스트의 노드를 간단하게 구현함.
