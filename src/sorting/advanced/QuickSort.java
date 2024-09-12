@@ -57,7 +57,7 @@ public class QuickSort implements AdvancedSort{
         int j = s;//j는 2구역 맨 처음 인덱스
 
         for (int k = j; k < e; k++) {
-            if (arr[j] < pivot){//숫자가 privot보다 1구역을 한 칸 확장하고, 확장된 칸에 있던 숫자와 교환한다.
+            if (arr[j] < pivot){//숫자가 privot보다 작은 경우 1구역을 한 칸 확장하고, 확장된 칸에 있던 숫자 pivot보다 크거나 같은 숫자와 교환한다. <- 이 숫자는 2구역의 맨 끝으로 가게 되는 것.
                 int temp = arr[j];
                 arr[j] = arr[++i];
                 arr[i] = temp;
