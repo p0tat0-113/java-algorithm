@@ -22,8 +22,12 @@ public class Leet_912SortAnArray_1 {
     private void mergeSort(int[] nums, int start, int end){
         if (start < end) {//배열의 길이가 1보다 클 때만 재귀호출
             int mid = (end+start)/2;
+
+            //배열을 반으로 잘라서 각각 재귀호출 인수로 넘김
             mergeSort(nums,start,mid);
             mergeSort(nums,mid+1,end);
+
+            //merge()로 넘어오는 시점에 배열의 전반부와 후반부는 각각 정렬되어있다.
             merge(nums,start,mid,end);
         }
     }
