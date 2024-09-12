@@ -21,9 +21,9 @@ public class Leet_912SortAnArray_1 {
 
     private void mergeSort(int[] nums, int start, int end){
         if (start < end) {//배열의 길이가 1보다 클 때만 재귀호출
-            int mid = (end-start)/2;
-            mergeSort(nums,start,mid-1);
-            mergeSort(nums,mid,end);
+            int mid = (end+start)/2;
+            mergeSort(nums,start,mid);
+            mergeSort(nums,mid+1,end);
             merge(nums,start,mid,end);
         }
     }
@@ -32,9 +32,9 @@ public class Leet_912SortAnArray_1 {
         int[] tempArr = new int[end - start + 1];
         int tempArrCount = 0;
         int left  = start;//왼쪽 리스트의 시작 인덱스
-        int right = mid;//오른쪽 인덱스의 시작 인덱스
+        int right = mid+1;//오른쪽 인덱스의 시작 인덱스
 
-        while(left < mid && right <= end) {
+        while(left <= mid && right <= end) {
             if (nums[left] <= nums[right]) {
                 tempArr[tempArrCount++] = nums[left++];
             } else {
@@ -42,7 +42,7 @@ public class Leet_912SortAnArray_1 {
             }
         }
 
-        while(left < mid) {
+        while(left <= mid) {
             tempArr[tempArrCount++] = nums[left++];
         }
         while(right <= end) {
