@@ -39,7 +39,7 @@ public class Leet_290WordPattern {
         HashSet<String> set = new HashSet<>();
 
         for (int i = 0; i < patternArr.length; i++) {
-            if (!map.containsKey(sArr[i])) {//map에 해당 단어가 없으면,
+            if (!map.containsKey(sArr[i])) {//map에 해당 단어가 없으면, 두가지 경우의 수: 1.패턴에 맞지 않는 이상한 단어가 들어옴 2.새로운 패턴이 등장함.
                 if (!set.contains(patternArr[i])) {//set에도 해당 알파벳이 없다면, 즉 완전히 새롭게 등장하는 패턴일 때만 추가하는 것.
                     map.put(sArr[i], patternArr[i]);
                     set.add(patternArr[i]);
