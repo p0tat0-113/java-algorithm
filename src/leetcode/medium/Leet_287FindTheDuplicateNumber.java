@@ -5,7 +5,23 @@ import java.util.HashSet;
 
 public class Leet_287FindTheDuplicateNumber {
     public static void main(String[] args) {
+        Leet_287FindTheDuplicateNumber leet = new Leet_287FindTheDuplicateNumber();
+        System.out.println(leet.findDuplicate(new int[]{1, 3, 4, 2, 2}));
+    }
 
+    //이 코드로 사이클이 시작되는 수가 중복되는 수라는 가설을 검증함. 성공했다. 이제 set만 어떻게든 제거하면 됨.
+    public int findDuplicate(int[] nums) {
+        HashSet<Integer> set = new HashSet<>(nums.length);
+
+        int num = nums[0];//num은 실제 숫자, 이 숫자는 다음으로 오는 숫자의 인덱스다.
+        set.add(0);//set에 들어가는 것은 해당 숫자의 인덱스(고유한 값)
+        while(true) {
+            if (set.contains(num)) {
+                return num;
+            }
+            set.add(num);
+            num = nums[num];
+        }
     }
 
 
@@ -20,7 +36,7 @@ public class Leet_287FindTheDuplicateNumber {
         return 0;
     }*/
 
-    public int findDuplicate(int[] nums) {
+    /*public int findDuplicate(int[] nums) {
         int max = 0;
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] > max) {
@@ -36,5 +52,5 @@ public class Leet_287FindTheDuplicateNumber {
             set.add(num);
         }
         return 0;
-    }
+    }*/
 }
