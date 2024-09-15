@@ -1,4 +1,4 @@
-package leetcode.medium;
+package leetcode.easy;
 
 /*
 연결리스트의 머리노드를 던져주면, 연걸리스트에 '사이클'이 존재하는지 파악하는 문제다.
