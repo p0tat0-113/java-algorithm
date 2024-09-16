@@ -18,6 +18,8 @@ pattern = "abba" s = "dog dog dog dog", 이 경우에서 false가 나와야 하�
 
 이미 나온 알파벳들만 저장하는 set을 하나 운용, 새로운 단어가 나왔을 때 알파벳이 여기 없다면 추가를 하게 하고, 아니면 false를 반환하게 해야할 듯. <- 이렇게 까지 하니까 풀렸음.
 대충 1~2ms 왔다 갔다 하네.
+
+코드 수행시간을 0ms로 개선하는데 성공함. map의 key로 짧은 Character타입을 쓰는게 속도가 더 빠른 듯.
 */
 
 import java.util.*;
@@ -27,7 +29,61 @@ public class Leet_290WordPattern {
         System.out.println(wordPattern("abba", "dog cat cat dog"));
     }
 
+    /*public static boolean wordPattern(String pattern, String s) {
+        String[] sArr = s.split(" ");
+
+        if (pattern.length() != sArr.length) {//둘의 길이가 다른면 무조건 false를 반환함.
+            return false;
+        }
+
+        HashMap<Character, String> map = new HashMap<>();
+
+        for (int i = 0; i < pattern.length(); i++) {
+            if (map.containsKey(pattern.charAt(i))) {
+                if (!map.get(pattern.charAt(i)).equals(sArr[i])) {
+                    return false;
+                }
+            } else {
+                if (!map.containsValue(sArr[i])) {//containsValue()를 사용하는게 의외로 괜찮을 수도 있음. O(n)인데도
+                    map.put(pattern.charAt(i), sArr[i]);
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }*/
+
     public static boolean wordPattern(String pattern, String s) {
+        String[] sArr = s.split(" ");
+
+        if (pattern.length() != sArr.length) {//둘의 길이가 다른면 무조건 false를 반환함.
+            return false;
+        }
+
+        HashMap<Character, String> map = new HashMap<>();
+        HashSet<String> set = new HashSet<>();
+
+        for (int i = 0; i < pattern.length(); i++) {
+            if (!map.containsKey(pattern.charAt(i))) {//map에 해당 단어가 없으면, 두가지 경우의 수: 1.패턴에 맞지 않는 이상한 단어가 들어옴 2.새로운 패턴이 등장함.
+                if (!set.contains(sArr[i])) {//set에도 해당 알파벳이 없다면, 즉 완전히 새롭게 등장하는 패턴일 때만 추가하는 것.
+                    map.put(pattern.charAt(i), sArr[i]);
+                    set.add(sArr[i]);
+                } else {
+                    return false;
+                }
+
+            } else {//map에 해당 단어가 있으면
+                if (!map.get(pattern.charAt(i)).equals(sArr[i])) {//map에 해당 단어와 매칭되어있는 알파벳과 다르면 false를 반환
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /*public static boolean wordPattern(String pattern, String s) {
         String[] patternArr = pattern.split("");//pattern과 s를 각각의 배열로 변환
         String[] sArr = s.split(" ");
 
@@ -55,5 +111,5 @@ public class Leet_290WordPattern {
         }
 
         return true;
-    }
+    }*/
 }
