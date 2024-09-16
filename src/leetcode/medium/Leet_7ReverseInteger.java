@@ -18,10 +18,38 @@ public class Leet_7ReverseInteger {
         System.out.println(leet.reverse(-2147483648));
     }
 
+    public int reverse(int x) {
+        //우선 계산은 long으로 한다. int형으로 하면 Math.abs()연산만으로도 오버플로우가 발생하는 문제가 있음.
+        long num = x;
+        long result = 0;
+
+        int digitLength = (int) Math.floor(Math.log10(Math.abs(num))) + 1;//숫자 x의 자릿수를 구함.
+
+        if (num < 0) {
+            for (int digitIdx = 0; digitIdx < digitLength; digitIdx++) {//해당 자릿수만큼 반복문을 돌림, 3자릿수이면 digitIdx에 0~2의 숫자를 할당함.
+                result -= (((long) Math.floor(Math.abs(num) / Math.pow(10, digitIdx)) % 10) * ((long) (Math.pow(10,digitLength-digitIdx-1))));
+                //result -= 인덱스에 해당하는 숫자 * 10^(x의 자릿수 - digitIdx - 1)
+                //Math.floor()을 하는게 메모리를 더 적게 소모한다. 이유는 모르겠지만...
+            }
+        } else {
+            for (int digitIdx = 0; digitIdx < digitLength; digitIdx++) {//해당 자릿수만큼 반복문을 돌림, 3자릿수이면 digitIdx에 0~2의 숫자를 할당함.
+                result += (((long) Math.floor(Math.abs(num) / Math.pow(10, digitIdx)) % 10) * ((long) (Math.pow(10,digitLength-digitIdx-1))));
+                //result += 인덱스에 해당하는 숫자 * 10^(x의 자릿수 - digitIdx - 1)
+            }
+        }
+
+        //result가 int형의 범위를 벗어났으면 0을 반환한다.
+        if (result < -2147483648 || result > 2147483647) {
+            return 0;
+        }
+
+        return (int) result;
+    }
+
     //오버플로우가 발생했을 때는 0을 반환해야 한다고 함. 그 부분을 고려하지 않아서 틀림.
     //-2147483648이 인수로 들어왔을 때 digitLength가 1로 계산되어버림. Math.abs(-2147483648)연산을 할때 오버플로우가 발생해서 그런 듯. 인수로 들어온 숫자도 long으로 바꿔버리면 될 듯.
     //답은 맞았는데, 수행시간이 1ms로 살짝 아쉬움. 좀 더 최적화를 해보자.
-    public int reverse(int x) {
+    /*public int reverse(int x) {
         //우선 계산은 long으로 한다. int형으로 하면 Math.abs()연산만으로도 오버플로우가 발생하는 문제가 있음.
         long num = x;
         long result = 0;
@@ -39,5 +67,5 @@ public class Leet_7ReverseInteger {
         }
 
         return (int) result;
-    }
+    }*/
 }
