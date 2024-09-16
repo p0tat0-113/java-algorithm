@@ -54,6 +54,7 @@ public class Leet_912SortAnArray_1 {
         }
 
         System.arraycopy(tempArr, 0, nums, start, tempArr.length);
+        //메모리 고속복사로 정렬결과를 보조배열에서 주배열로 옮기는 오버헤드를 최대한 줄여보고자했다.
     }
 
 
