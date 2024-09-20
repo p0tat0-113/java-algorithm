@@ -15,7 +15,7 @@ For example, [0,1,2,4,4,4,5,6,6,7] might be rotated at pivot index 5 and become 
 이 부분은 leftStart...rightEnd변수를 잘 설정해놓았기 때문에 자연스럽게 돌아간다.
 */
 
-public class Leet81_SearchInRotatedSortedArray2 {
+public class Leet_81SearchInRotatedSortedArray2 {
     public static void main(String[] args) {
         //틀렸던 테스트 케이스
         //System.out.println(search(new int[]{2, 2, 2, 3, 2, 2, 2}, 3));

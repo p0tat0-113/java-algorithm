@@ -5,7 +5,7 @@ package leetcode.medium;
 약간만 수정해서 돌렸더니 0ms로 아주 빠르게 잘 돌아감.
 */
 
-public class Leet33_SearchInRotatedSortedArray {
+public class Leet_33SearchInRotatedSortedArray {
     public static void main(String[] args) {
     }
 
