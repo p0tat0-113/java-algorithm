@@ -22,10 +22,11 @@ The strings "ate", "eat", and "tea" are anagrams as they can be rearranged to fo
 
 public class Leet_49GroupAnagrams {
     public static void main(String[] args) {
-
+        System.out.println(groupAnagrams(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"}));
     }
 
-    public List<List<String>> groupAnagrams(String[] strs) {
+    public static List<List<String>> groupAnagrams(String[] strs) {
+
         HashMap<String, ArrayList<String>> map = new HashMap<>(strs.length);
 
         char[] charArray;
