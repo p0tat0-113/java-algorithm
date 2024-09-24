@@ -33,7 +33,7 @@ public class Leet_50Pow_x_n_ {
         }
 
         if (n < 0) {
-            return binaryExp(x, -n);
+            return 1 / binaryExp(x, -n);
         }
 
         if (n % 2 == 0) {//n이 짝수면, 이 코드의 메인 재귀호출을 계속 반복함.
