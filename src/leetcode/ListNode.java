@@ -2,8 +2,8 @@ package leetcode;
 
 //자주 쓰이는 ListNode를 아예 별개의 클래스로 분리함. 매번 복붙하지 말고, 임포트해서 쓰자.
 public class ListNode {
-    int val;
-    ListNode next;
+    public int val;
+    public ListNode next;
 
     public ListNode() {
     }
