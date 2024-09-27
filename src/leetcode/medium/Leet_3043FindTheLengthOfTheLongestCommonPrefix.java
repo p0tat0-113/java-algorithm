@@ -17,10 +17,78 @@ import java.util.*;
 public class Leet_3043FindTheLengthOfTheLongestCommonPrefix {
     public static void main(String[] args) {
         //System.out.println(longestCommonPrefix(new int[]{1, 10, 100}, new int[]{1000}));
-        longestCommonPrefix(new int[]{1, 10, 100}, new int[]{1000});
+        System.out.println(longestCommonPrefix(new int[]{1, 10, 100}, new int[]{1000}));
+        System.out.println(longestCommonPrefix(new int[]{1, 2, 3}, new int[]{4, 4, 4}));
+        System.out.println(longestCommonPrefix(new int[]{13,27,45}, new int[]{21,27,48}));
     }
 
+    //이번에는 HashSet 교집합 방식으로 접근하되 문자열이 아니라 숫자를 넣는 식으로 해보자. <- 이렇게 하니까 110ms까지 줄어들었다. 오버헤드를 많이 감소시킨 듯.
+    //그리고 위의 결과에서 좀 더 개선을 함. 교집합 하는 과정을 제거하고 arr2의 맨 끝 자리수부터 하나씩 줄여가면서 set1에 있는지 검사하고, 있다면 max보다 큰지 검사하는 방식으로 하니까 수행시간이 57ms로 줄어들었다.
     public static int longestCommonPrefix(int[] arr1, int[] arr2) {
+        HashSet<Integer> set1 = new HashSet<>();
+
+        for (int i : arr1) {
+            while (i != 0) {
+                set1.add(i);
+                i = i/10;//맨끝자리 수를 하나씩 제거해가면서 set에 집어넣음.
+            }
+        }
+
+        int max = 0;
+        for (int i : arr2) {
+            while (i > max) {//i가 max보다 큰 동안에만 검사를 진행함. max보다 작아지면 길이도 max보다 작거나 같은 상황이기 때문에 더이상 검사를 진행할 가치가 없다.
+                if (set1.contains(i)) {
+                    /*if (i > max) {//어차피 i> max인 동안에만 반복문을 돌리기 때문에 이 조건문이 필요하지 않음.
+                        max = i;
+                        break;
+                    }*/
+                    max = i;
+                    break;
+                }
+                i = i/10;
+            }
+        }
+
+        if (max == 0) {//max가 그대로 0이라면 결국 공통 접두사가 없는 것이기 때문에 0을 반환한다.
+            return 0;
+        }
+
+        return String.valueOf(max).length();
+    }
+
+    /*//이번에는 treeSet을 이용해 본다. <-- zzzzzz더 느려짐
+    public static int longestCommonPrefix(int[] arr1, int[] arr2) {
+        TreeSet<Integer> set1 = new TreeSet<>();
+        TreeSet<Integer> set2 = new TreeSet<>();
+
+        for (int i : arr1) {
+            String s = String.valueOf(i);
+            for (int j = 1; j <= s.length(); j++) {
+                set1.add(Integer.parseInt(s.substring(0,j)));
+            }
+        }
+
+        for (int i : arr2) {
+            String s = String.valueOf(i);
+            for (int j = 1; j <= s.length(); j++) {
+                set2.add(Integer.parseInt(s.substring(0,j)));
+            }
+        }
+
+        System.out.println(set1);
+        System.out.println(set2);
+
+        set1.retainAll(set2);
+
+        System.out.println(set1);
+
+        Integer result = set1.pollLast();
+        System.out.println(result);
+
+        return (result != null) ? String.valueOf(result).length() : 0;
+    }*/
+
+    /*public static int longestCommonPrefix(int[] arr1, int[] arr2) {
         HashSet<String> set1 = new HashSet<>();
         HashSet<String> set2 = new HashSet<>();
         for (int i : arr1) {
@@ -54,7 +122,7 @@ public class Leet_3043FindTheLengthOfTheLongestCommonPrefix {
 
         String result = priorityQueue.poll();
         return (result != null) ? result.length() : 0;
-    }
+    }*/
 
     //문제를 이상하게 파악을 했네ㅅㅂ
     /*public static int longestCommonPrefix(int[] arr1, int[] arr2) {
