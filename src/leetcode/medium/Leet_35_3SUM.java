@@ -28,7 +28,7 @@ public class Leet_35_3SUM {
         int targetNum;
 
         for (int i = 0; i < nums.length; i++) {
-            head = i+1;//어차피 투포인터 탐색범위를 하나씩 줄여나갈 것이기 때문에 head는 i+1로 잡는다.
+            head = i+1;//어차피 투포인터 탐색범위를 하나씩 줄여나갈 것이기 때문에 head는 i+1로 잡는다. ex)num은 0번 인덱스, 투 포인터는 각각 바로 뒤의 인덱스, 맨 끝 인덱스. 이후 탐색을 하면서 셋을 합쳐서 0을 만든다.
             tail = nums.length-1;
 
             if (head >= tail) {
@@ -36,7 +36,7 @@ public class Leet_35_3SUM {
             }
 
             num = nums[i];
-            if (logSet.contains(num)) {//이미 체크한 숫자라면 다시 for문 처음으로 돌아감.
+            if (logSet.contains(num)) {//이미 체크한 숫자라면(조합을 찾았던, 못 찾았던 이미 한 번 탐색했음.) 다시 for문 처음으로 돌아감.
                 continue;
             }
             targetNum = 0 - num;
