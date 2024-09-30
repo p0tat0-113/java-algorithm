@@ -1,26 +1,15 @@
 package sorting;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.*;
 
 public class GenerateArr {
     public static int[] generateRandomArr(int size){
-        //중복 없이 랜덤한 순서의 배열 생성
+        //랜덤한 숫자들이 있는 배열 생성
         Random random = new Random();
-        HashSet<Integer> set = new HashSet<>();
-
-        while (set.size() < size){
-            set.add(random.nextInt());
-        }
-
-        ArrayList<Integer> list = new ArrayList<>(set);
-        Collections.shuffle(list);
 
         int[] nums = new int[size];
         for (int i = 0; i < size; i++) {
-            nums[i] = list.get(i);
+            nums[i] = random.nextInt();
         }
 
         return nums;
@@ -44,9 +33,7 @@ public class GenerateArr {
 
     public static int[] generateDuplicatedArr(int size){
         int[] nums = new int[size];
-        for (int i = 0; i < size; i++) {
-            nums[i] = 100;
-        }
+        Arrays.setAll(nums, e -> 100);//모든 숫자가 100인 배열
         return nums;
     }
 }
