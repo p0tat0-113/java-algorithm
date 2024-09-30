@@ -1,6 +1,8 @@
 package leetcode.medium;
 
 /*
+숫자 3개를 합쳐서 0을 만들어야 하는 문제다.
+
 https://imgur.com/a/2JUGibl
 투포인터 방식으로 탐색하면 될 듯함. 만들긴 만들었는데 시간이 너무 오래걸림. 114ms로 29프로를 땄고, 메모리는 겨우 10프로를 땀.
 
@@ -39,7 +41,7 @@ public class Leet_35_3SUM {
             if (logSet.contains(num)) {//이미 체크한 숫자라면(조합을 찾았던, 못 찾았던 이미 한 번 탐색했음.) 다시 for문 처음으로 돌아감.
                 continue;
             }
-            targetNum = 0 - num;
+            targetNum = 0 - num;//숫자 3개를 합쳐서 0을 만드는 문제라서 이렇게 함.
 
             while (true) {
 
