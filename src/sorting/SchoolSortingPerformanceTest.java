@@ -9,10 +9,10 @@ import java.util.Arrays;
 public class SchoolSortingPerformanceTest {
     public static void main(String[] args) {
         AdvancedSort[] algorithms1 = {new MergeSort(),new SwitchingMergeSort(), new MyQuickSortUpgrade(), new HeapSort()};
-        testAdvanced(algorithms1, 10000);
+        //testAdvanced(algorithms1, 10_000_000);
 
         Sort[] algorithms2 = {new InsertionSort()};
-        testBasic(algorithms2, 1000_000);
+        testBasic(algorithms2, 10_000_000);
     }
 
     private static void testAdvanced(AdvancedSort[] algorithm, int size) {
@@ -20,7 +20,7 @@ public class SchoolSortingPerformanceTest {
         int[] sortedArr = GenerateArr.generateSortedArr(size);
         int[] duplicatedArr = GenerateArr.generateDuplicatedArr(size);
 
-        System.out.println("랜덤 배열, 정렬된 배열, 모든 수가 중복된 배열 순서대로 정렬한다.");
+        System.out.println("랜덤 배열, 정렬된 배열, 모든 수가 중복된 배열 순으로 정렬한다.");
 
         for (AdvancedSort advancedSort : algorithm) {
             //각 정렬 알고리즘으로 랜덤 배열, 정렬된 배열, 모든 요소가 중복된 배열을 정렬한다.
@@ -50,15 +50,13 @@ public class SchoolSortingPerformanceTest {
         int[] sortedArr = GenerateArr.generateSortedArr(size);
         int[] duplicatedArr = GenerateArr.generateDuplicatedArr(size);
 
-        System.out.println("랜덤 배열, 정렬된 배열, 모든 수가 중복된 배열 순서대로 정렬한다.");
-
         for (Sort sort : algorithm) {
             //각 정렬 알고리즘으로 랜덤 배열, 정렬된 배열, 모든 요소가 중복된 배열을 정렬한다.
             int[] a1 = Arrays.copyOf(randomArr, size);
             int[] a2 = Arrays.copyOf(sortedArr, size);
             int[] a3 = Arrays.copyOf(duplicatedArr, size);
 
-            int[][] arrs = {a1, a2, a3};
+            int[][] arrs = {a2, a3};
 
             System.out.println("============================");
             System.out.println(sort.getClass().getTypeName());//정렬 방식 이름 출력
