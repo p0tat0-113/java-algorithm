@@ -30,14 +30,16 @@ public class Leet_56MergeIntervals {
         }
 
         //배열의 0번 인덱스 숫자를 기준으로 정렬한다. 뒤에 오는 배열의 0번 인덱스 숫자는 절대로 앞 배열의 0번 인덱스 숫자보다 작을 수 없다.
+        //병합정렬을 직접 구현함. 코드의 간소화를 위해 Comparator를 구현해서 인수로 넣어주었다.
         mergeSort(intervals, 0, intervals.length-1, (a1, a2) -> {
             return Integer.compare(a1[0],a2[0]);
         });
 
-        System.out.println(Arrays.deepToString(intervals));//이거 하나 지웠더니 리트코드상에서 10ms빨라짐ㅋㅋ
+        //System.out.println(Arrays.deepToString(intervals));//이거 하나 지웠더니 리트코드상에서 10ms빨라짐ㅋㅋ
 
         int resultIdx = 0;
 
+        //합치는 과정을 별도의 배열을 만들지 않고, 그냥 inplace로 진행한다.
         for (int i = 1; i < intervals.length; i++) {
             if (intervals[resultIdx][1] >= intervals[i][0]) {//둘이 겹치는 부분이 있다면
                 if (intervals[resultIdx][1] < intervals[i][1]) {//양쪽 1번 인덱스 숫자를 비교, result쪽이 interval쪽보다 작다면 result쪽 [1]을 interval쪽 [1]로 바꿈.
@@ -48,11 +50,11 @@ public class Leet_56MergeIntervals {
             }
         }
 
+        //하나하나 복사하지 않고, Arrays.copyOf()로 간소화함. 합치는 과정을 inplace로 진행해서 이렇게 실제 합쳐진 범위만큼만 뽑아내서 반환해줘야 한다.
         /*int[][] result = new int[resultIdx+1][];
         for (int i = 0; i < resultIdx+1; i++) {
             result[i] = intervals[i];
         }
-
         return result;*/
 
         return Arrays.copyOf(intervals, resultIdx+1);
