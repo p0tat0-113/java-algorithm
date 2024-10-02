@@ -2,6 +2,7 @@ package leetcode.medium;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 /*
 https://imgur.com/a/x8xyKHF
@@ -21,8 +22,77 @@ public class Leet_56MergeIntervals {
         System.out.println(Arrays.deepToString(merge(new int[][]{{2, 3}, {5, 5}, {2, 2}, {3, 4}, {3, 4}})));
     }
 
-    //아래 코드를 별도의 리스트를 사용하지 말고, in-place하게 개선할 수도 있음!!!
+    //알고리즘 이론 과제 제출을 위해 아래 코드의 정렬 부분을 내가 직접 구현하려고 함. comparator는 그냥 그대로 쓰고, 병합정렬만 내가 직접 구현을 하자.
     public static int[][] merge(int[][] intervals) {
+        //길이가 1이면 그대로 반환. 비교할 대상이 없음.
+        if (intervals.length == 1) {
+            return intervals;
+        }
+
+        //배열의 0번 인덱스 숫자를 기준으로 정렬한다. 뒤에 오는 배열의 0번 인덱스 숫자는 절대로 앞 배열의 0번 인덱스 숫자보다 작을 수 없다.
+        mergeSort(intervals, 0, intervals.length-1, (a1, a2) -> {
+            return Integer.compare(a1[0],a2[0]);
+        });
+
+        System.out.println(Arrays.deepToString(intervals));//이거 하나 지웠더니 리트코드상에서 10ms빨라짐ㅋㅋ
+
+        int resultIdx = 0;
+
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[resultIdx][1] >= intervals[i][0]) {//둘이 겹치는 부분이 있다면
+                if (intervals[resultIdx][1] < intervals[i][1]) {//양쪽 1번 인덱스 숫자를 비교, result쪽이 interval쪽보다 작다면 result쪽 [1]을 interval쪽 [1]로 바꿈.
+                    intervals[resultIdx][1] = intervals[i][1];
+                }
+            } else {//둘이 겹치는 부분이 아예 없으면 새로 추가
+                intervals[++resultIdx] = intervals[i];
+            }
+        }
+
+        /*int[][] result = new int[resultIdx+1][];
+        for (int i = 0; i < resultIdx+1; i++) {
+            result[i] = intervals[i];
+        }
+
+        return result;*/
+
+        return Arrays.copyOf(intervals, resultIdx+1);
+    }
+
+    private static void mergeSort(int[][] arr, int s, int e, Comparator<int[]> comparator){
+        if (s<e) {
+            int m = (s+e)/2;
+            mergeSort(arr,s,m,comparator);//s~m까지
+            mergeSort(arr,m+1,e,comparator);//m+1에서 e까지
+            merge(arr,s,m,e,comparator);
+        }
+    }
+
+    private static void merge(int[][] arr, int s, int m, int e, Comparator<int[]> comparator){
+        int[][] temp = new int[e - s + 1][];//정렬 결과를 저장할 보조배열
+        int tempIdx = 0;
+        int left = s;
+        int right = m+1;
+
+        while (left <= m && right <= e) {
+            if (comparator.compare(arr[left], arr[right]) < 0) {//왼쪽이 더 작으면
+                temp[tempIdx++] = arr[left++];
+            } else {
+                temp[tempIdx++] = arr[right++];
+            }
+        }
+
+        while (left <= m) {
+            temp[tempIdx++] = arr[left++];
+        }
+        while (right <= e) {
+            temp[tempIdx++] = arr[right++];
+        }
+
+        System.arraycopy(temp,0,arr,s,temp.length);
+    }
+
+    //아래 코드를 별도의 리스트를 사용하지 말고, in-place하게 개선할 수도 있음!!!
+    /*public static int[][] merge(int[][] intervals) {
         //길이가 1이면 그대로 반환. 비교할 대상이 없음.
         if (intervals.length == 1) {
             return intervals;
@@ -47,15 +117,15 @@ public class Leet_56MergeIntervals {
             }
         }
 
-        /*int[][] result = new int[resultIdx+1][];
+        *//*int[][] result = new int[resultIdx+1][];
         for (int i = 0; i < resultIdx+1; i++) {
             result[i] = intervals[i];
         }
 
-        return result;*/
+        return result;*//*
 
         return Arrays.copyOf(intervals, resultIdx+1);
-    }
+    }*/
 
 
     /*public static int[][] merge(int[][] intervals) {
