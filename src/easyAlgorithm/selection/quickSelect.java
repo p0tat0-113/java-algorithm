@@ -2,7 +2,7 @@ package easyAlgorithm.selection;
 
 import java.util.Random;
 
-public class select_useQuickSortMethod {
+public class quickSelect {
     public static void main(String[] args) {
         int[] arr = {5,2,3,4,1};
         int i = 4;
