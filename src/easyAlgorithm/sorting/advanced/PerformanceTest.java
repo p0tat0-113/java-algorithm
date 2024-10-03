@@ -1,6 +1,6 @@
-package sorting.advanced;
+package easyAlgorithm.sorting.advanced;
 
-import sorting.GenerateArr;
+import easyAlgorithm.sorting.GenerateArr;
 
 import java.util.*;
 

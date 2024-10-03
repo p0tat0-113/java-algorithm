@@ -1,4 +1,4 @@
-package sorting.advanced;
+package easyAlgorithm.sorting.advanced;
 
 /*
 * 앞에서 언급한 약점들, 정렬된 배열, 중복된 요소들이 있는 배열이 들어오는 경우를 처리해줘야 한다.
@@ -12,7 +12,7 @@ package sorting.advanced;
 * 근데 이렇게 하더라도 아까 내가 테스트 하던 것처럼 모든 숫자들이 전부 중복된 상황은 좀 에바인 듯.... <- 아님.
 * 결국 좌우로 균등하게 분할하기 때문에 이런 극한의 상황에서도 문제없음.*/
 
-import sorting.GenerateArr;
+import easyAlgorithm.sorting.GenerateArr;
 
 import java.io.BufferedReader;
 import java.io.IOException;

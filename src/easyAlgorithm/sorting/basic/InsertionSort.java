@@ -1,4 +1,4 @@
-package sorting.basic;
+package easyAlgorithm.sorting.basic;
 
 /*
 * 삽입 정렬 구현

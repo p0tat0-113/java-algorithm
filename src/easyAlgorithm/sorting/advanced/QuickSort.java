@@ -1,4 +1,4 @@
-package sorting.advanced;
+package easyAlgorithm.sorting.advanced;
 
 /*
 * 퀵 정렬을 이번에는 책에 나온 방식대로 구현해 본다.
@@ -18,7 +18,7 @@ package sorting.advanced;
 *
 * 그런데 이 약점들 또한 보완할 수 있는 방법이 있음.*/
 
-import sorting.GenerateArr;
+import easyAlgorithm.sorting.GenerateArr;
 import java.util.Arrays;
 
 public class QuickSort implements AdvancedSort{

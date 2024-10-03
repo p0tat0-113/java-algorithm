@@ -1,4 +1,4 @@
-package sorting.advanced;
+package easyAlgorithm.sorting.advanced;
 
 /*쉘 정렬 구현, 삽입 정렬의 업그레이드 버전이라고 보면 된다.
 * 배열의 특정 간격 h의 부분 배열 h개로 나누고, 이들 각 그룹을 삽입 정렬한다.

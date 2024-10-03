@@ -1,4 +1,4 @@
-package sorting.advanced;
+package easyAlgorithm.sorting.advanced;
 
 /*힙 정렬 구현 최악의 경우 세타 nlogn, 모든 원소가 동일한 값이라던가 해서 운이 좋으면 n의 시간복잡도를 보임. 이론적 수행시간으로는 완벽한 알고리즘인데
 * 실제로 돌려보면 퀵소트한테 따잇 당함.

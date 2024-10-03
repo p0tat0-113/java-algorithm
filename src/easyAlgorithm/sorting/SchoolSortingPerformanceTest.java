@@ -1,8 +1,8 @@
-package sorting;
+package easyAlgorithm.sorting;
 
-import sorting.advanced.*;
-import sorting.basic.InsertionSort;
-import sorting.basic.Sort;
+import easyAlgorithm.sorting.advanced.*;
+import easyAlgorithm.sorting.basic.InsertionSort;
+import easyAlgorithm.sorting.basic.Sort;
 
 import java.util.Arrays;
 

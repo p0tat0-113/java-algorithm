@@ -1,4 +1,4 @@
-package sorting.advanced;
+package easyAlgorithm.sorting.advanced;
 
 import java.io.BufferedReader;
 import java.io.IOException;

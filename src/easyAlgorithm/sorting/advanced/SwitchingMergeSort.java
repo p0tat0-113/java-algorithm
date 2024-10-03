@@ -1,4 +1,4 @@
-package sorting.advanced;
+package easyAlgorithm.sorting.advanced;
 
 /*
 * 스위칭 병합 정렬
@@ -7,8 +7,8 @@ package sorting.advanced;
 * 스위칭 병합 정렬의 점화식: T(n) = 2T(n/2)+n 병합정렬과 점근적 복잡도는 nlogn 으로 같지만 그래도 조금 더 빠르다.
 * */
 
-import sorting.GenerateArr;
-import sorting.basic.PerformanceTest;
+import easyAlgorithm.sorting.GenerateArr;
+import easyAlgorithm.sorting.basic.PerformanceTest;
 
 import java.io.IOException;
 import java.util.Arrays;

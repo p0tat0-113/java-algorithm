@@ -1,4 +1,4 @@
-package sorting.basic;
+package easyAlgorithm.sorting.basic;
 
 /*
 * 이 클래스에서는 가장 비효율적인 정렬방식인 버블 정렬을 구현한다.

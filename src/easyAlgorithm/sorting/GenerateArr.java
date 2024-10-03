@@ -1,4 +1,4 @@
-package sorting;
+package easyAlgorithm.sorting;
 
 import java.util.*;
 

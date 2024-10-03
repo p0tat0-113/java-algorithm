@@ -1,4 +1,4 @@
-package sorting.basic;
+package easyAlgorithm.sorting.basic;
 
 /*
 * 선택정렬 방식을 구현한다.
