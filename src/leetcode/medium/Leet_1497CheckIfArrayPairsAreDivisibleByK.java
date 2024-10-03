@@ -17,7 +17,14 @@ public class Leet_1497CheckIfArrayPairsAreDivisibleByK {
         System.out.println(canArrange(new int[]{75,5,-5,75,-2,-3,88,10,10,87}, 85));
     }
 
-    //solutions를 보니까 나 혼자 계속 고민해서는 절대 못 풀 문제였음.... https://leetcode.com/problems/check-if-array-pairs-are-divisible-by-k/solutions/5854226/can-you-pair-these-numbers-beats-100-explained-with-video-c-java-python-js-explained/?envType=daily-question&envId=2024-10-01
+    //solutions를 보니까 나 혼자 계속 고민해서는 절대 못 풀 문제였음....
+    //https://leetcode.com/problems/check-if-array-pairs-are-divisible-by-k/solutions/5854226/can-you-pair-these-numbers-beats-100-explained-with-video-c-java-python-js-explained/?envType=daily-question&envId=2024-10-01
+    //이 문제를 아주 영리한 방식으로 해결했음.
+    //먼저 길이 k의 배열을 생성한다.
+    //그리고 k의 각 원소 <- k의 각 원소는 각 숫자를 k로 나눈 나머지를 의미함. 이 나머지들이 각각 몇개씩 등장했는지를 기록한다. 당연한 얘기지만 나머지는 k를 넘을 수 없음.
+    //그리고 나머지들을 기록해둔 배열을 통해 arr에서 올바르게 쌍을 만들 수 있는지 확인할 수 있다.
+    //먼저 나머지가 0인 경우는 짝수여야 한다. 예를 들어서 [5,15,20,25] k=5 이런 경우 5로 나눠지는 수, 5로 나눈 나머지가 0인 수들끼리는 어떻게 더하든지 항상 5로 나누어진다.
+    //그리고 나머지들끼리 합쳐서 k가 되는 경우는 둘의 등장 수가 같아야 한다. 예를 들어서 [1,3,5,7] k=4 이 경우 (1,3) (5,7)이렇게 쌍이 만들어진다.
     public static boolean canArrange(int[] arr, int k) {
         int [] freq = new int[k];
         for(int num: arr){
