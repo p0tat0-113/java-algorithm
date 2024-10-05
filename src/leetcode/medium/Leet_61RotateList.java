@@ -29,14 +29,14 @@ public class Leet_61RotateList {
             temp = temp.next;
         }
 
-        //리스트의 길이가 0이나 1이라면 바로 리턴함. 리스트의 길이와 회전하는 횟수가 같으면 리턴함.
+        //리스트의 길이가 0이나 1이라면 바로 리턴함.
         if (length == 0 || length == 1) {
             return head;
         }
 
         //마지막에 회전되어있을 부분의 길이를 구한다.
         int rotatedLength = k % length;
-            if (rotatedLength == 0) {
+            if (rotatedLength == 0) {//회전 횟수가 0이거나, 리스트의 길이와 회전하는 횟수가 같으면 작업을 할 필요가 없음. 그대로 head를 리턴함.
                 return head;
             }
 
