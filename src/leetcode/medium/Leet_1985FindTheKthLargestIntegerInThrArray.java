@@ -80,10 +80,13 @@ public class Leet_1985FindTheKthLargestIntegerInThrArray {
     }
 
     private static int leftIsBigger(String s1, String s2){//왼쪽이 더 크면 양수, 둘이 같으면 0, 오른쪽이 더 크면 음수를 반환함.
-        if (s1.length() != s2.length()) {//둘의 길이가 다르다면, 길이가 더 긴 쪽이 무조건 더 크다.
+        /*if (s1.length() != s2.length()) {//둘의 길이가 다르다면, 길이가 더 긴 쪽이 무조건 더 크다.
             return (s1.length() > s2.length()) ? 1 : -1;
         }
 
-        return s1.compareTo(s2);//여기까지 오면 s1과 s2는 길이가 같은 것이기 때문에 그냥 사전식으로 비교하면 됨. 왼쪽이 더 크면 양수가 반환된다.
+        return s1.compareTo(s2);//여기까지 오면 s1과 s2는 길이가 같은 것이기 때문에 그냥 사전식으로 비교하면 됨. 왼쪽이 더 크면 양수가 반환된다.*/
+
+        //좀 더 축약하자면 이렇게 됨.
+        return (s1.length() != s2.length()) ? s1.length() - s2.length() : s1.compareTo(s2);
     }
 }
