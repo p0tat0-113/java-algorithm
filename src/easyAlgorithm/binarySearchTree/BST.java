@@ -47,7 +47,7 @@ public class BST {
         System.out.println();
     }
 
-    private void iterateProcess(Node root){
+    private void iterateProcess(Node root) {
         if (root != null) {
             iterateProcess(root.left);
             System.out.print(root.key + " ");
@@ -55,33 +55,12 @@ public class BST {
         }
     }
 
-    //이진팀색트리 삽입
-    public void insert(int key){
-        root = insertNodeProcess(root, key);
-    }
-
-    private Node insertNodeProcess(Node root, int key){
-        //서브트리가 비어있는 경우 키로 key를 가진 새로운 노드를 생성하고, 그 참조값을 반환한다.
-        if (root == null) {
-            return new Node(key);
-        }
-
-        if (root.key > key) {//key가 root의 key보다 작으면 왼쪽 서브트리를 탐색한다.
-            root.left = insertNodeProcess(root.left, key);//삽입할 자리를 찾으면 위의 코드에서 새로운 노드를 생성하고 참조값을 반환한다. 그 참조값이 root.left에 저장되면서 새로운 노드가 삽입된 것이다.
-        } else if (root.key < key) {//key가 root의 key보다 크면 오른쪽 서브트리를 탐색한다.
-            root.right = insertNodeProcess(root.right, key);//삽입할 자리를 찾으면 위의 코드에서 새로운 노드를 생성하고 참조값을 반환한다. 그 참조값이 root.left에 저장되면서 새로운 노드가 삽입된 것이다.
-        }
-        //key가 root의 key와 같으면 삽입을 하지 않는다. 이진 탐색 트리는 중복된 키를 허용하지 않음.
-
-        return root;//바닥을 찍고 올라온 다음 결국 원래 처음 입력받은 root를 반환하게 된다.
-    }
-
     //이진탐색트리 검색
-    public boolean search(int key){
+    public boolean search(int key) {
         return searchProcess(root, key);
     }
 
-    private boolean searchProcess(Node root, int key){
+    private boolean searchProcess(Node root, int key) {
         if (root != null) {
             if (root.key == key) {//key와 root의 key가 같다면 찾은 것.
                 return true;
@@ -94,8 +73,29 @@ public class BST {
         return false;//끝내 key와 같은 값을 가진 노드를 찾지 못하고 리프노드의 밑에 도달하면 false를 반환한다.
     }
 
+    //이진팀색트리 삽입
+    public void insert(int key) {
+        root = insertNodeProcess(root, key);
+    }
+
+    private Node insertNodeProcess(Node root, int key) {
+        //서브트리가 비어있는 경우 키로 key를 가진 새로운 노드를 생성하고, 그 참조값을 반환한다.
+        if (root == null) {
+            return new Node(key);
+        }
+
+        if (root.key > key) {//key가 root의 key보다 작으면 왼쪽 서브트리를 탐색한다.
+            root.left = insertNodeProcess(root.left, key);//삽입할 자리를 찾으면 위의 코드에서 새로운 노드를 생성하고 참조값을 반환한다. 그 참조값이 root.left에 저장되면서 새로운 노드가 삽입된 것이다.
+        } else if (root.key < key) {//key가 root의 key보다 크면 오른쪽 서브트리를 탐색한다.
+            root.right = insertNodeProcess(root.right, key);//삽입할 자리를 찾으면 위의 코드에서 새로운 노드를 생성하고 참조값을 반환한다. 그 참조값이 root.left에 저장되면서 새로운 노드가 삽입된 것이다.
+        }
+        //남은 케이스는 root != null && root.key == key밖에 없음. root의 key와 같으면 삽입을 하지 않는다. 이진 탐색 트리는 중복된 키를 허용하지 않음.
+
+        return root;//바닥을 찍고 올라온 다음 결국 원래 처음 입력받은 root를 반환하게 된다.
+    }
+
     //이진탐색트리 삭제
-    public void delete(int key){
+    public void delete(int key) {
         root = deleteProcess(root, key);
     }
 
@@ -118,9 +118,8 @@ public class BST {
             root.left = deleteProcess(root.left, key);
         } else if (root.key < key) {
             root.right = deleteProcess(root.right, key);
-        }
+        } else {//(root.key == key) 삭제할 노드를 찾은 경우
 
-        else {//(root.key == key) 삭제할 노드를 찾은 경우
             //노드를 삭제하는 것은 세가지 케이스로 나뉜다.
             //1.삭제하려는 노드가 자식을 가지고 있지 않은 경우 <- 리프노드인 경우이기 때문에 그냥 버리면 된다.
             //2.삭제하려는 노드가 왼쪽과 오른쪽 중 하나의 자식만 가지고 있는 경우 <- 자식의 참조값을 반환하게 하면 된다.
@@ -133,32 +132,27 @@ public class BST {
                 return root.left;
             } else if (root.left == null && root.right != null) {//오른쪽 자식만 있는 경우
                 return root.right;
-            }
+            } else {//(root.left != null && root.right != null) 케이스3, 양쪽에 모두 자식을 가지고 있는 경우
+                //책에 나오는 것과 똑같게 수정함.
 
-            else {//(root.left != null && root.right != null) 양쪽에 모두 자식을 가지고 있는 경우
-                //우선 삭제하려는 노드의 직후 원소를 찾아낸다.
-                int minValue = minValue(root.right);
+                //삭제하려는 노드 s와 그 부모 parent를 찾고, root의 키를 s의 키로 대체
+                Node s = root.right;
+                Node parent = s;
+                while (s.left != null) {
+                    parent = s;
+                    s = s.left;
+                }
+                root.key = s.key;
 
-                //삭제하려는 노드를 방급 찾은 직후 원소로 대체
-                root.key = minValue;
-
-                //직후 원소를 삭제한다. 직후원소는 케이스2에 해당하기 때문에 삭제하는 것이 간단하다.
-                root.right = deleteProcess(root.right, minValue);
-
-                //작업이 다 끝나면 자연스럽게 아래의 return root로 넘어감.
+                //s를 삭제하는 과정
+                if (s == root.right) {
+                    root.right = s.right;
+                } else {
+                    parent.left = s.right;
+                }
             }
         }
 
         return root;
-    }
-
-    private int minValue(Node root) {
-        //삭제하려는 노드의 직후 원소를 찾는 것은 간단하다.
-        //삭제하려는 노드의 오른쪽 서브트리에서 가장 작은 값을 찾으면 됨.
-        //삭제하려는 노드의 오른쪽 서브트리에서 계속 왼쪽으로 분기하다가 왼쪽 자식이 없는 노드가 바로 삭제하려는 노드의 직후 원소를 가지고 있다.
-        while (root.left != null) {
-            root = root.left;
-        }
-        return root.key;
     }
 }
