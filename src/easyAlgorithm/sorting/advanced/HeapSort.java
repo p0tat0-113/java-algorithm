@@ -49,7 +49,7 @@ public class HeapSort implements AdvancedSort {
     //완전 이진 트리 구조를 힙 구조로 수선함.
     private void buildHeap(int[] arr){
         //가장 말단 서브트리의 root부터 반복문을 돌린다.
-        for (int rootIdx = (arr.length-2)/2; rootIdx >= 0; rootIdx--) {
+        for (int rootIdx = (arr.length-2)/2; rootIdx >= 0; rootIdx--) {//(arr.length-2)/2를 한 이유는 노드A[k]의 부모는 노드A[(k-1)/2]이기 때문이다.
             percolateDown(arr,rootIdx,arr.length);
         }
     }
