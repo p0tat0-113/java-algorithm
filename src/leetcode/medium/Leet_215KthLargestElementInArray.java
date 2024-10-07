@@ -29,16 +29,11 @@ public class Leet_215KthLargestElementInArray {
 
         //k-1번 힙에서 루트를 꺼내고, 스며내리기를 해서 그 다음으로 큰 수를 루트로 올린다.
         for (int i = 0; i < k-1; i++) {
-            //루트노드와 맨 끝 노드를 교환한다.
-            /*int temp = nums[0];
-            nums[0] = nums[nums.length-1-i];
-            nums[nums.length-1-i] = temp;*/
-
             //지금 이 문제에서 해야하는 것은 정렬이 아니라, 그냥 루트(힙에서 가장 큰 원소)를 제거하는 것이기 때문에 교환을 할 필요가 없다.
             nums[0] = nums[nums.length-1-i];
 
             //맨 끝 부분을 제외하고 스며내리기
-            percolateDown(nums,nums.length-2-i,0);//nums.length-1-1-i
+            percolateDown(nums,nums.length-i,0);//nums.length-1-1-i
             //nums.length-1에서 i를 뺴야 하는데, k를 뺴서 계속 틀리고 있었음.
         }
 
@@ -51,18 +46,18 @@ public class Leet_215KthLargestElementInArray {
         int buildStartIdx;
 
         //nums의 길이가 짝수인지, 홀수인지에 따라 말단 서브트리의 루트를 구하는 공식이 다르다. <- 아님. k번째 원소의 부모는 (k-1)/2다.
-        buildStartIdx = (nums.length-2)/2;//nums.length-1-1
+        buildStartIdx = (nums.length-2)/2;//nums.length-1-1, A[k]의 부모는 A[(k-1)/2]이다.
 
         for (int rootIdx = buildStartIdx; rootIdx >= 0 ; rootIdx--) {
-            percolateDown(nums, nums.length-1, rootIdx);
+            percolateDown(nums, nums.length, rootIdx);
         }
     }
 
     //스며내리기
-    private void percolateDown(int nums[], int lastNodeIdx, int rootIdx) {//lastNodeIdx는 힙의 마지막 노드의 인덱스를 가리킨다.
-        if (rootIdx*2+1 <= lastNodeIdx) {//왼쪽 자식노드가 존재하면
+    private void percolateDown(int nums[], int length, int rootIdx) {//length는 힙이 인지하고 있는 배열의 길이다.
+        if (rootIdx*2+1 < length) {//왼쪽 자식노드가 존재하면
             int biggerChildIdx = rootIdx*2+1;
-            if (rootIdx*2+2 <= lastNodeIdx) {//오른쪽 자식 노드가 존재하면
+            if (rootIdx*2+2 < length) {//오른쪽 자식 노드가 존재하면
                 if (nums[biggerChildIdx] < nums[rootIdx*2+2]) {
                     biggerChildIdx = rootIdx*2+2;//왼쪽과 오른쪽 자식 중 더 큰 것의 인덱스를 biggerChildIdx에 저장한다.
                 }
@@ -75,7 +70,7 @@ public class Leet_215KthLargestElementInArray {
 
                 //루트인덱스를 교환한 자식 노드의 인덱스로 바꾸고, percolateDown()을 재귀호출한다.
                 rootIdx = biggerChildIdx;
-                percolateDown(nums, lastNodeIdx, rootIdx);//재귀호출
+                percolateDown(nums, length, rootIdx);//재귀호출
             }
         }
     }
