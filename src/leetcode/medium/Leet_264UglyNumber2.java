@@ -31,6 +31,8 @@ public class Leet_264UglyNumber2 {
 
         for (int i = 1; i < n; i++) {
             //다음 ugly number가 될 수를 정한다.
+            //현재 포인터가 가리키는 값에 각각 2, 3, 5를 곱한 값 중 최솟값을 dp 배열에 추가
+            //최솟값을 생성한 포인터를 하나씩 증가(동일한 최솟값이 여러 포인터에서 올 수 있으므로 중복을 방지하기 위해 모든 해당 포인터를 증가함)
             int nextUgly = Math.min(next2, Math.min(next3, next5));
             dp[i] = nextUgly;
 
