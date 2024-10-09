@@ -37,6 +37,13 @@ public class Leet_1497CheckIfArrayPairsAreDivisibleByK {
         if(freq[0] % 2 != 0){
             return false;
         }
+        /*ex) [1,3,5,7] k = 4
+        0 : 0
+        1 : 2
+        2 : 0
+        3 : 2
+        freq[1] = freq[3] -> return true;
+        */
         for(int i = 1;i <= k / 2;i++){
             if(freq[i] != freq[k-i]) {
                 return false;
