@@ -66,6 +66,7 @@ public class Leet_148SortList_1 {
                     continue;
                 }
             }
+            //high가 가리키는 수가 pivot 보다 작은 경우 low = low.next하고, low <-> high교환
             low = low.next;
 
             int temp = low.val;
@@ -75,6 +76,7 @@ public class Leet_148SortList_1 {
             high = high.next;
         }
 
+        //pivot과 1구역의 맨 끝 노드를 교환해준다.
         int temp = pivot.val;
         pivot.val = low.val;
         low.val = temp;

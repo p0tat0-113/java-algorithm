@@ -29,7 +29,7 @@ public class Leet_1497CheckIfArrayPairsAreDivisibleByK {
         int [] freq = new int[k];
         for(int num: arr){
             int rem = num % k;
-            if(rem < 0){
+            if(rem < 0){//나머지가 음수인 k를 더해 경우에는 양수로 바꿔준다. ex) rem = -1 k = 4 rem+k -> 3
                 rem = rem + k;
             }
             freq[rem]++;
