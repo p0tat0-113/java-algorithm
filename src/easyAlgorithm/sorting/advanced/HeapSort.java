@@ -30,7 +30,7 @@ public class HeapSort implements AdvancedSort {
         buildHeap(arr);
 
         //deleteMax()를 호출하는 쪽에서 length를 하나씩 줄여주면서 각 반복시의 리프노드 자리를 관심에서 제외시킨다.
-        for (int length = arr.length-1; length > 0; length--) {
+        for (int length = arr.length; length > 1; length--) {
             deleteMax(arr,length);
         }
     }
@@ -40,10 +40,10 @@ public class HeapSort implements AdvancedSort {
     //루트를 리프노드(가장 말단 노드)와 맞바꾸고, 리프노드 자리를 관심에서 제외,스며내리기를 한다(rootIdx는 0으로 함). 이러면 그 다음으로 큰 값이 루트로 올라오게 된다. 이것을 계속 반복함.
     private void deleteMax(int[] arr, int length){
         int temp = arr[0];
-        arr[0] = arr[length];
-        arr[length] = temp;
+        arr[0] = arr[length-1];
+        arr[length-1] = temp;
 
-        percolateDown(arr,0,length);
+        percolateDown(arr,0,length-1);
     }
 
     //완전 이진 트리 구조를 힙 구조로 수선함.
