@@ -27,6 +27,7 @@ public class Leet_148SortList {
         if (headNode.next != null) {
             ListNode midNode = getLeftListTailNode(headNode);//중간 노드 얻어옴.
 
+            //여기서 알맞게 잘 절단하는게 중요하다. 리스트의 길이가 2일 때 1:1로 분할되게 해야한다는 점을 주의해야 함. 그렇지 않으면 무한 재귀호출에 빠지며 스택오버플로우가 발생할 수 있음.
             ListNode rightHeadNode = midNode.next;//midNode보다 한 칸 뒤의 노드, 분할된 오른쪽 노드의 머리다.
             midNode.next = null;//midNode의 연결을 끊어버림. headNode를 머리로 둔 리스트와 rightHeadNode를 머리로 둔 리스트 둘로 쪼개짐.
 
