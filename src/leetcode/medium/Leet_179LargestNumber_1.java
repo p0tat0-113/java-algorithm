@@ -9,11 +9,84 @@ import java.util.*;
 
 public class Leet_179LargestNumber_1 {
     public static void main(String[] args) {
-        largestNumber(new int[] {10,2});
-        largestNumber(new int[] {3,30,34,5,9});
+        System.out.println(largestNumber(new int[]{10, 2}));
+        System.out.println(largestNumber(new int[]{3, 30, 34, 5, 9}));
     }
 
+    //이 문제 자체는 그냥 정말 단순하게 정렬로써 접근해도 되는 것 같기도 하고.....
+    //일단 정렬알고리즘을 내가 직접 구현하자. 그냥 간단하게 mergeSort로ㄱㄱ
     public static String largestNumber(int[] nums) {
+        //우선 숫자 조합에 따른 대소를 쉽게 비교하기 위해 숫자를 전부 문자열로 바꿔준다.
+        String[] numStrs = new String[nums.length];
+        for(int i=0; i<nums.length; i++) {
+            numStrs[i] = String.valueOf(nums[i]);
+        }
+
+        mergeSort(numStrs, 0, numStrs.length - 1, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                String a = o1+o2;
+                String b = o2+o1;
+                return a.compareTo(b);
+            }
+        });
+
+        //모든 숫자가 0인 경우 "0" 반환, 마지막에 "0000000000000"같이 출력되는 것을 방지한다.
+        if(numStrs[0].equals("0")) {
+            return "0";
+        }
+
+        //정렬된 숫자들을 이어붙임
+        StringBuilder sb = new StringBuilder();
+        for(String num : numStrs) {
+            sb.append(num);
+        }
+
+        return sb.toString();
+    }
+
+    private static void mergeSort(String[] arr, int s, int e, Comparator<String> comparator){
+        if (s < e) {
+            int mid = (s+e)/2;
+            mergeSort(arr, s, mid, comparator);
+            mergeSort(arr, mid+1, e, comparator);
+            merge(arr, s, e, mid, comparator);
+            /*처음에는
+            mergeSort(arr, s, mid-1, comparator);
+            mergeSort(arr, mid, e, comparator);
+            이렇게 하는 바람에 s = 0, e = 1인 상황에서 계속 무한호출되면서 스택오버플로우가 발생했었다.
+            배열의 길이가 2인 상황에서 0,0 1,1 이렇게 반으로 정확하게 분할되도록 신경을 써야한다.
+            그리고 mergeSort에서의 분할기준에 맞춰서 merge쪽도 똑같이 작성해야 함.
+            시험때는 이런 걸로 시간낭비하지 말자.*/
+        }
+    }
+
+    private static void merge(String[] arr, int s, int e, int mid, Comparator<String> comparator){
+        String[] tempArr = new String[e - s + 1];
+        int tempArrLength = 0;
+        int left = s;
+        int right = mid+1;
+
+        while (left <= mid && right <= e) {
+            if (comparator.compare(arr[left],arr[right]) >= 0) {//왼쪽이 더 크거나 같으면
+                tempArr[tempArrLength++] = arr[left++];
+            } else {//오른쪽이 더 크면
+                tempArr[tempArrLength++] = arr[right++];
+            }
+        }
+
+        while (left <= mid) {
+            tempArr[tempArrLength++] = arr[left++];
+        }
+
+        while (right <= e) {
+            tempArr[tempArrLength++] = arr[right++];
+        }
+
+        System.arraycopy(tempArr, 0, arr, s, tempArrLength);
+    }
+
+    /*public static String largestNumber(int[] nums) {
         //우선 숫자 조합에 따른 대소를 쉽게 비교하기 위해 숫자를 전부 문자열로 바꿔준다.
         String[] numStrs = new String[nums.length];
         for(int i=0; i<nums.length; i++) {
@@ -45,5 +118,5 @@ public class Leet_179LargestNumber_1 {
         }
 
         return sb.toString();
-    }
+    }*/
 }
