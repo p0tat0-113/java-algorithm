@@ -46,9 +46,9 @@ public class Leet_48RotateImage {
                     column = matrix.length - 1 - tempRow;//최대 인덱스 - row
 
                     //굴러온 돌로 박힌 돌을 빼버리고, 굴러온 돌은 num에 저장한다.
-                    int tempNum = num;
-                    num = matrix[row][column];
-                    matrix[row][column] = tempNum;
+                    int tempNum = num;//굴러온 돌 num을 tempNum에 저장
+                    num = matrix[row][column];//num에 박혀있던 돌을 저장
+                    matrix[row][column] = tempNum;//박혀있던 돌을 빼고, 굴러온 돌을 집어넣음.
 
                     //디버깅용 코드
                     /*for (int l = 0; l < 4; l++) {
