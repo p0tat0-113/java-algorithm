@@ -4,6 +4,18 @@ import java.util.Arrays;
 
 /*
 이 문제를 문자열 방식으로도 접근할 수 있겠지만, 나는 수학적으로 접근함.
+
+Example 1:
+Input: x = 123
+Output: 321
+
+Example 2:
+Input: x = -123
+Output: -321
+
+Example 3:
+Input: x = 120
+Output: 21
 */
 
 public class Leet_7ReverseInteger {
@@ -16,9 +28,55 @@ public class Leet_7ReverseInteger {
 
         Leet_7ReverseInteger leet = new Leet_7ReverseInteger();
         System.out.println(leet.reverse(-2147483648));
+        System.out.println(leet.reverse(-259723));
     }
 
+    //다른 사람 코드 참고해서 만들었는데 이런 개쩌는 코드도 있네.
     public int reverse(int x) {
+        //우선 계산은 long으로 한다. int형으로 하면 Math.abs()연산만으로도 오버플로우가 발생하는 문제가 있음.
+        long xLong = x;
+        long result = 0;
+
+        while (xLong != 0) {
+            long r = xLong % 10;//어떤 수를 10으로 나눈 나머지는 그 수의 1의 자리수다.
+            result = result * 10 +r;//result에 result*10 과 r을 더한 값을 저장한다. 처음에는 왜 result*10을 하는지 이해가 안됐는데 잘 생각해보니까 원래 있던 수의 자릿수를 하나 증가시키는 작업이다!
+            xLong = xLong/10;
+        }
+
+        if (result < Integer.MIN_VALUE || result > Integer.MAX_VALUE) {
+            return 0;
+        }
+
+        return (int) result;
+    }
+
+    //좀 더 직관적이게 문자열로도 접근해보자. 시험때 숫자가지고 머리 싸매기 싫음. 근데 이렇게 하니까 느림.... 대부분이 1ms 나오는데 나는 10ms 나옴...
+    /*public int reverse(int x) {
+        //우선 계산은 long으로 한다. int형으로 하면 Math.abs()연산만으로도 오버플로우가 발생하는 문제가 있음.
+        long xLong = x;
+        String[] xStringArr = String.valueOf(Math.abs(xLong)).split("");//x의 절대값을 문자열로 만들었음.
+        //System.out.println(Arrays.toString(xStringArr));//디버깅용
+
+        //이제 문자열을 뒤집는다.
+        for (int i = 0; i < xStringArr.length/2; i++) {
+            String temp = xStringArr[i];
+            xStringArr[i] = xStringArr[xStringArr.length-1-i];
+            xStringArr[xStringArr.length-1-i] = temp;
+        }
+
+        long result = Long.parseLong(String.join("",xStringArr));
+        if (result < Integer.MIN_VALUE || result > Integer.MAX_VALUE) {
+            return 0;
+        }
+
+        if (x < 0){
+            result = result * -1;
+        }
+
+        return (int) result;
+    }*/
+
+    /*public int reverse(int x) {
         //우선 계산은 long으로 한다. int형으로 하면 Math.abs()연산만으로도 오버플로우가 발생하는 문제가 있음.
         long num = x;
         long result = 0;
@@ -44,7 +102,7 @@ public class Leet_7ReverseInteger {
         }
 
         return (int) result;
-    }
+    }*/
 
     //오버플로우가 발생했을 때는 0을 반환해야 한다고 함. 그 부분을 고려하지 않아서 틀림.
     //-2147483648이 인수로 들어왔을 때 digitLength가 1로 계산되어버림. Math.abs(-2147483648)연산을 할때 오버플로우가 발생해서 그런 듯. 인수로 들어온 숫자도 long으로 바꿔버리면 될 듯.
