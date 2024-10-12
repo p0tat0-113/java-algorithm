@@ -19,10 +19,32 @@ public class Leet_35SearchInsertPosition {
     }
 
     public static int searchInsert(int[] nums, int target) {
-        return binarySearch(nums,0,nums.length-1,target);
+        return binarySearch(nums,0,nums.length-1,target,0);
     }
 
-    //nums = [1,3,5,6] target = 2
+    //그냥 넘기기에는 좀 찜찜해서 다시 제대로 풀어본다.
+    //기본적으로는 그냥 이진탐색이다. target과 동일한 숫자가 있으면 그냥 그 위치에 삽입하면 되기에 그 숫자의 인덱스 root를 그대로 반환한다.
+    //그런데 문제는 끝네 그 숫자를 찾지 못한 경우. 그럴 때는 '바로 전의 루트'보다 작은지, 큰지를 비교해서 그 상황에 맞는 인덱스를 반환해야 한다.
+    //ex) [1,3,5] target = 2 <- 이 경우 2는 바로 전의 루트 1(인덱스는 0)보다 크므로 return 0+1이 된다.
+    private static int binarySearch(int[] nums, int s, int e, int target, int formerRootIdx){
+        if (s <= e) {
+            int root = (s+e)/2;
+            if (target == nums[root]) {
+                return root;
+            } else if (target < nums[root]) {
+                return binarySearch(nums, s, root-1, target, root);
+            } else {
+                return binarySearch(nums, root+1, e, target, root);
+            }
+        }
+        if(target < nums[formerRootIdx]) {
+            return formerRootIdx;
+        } else {
+            return formerRootIdx+1;
+        }
+    }
+
+    /*//nums = [1,3,5,6] target = 2
     private static int binarySearch(int[] nums, int start, int end, int targetNum){
         if (start <= end) {
             int mid = (start+end)/2;//중간지점을 구함.
@@ -43,5 +65,5 @@ public class Leet_35SearchInsertPosition {
         }
 
         return -1;
-    }
+    }*/
 }
