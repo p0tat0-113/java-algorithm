@@ -24,7 +24,7 @@ public class Leet_105ConstructBinaryTreeFromPreorderAndInorderTraversal {
         this.inorder = inorder;
         this.map = new HashMap<>();
         for (int i = 0; i < inorder.length; i++) {
-            map.put(inorder[i],i);
+            map.put(inorder[i],i);//inorder배열의 각 숫자들이 어떤 인덱스에 위치해있는지 기록한다. 문제 조건 상 각 숫자들이 unique하기 때문에 이렇게 저장하는 것이 가능하다.
         }
 
         return process(0, 0, inorder.length-1);
@@ -35,19 +35,10 @@ public class Leet_105ConstructBinaryTreeFromPreorderAndInorderTraversal {
             TreeNode root = new TreeNode(preorder[rootIdx]);
 
             //inorder에서 root의 위치를 확인한다.
-            int rootIdxInInorder = map.get(rootIdx);//매번 배열을 순회하면서 찾지 않고, 그냥 처음에 HashMap을 하나 만들어서 접근을 시키니까 1ms까지 성능개선에 성공함. 내 접근방식에는 문제가 없었음.
-            /*for (int i = s; i <= e; i++) {
-                if (preorder[rootIdx] == inorder[i]) {
-                    rootIdxInInorder = i;
-                    break;
-                }
-            }*/
-
+            int rootIdxInInorder = map.get(preorder[rootIdx]);//매번 배열을 순회하면서 찾지 않고, 그냥 처음에 HashMap을 하나 만들어서 접근을 시키니까 1ms까지 성능개선에 성공함. 내 접근방식에는 문제가 없었음.
             int k = rootIdxInInorder-s+1;//root의 inorder부분 배열 내에서의 등수
 
-            if (k != 1) {
-                root.left = process(rootIdx + 1, s, rootIdxInInorder-1);
-            }
+            root.left = process(rootIdx + 1, s, rootIdxInInorder-1);
             root.right = process(rootIdx + k, rootIdxInInorder+1, e);
 
             return root;
