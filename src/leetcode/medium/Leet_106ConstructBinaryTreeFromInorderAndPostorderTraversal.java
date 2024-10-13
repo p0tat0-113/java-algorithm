@@ -15,7 +15,37 @@ public class Leet_106ConstructBinaryTreeFromInorderAndPostorderTraversal {
     int[] postOrder;
     HashMap<Integer, Integer> map = new HashMap<>();
 
+    //이번에는 postOrder를 굳이 뒤집지 않고 구현해본다. 간단한 수정만으로도 가능하다.
     public TreeNode buildTree(int[] inorder, int[] postorder) {
+        this.postOrder = postorder;
+        this.inOrder = inorder;
+        //각 숫자들이 inorder배열 내에서 몇 번 인덱스에 위치하는지 map에 저장한다. 문제 조건 상 숫자들이 unique하기 때문에 이런식으로 하는게 가능함.
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);
+        }
+
+        return process(postorder.length-1,0,inorder.length-1);
+    }
+
+    private TreeNode process(int rootIdx, int s, int e) {
+        if (s <= e) {
+            //postOrder[rootIdx]를 키로 하는 새로운 노드를 생성.
+            TreeNode root = new TreeNode(postOrder[rootIdx]);
+
+            //postOrder[rootIdx]가 분할된 inorder 부분 배열 내에서 '뒤에서' 몇 등인지 알아낸다.
+            int rootIdxInInorder = map.get(postOrder[rootIdx]);
+            int k = e - rootIdxInInorder + 1;
+
+            //분할해서 재귀호출한다.
+            root.left = process(rootIdx - k, s, rootIdxInInorder-1);
+            root.right = process(rootIdx - 1, rootIdxInInorder+1, e);
+
+            return root;
+        }
+        return null;
+    }
+
+    /*public TreeNode buildTree(int[] inorder, int[] postorder) {
         this.inOrder = inorder;
 
         //postorder를 뒤집는다. 이렇게 하면 preorder와 거의 비슷해짐. 루트를 먼저 찍고 오른쪽 자식, 그 다음에 왼쪽 자식으로 간다. 이 정도면 105번 문제와 거의 유사해짐.
@@ -38,7 +68,7 @@ public class Leet_106ConstructBinaryTreeFromInorderAndPostorderTraversal {
             //postOrder[rootIdx]를 키로 하는 새로운 노드를 생성.
             TreeNode root = new TreeNode(postOrder[rootIdx]);
 
-            //postOrder[rootIdx]가 inorder배열 내에서 '뒤에서' 몇 등인지 알아낸다.
+            //postOrder[rootIdx]가 분할된 inorder 부분 배열 내에서 '뒤에서' 몇 등인지 알아낸다.
             int rootIdxInInorder = map.get(postOrder[rootIdx]);
             int k = e - rootIdxInInorder + 1;
 
@@ -49,5 +79,5 @@ public class Leet_106ConstructBinaryTreeFromInorderAndPostorderTraversal {
             return root;
         }
         return null;
-    }
+    }*/
 }
