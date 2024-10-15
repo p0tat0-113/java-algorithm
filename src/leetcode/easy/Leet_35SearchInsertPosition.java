@@ -18,6 +18,7 @@ public class Leet_35SearchInsertPosition {
         System.out.println(searchInsert(new int[]{1, 3}, 0));
     }
 
+    //배열의 길이는 최소한 1이다.
     public static int searchInsert(int[] nums, int target) {
         return binarySearch(nums,0,nums.length-1,target,0);
     }
