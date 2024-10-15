@@ -31,6 +31,7 @@ public class LinearSelect {
             int groupEnd = Math.min(groupStart + 4, r);
 
             // 3. 각 그룹에서 중앙값을 찾음
+            // 이 때는 그냥 각 그룹을 정렬해서 중간값을 찾는다.
             int median = findMedian(A, groupStart, groupEnd);
             medians[g] = median;
         }
@@ -40,23 +41,25 @@ public class LinearSelect {
         if (numGroups == 1) {
             pivot = medians[0];
         } else {
-            pivot = linearSelect(medians, 0, numGroups - 1, (numGroups + 1) / 2);//중앙값들 중의 중앙값을 찾기위해 linearSelect를 재귀호출한다.
+            pivot = linearSelect(medians, 0, numGroups - 1, (numGroups + 1) / 2);
+            //중앙값들 중의 중앙값을 찾기위해 linearSelect를 재귀호출한다.
             //이때 인수로 medians를 넘기고, 찾고자 하는 k번째 작은 수는 정중앙인 (numGroups + 1) / 2 번째로 작은 수다.
         }
 
+        //이제 여기부터는 quick select와 똑같다.
         // 5. 피벗을 기준으로 배열을 분할
         int pivotIndex = partition(A, p, r, pivot);
 
         // 피벗의 순위를 계산 <- 피벗이 부분배열 내에서 몇 번째로 작은 숫자인지를 계산
-        int rank = pivotIndex - p + 1;
+        int k = pivotIndex - p + 1;
 
         // 6. 원하는 순위에 따라 재귀 호출
-        if (i == rank) {
+        if (i == k) {
             return A[pivotIndex];
-        } else if (i < rank) {
+        } else if (i < k) {
             return linearSelect(A, p, pivotIndex - 1, i);
         } else {
-            return linearSelect(A, pivotIndex + 1, r, i - rank);
+            return linearSelect(A, pivotIndex + 1, r, i - k);
         }
     }
 
