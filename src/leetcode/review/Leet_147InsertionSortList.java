@@ -14,17 +14,19 @@ public class Leet_147InsertionSortList {
         }
 
         ListNode tempHeadNode = new ListNode();
+
         tempHeadNode.next = head;
         head = head.next;
+
         tempHeadNode.next.next = null;
         ListNode curr = tempHeadNode;
 
 
         while(head != null) {
             ListNode temp = head;
+            curr = tempHeadNode;
             head = head.next;
             boolean isInserted = false;
-            curr = tempHeadNode;
 
             while(curr.next != null) {
                 if (temp.val < curr.next.val) {
@@ -35,9 +37,9 @@ public class Leet_147InsertionSortList {
                 }
                 curr = curr.next;
             }
-            if (!isInserted) {
+            if (!isInserted) {//삽입되지 않았다면 그냥 맨 뒤에 갖다 붙임.
                 curr.next = temp;
-                curr.next.next = null;
+                curr.next.next = null;//임시리스트의 맨 끝은 항상 null로 만들어서 깔끔하게 해준다. 이래야 사이클이 안생기고 뒤탈이 없음.
             }
         }
 
