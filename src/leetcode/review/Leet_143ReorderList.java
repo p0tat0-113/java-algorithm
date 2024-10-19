@@ -28,6 +28,30 @@ public class Leet_143ReorderList {
         System.out.println(root3);
     }
 
+    //이번에는 스택을 쓰지 않고 해본다. 아... 바본가? 내가 처음에 스택을 쓴 이유가 당연히 있겠지 동우야....
+    /*public void reorderList(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = slow;
+        while(fast != null && fast.next != null && fast.next.next != null) {//이렇게 하면 중간노드보다 한 칸 앞의 노드?를 얻을 수가 있다.
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+
+        ListNode gonnaInserted = slow.next;//끼워넣어져야할 노드들만 있는 리스트
+        //System.out.println(tempSlow);
+        slow.next = null;//리스트를 완전히 분리,
+        //System.out.println(head);
+
+        while(gonnaInserted != null){
+            ListNode temp = gonnaInserted;
+            gonnaInserted = gonnaInserted.next;
+
+            temp.next = head.next;
+            head.next = temp;
+            head = head.next.next;
+        }
+    }*/
+
     public void reorderList(ListNode head) {
         ListNode slow = head;
         ListNode fast = slow;
