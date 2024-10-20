@@ -13,21 +13,10 @@ public class Leet148_SortList_1 {
     }
 
     private void quickSort(ListNode head, ListNode tail){
-        if (head != tail) {//리스트의 길이가 2이상이면 재귀호출, 처음에 head.next = null이딴식으로 해서 제대로 안굴러감.
-            ListNode slow = head;
-            ListNode fast = head;
-            while(fast != tail && fast.next != tail) {//여기도 처음에 fast != null이딴식으로 해서 제대로 안굴러감.
-                fast = fast.next.next;
-                slow = slow.next;
-            }
-            int temp = slow.val;
-            slow.val = head.val;
-            head.val = temp;
-
-            ListNode mid = partition(head, tail);
-
-            quickSort(head, mid);
-            quickSort(mid.next, tail);//이 부분도 처음에 quickSort(mid, tail); 이렇게 해서 제대로 분할이 안됨.
+        if (head != tail) {
+            ListNode pivot = partition(head, tail);
+            quickSort(head, pivot);
+            quickSort(pivot.next, tail);
         }
     }
 
@@ -37,14 +26,8 @@ public class Leet148_SortList_1 {
         ListNode second = head.next;
         int count = 0;
 
-        //[3,4,1,2]
-        while(second != tail) {
-            if (second.val < pivot) {
-                first = first.next;
-                int temp = first.val;
-                first.val = second.val;
-                second.val = temp;
-            } else if (second.val == pivot && count % 2 == 0) {
+        while (second != tail) {
+            if (second.val < pivot || (second.val == pivot && count % 2 == 0)) {//중복된 요소가 많은 경우 효율적으로 처리하기 위한 코드
                 first = first.next;
                 int temp = first.val;
                 first.val = second.val;
@@ -54,7 +37,6 @@ public class Leet148_SortList_1 {
             count++;
         }
 
-        //[1,2,3,4,5]
         head.val = first.val;
         first.val = pivot;
 
