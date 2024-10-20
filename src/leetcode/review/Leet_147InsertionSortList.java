@@ -9,6 +9,43 @@ public class Leet_147InsertionSortList {
     }
 
     public ListNode insertionSortList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode tempHeadNode = new ListNode();
+        ListNode curr = tempHeadNode;
+        tempHeadNode.next = head;
+
+        head = head.next;
+        tempHeadNode.next.next = null;//이미 정렬된 부분과 정렬되지 않은 부분을 완전히 분리
+
+        while (head != null) {
+            ListNode temp = head;
+            head = head.next;
+            curr = tempHeadNode;
+            boolean isInserted = false;
+
+            while (curr.next != null) {
+                if (temp.val < curr.next.val) {
+                    isInserted = true;
+                    temp.next = curr.next;
+                    curr.next = temp;
+                    break;
+                }
+                curr = curr.next;
+            }
+
+            if (!isInserted) {
+                curr.next = temp;
+                curr.next.next = null;
+            }
+        }
+
+        return tempHeadNode.next;
+    }
+
+    /*public ListNode insertionSortList(ListNode head) {
         if (head.next == null) {
             return head;
         }
@@ -44,5 +81,5 @@ public class Leet_147InsertionSortList {
         }
 
         return tempHeadNode.next;
-    }
+    }*/
 }
