@@ -16,7 +16,7 @@ public class Leet148_SortList {
             //중간 노드를 얻는다.
             ListNode temp = head;
             ListNode mid = temp;
-            while(temp != null && temp.next != null && temp.next.next != null) {
+            while(temp != null && temp.next != null && temp.next.next != null) {//이렇게 && temp.next.next != null 이걸 하나 더 붙여서 중간 노드보다 하나 앞의 노드를 얻어낸다! 이게 좀 중요함.
                 temp = temp.next.next;
                 mid = mid.next;
             }
