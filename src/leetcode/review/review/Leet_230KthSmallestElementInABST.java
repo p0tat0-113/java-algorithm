@@ -1,3 +1,7 @@
+package leetcode.review.review;
+
+import leetcode.review.TreeNode;
+
 public class Leet_230KthSmallestElementInABST {
     public static void main(String[] args) {
         Leet_230KthSmallestElementInABST leet = new Leet_230KthSmallestElementInABST();

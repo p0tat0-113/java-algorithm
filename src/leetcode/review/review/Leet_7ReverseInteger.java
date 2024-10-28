@@ -1,3 +1,5 @@
+package leetcode.review.review;
+
 public class Leet_7ReverseInteger {
     public static void main(String[] args) {
         Leet_7ReverseInteger leet = new Leet_7ReverseInteger();

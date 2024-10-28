@@ -1,3 +1,7 @@
+package leetcode.review.review;
+
+import leetcode.review.ListNode;
+
 public class Leet_61RotateList {
     public static void main(String[] args) {
         Leet_61RotateList leet = new Leet_61RotateList();

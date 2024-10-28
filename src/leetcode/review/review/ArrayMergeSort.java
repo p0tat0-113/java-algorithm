@@ -1,3 +1,5 @@
+package leetcode.review.review;
+
 import java.util.Arrays;
 import java.util.Random;
 

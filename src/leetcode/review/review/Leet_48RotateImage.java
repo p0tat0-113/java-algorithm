@@ -1,3 +1,5 @@
+package leetcode.review.review;
+
 import java.util.Arrays;
 
 public class Leet_48RotateImage {

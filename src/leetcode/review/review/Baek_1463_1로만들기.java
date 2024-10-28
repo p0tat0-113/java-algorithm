@@ -1,3 +1,5 @@
+package leetcode.review.review;
+
 import java.util.Arrays;
 
 public class Baek_1463_1로만들기 {
