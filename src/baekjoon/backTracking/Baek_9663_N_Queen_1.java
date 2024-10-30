@@ -1,14 +1,13 @@
 package baekjoon.backTracking;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 //이렇게 푸니까 작동이 되긴 하는데 백준에 제출해본 결과 메모리를 초과해버림..... 메모리 제한이 128MB인데도 뚫어 버리네....
 //무식하게 placed에다가 마킹을 하고, 마킹한 지점의 좌표들을 기록하는 방식을 쓰지 말고,
 //앞서 부모노드들에서 배치된 퀸들의 좌표를 바탕으로 무결성 위반여부를 계산하는 함수를 만드는 것이 현명해보인다.
-public class Baek_9663_N_Queen {
+public class Baek_9663_N_Queen_1 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
