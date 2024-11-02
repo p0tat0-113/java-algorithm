@@ -49,22 +49,29 @@ public class Leet_110BalancedBinaryTree {
             return true;
         }
 
-        PriorityQueue<Integer> littleQueue = new PriorityQueue<>();
-        boolean resultLeft = search(root.left, depth+1, littleQueue);
-        boolean resultRight = search(root.right, depth+1, littleQueue);
+        boolean resultLeft = search(root.left, depth+1, queue);
+        if (!resultLeft) {
+            return false;
+        }
+        int leftDepth = queue.poll();
 
-        if (!resultLeft || !resultRight) {
+        boolean resultRight = search(root.right, depth+1, queue);
+        if (!resultRight) {
+            return false;
+        }
+        int rightDepth = queue.poll();
+
+        if (leftDepth < rightDepth) {//leftDepth가 더 큰 수를 가지게 swap함.
+            int temp = leftDepth;
+            leftDepth = rightDepth;
+            rightDepth = temp;
+        }
+
+        if (leftDepth - rightDepth > 1) {//서브트리의 양쪽 높이 차이가 1보다 큰 경우 return false
             return false;
         }
 
-        int small = littleQueue.poll();
-        int big = littleQueue.poll();
-
-        if (big - small > 1) {
-            return false;
-        }
-
-        queue.add(big);
+        queue.add(leftDepth);//서브트리의 양쪽 높이 중 더 깊은 쪽. 그러니까 최악의 깊이를 다시 queue에 담음.
         return true;
     }
 
