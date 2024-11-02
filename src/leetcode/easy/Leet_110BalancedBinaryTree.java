@@ -39,27 +39,32 @@ public class Leet_110BalancedBinaryTree {
         System.out.println(leet.isBalanced(root2));
     }
 
+    //0ms까지 성능 개선했다... 앞에서 매 재귀호출마다 littleQueue를 생성해서 인수로 넣어주는 코드를 삭제하고 재귀호출한 함수가 동작을 끝낼 때마다 큐에서 값을 빼도록 리팩토링 하고 보니까
+    //큐에 값이 2개가 있는 경우가 없었음. 그래서 이러면 그냥 일반 변수를 쓰면 되는거 아닌가?라는 생각이 들어서 코드를 고쳐보니까 잘 작동됨.
+    //원리는 간단하다. 가장 말단 서브트리부터 시작해서 서브트리 양쪽의 높이를 비교. 양쪽의 높이 차가 1이하라면 계속 그 중 최악의 깊이를 올려보내는 것.
+    int subtreeDepth;
+
     public boolean isBalanced(TreeNode root) {
-        return search(root, 0, new PriorityQueue<>());
+        return search(root, 0);
     }
 
-    private boolean search(TreeNode root, int depth, PriorityQueue<Integer> queue) {
+    private boolean search(TreeNode root, int currDepth) {
         if (root == null) {
-            queue.add(depth);
+            subtreeDepth = currDepth;
             return true;
         }
 
-        boolean resultLeft = search(root.left, depth+1, queue);
+        boolean resultLeft = search(root.left, currDepth+1);
         if (!resultLeft) {
             return false;
         }
-        int leftDepth = queue.poll();
+        int leftDepth = subtreeDepth;
 
-        boolean resultRight = search(root.right, depth+1, queue);
+        boolean resultRight = search(root.right, currDepth+1);
         if (!resultRight) {
             return false;
         }
-        int rightDepth = queue.poll();
+        int rightDepth = subtreeDepth;
 
         if (leftDepth < rightDepth) {//leftDepth가 더 큰 수를 가지게 swap함.
             int temp = leftDepth;
@@ -71,9 +76,11 @@ public class Leet_110BalancedBinaryTree {
             return false;
         }
 
-        queue.add(leftDepth);//서브트리의 양쪽 높이 중 더 깊은 쪽. 그러니까 최악의 깊이를 다시 queue에 담음.
+        subtreeDepth = leftDepth;//서브트리의 양쪽 높이 중 더 깊은 쪽. 그러니까 최악의 깊이를 다시 queue에 담음.
         return true;
     }
+
+
 
     /*public boolean isBalanced(TreeNode root) {
         if (root == null) {
