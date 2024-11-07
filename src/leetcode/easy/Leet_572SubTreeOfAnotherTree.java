@@ -2,14 +2,12 @@ package leetcode.easy;
 
 import leetcode.TreeNode;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-
 /*
 두 이진트리의 루트 root와 subRoot가 주어진다. 그러면 subRoot를 루트로 하는 작은 트리가 root를 루트로 하는 큰 트리에 포함되어 있는지 학인하면 되는 문제다.
-뭔가 110번 문제도 그렇고 내가 알던 easy문제가 아니긴 한데 이건 그래도 비교적 쉬워보임.
+뭔가 110번 문제도 그렇고 내가 알던 easy문제가 아니긴 한데 이건 그래도 비교적 쉬워보임. <- 안쉬움.
+
+https://chatgpt.com/share/672ca0c8-dd84-8006-8b55-dc8a25253cb4
+chatgpt의 도움을 받아서 겨우 해결했다.....
 */
 
 public class Leet_572SubTreeOfAnotherTree {
@@ -23,47 +21,52 @@ public class Leet_572SubTreeOfAnotherTree {
 
         //System.out.println(leet.isSubtree(root, subRoot));
         System.out.println(leet.isSubtree(root, subRoot));
-
-        /*List<Integer> list1 = List.of(1, 2, 3);
-        List<Integer> list2 = List.of(1, 2, 3);
-        System.out.println(list1.equals(list2));*/
     }
 
-    //다시 생각해보니까 가장 말단 서브트리부터 재귀적으로 트리에 있는 각각의 서브트리를 비교하는 방식으로 해야할 것 같다.
-    //근데 이렇게 해도 또 다른 케이스에서 걸리네. 도대체 기준이 뭔지 모르겠다ㅅㅂ
-    //근데 이것도 코드가 좀 잘못됐긴 했네. 왼쪽과 오른쪽에서 각각 서브트리를 퍼오고, 그 다음에 합쳐야 하는데 이건 그런 구조가 아님.
-    /*public boolean isSubtree(TreeNode root, TreeNode subRoot) {
-        ArrayList<Integer> rootList = new ArrayList<>();
-        ArrayList<Integer> subRootList = new ArrayList<>();
-
-        process(subRoot, subRootList, rootList);
-        System.out.println(subRootList);
-
-        boolean processResult = process(root, rootList, subRootList);
-        System.out.println(rootList);
-        return processResult;
-    }
-
-    public boolean process(TreeNode root, ArrayList<Integer> recordSet, ArrayList<Integer> set) {
-        if (root  == null) {
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        if (root == null) {//종료 조건. 서브트리를 찾으러 계속 내려가다가 결국 못 찾고, null에 닿으면 false를 반환한다.
             return false;
         }
 
-        boolean leftResult = process(root.left, recordSet, set);
-        if (leftResult) {
+        if (isSame(root, subRoot)) {
             return true;
         }
 
-        boolean rightResult = process(root.right, recordSet, set);
-        if (rightResult) {
+        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+    }
+
+    private boolean isSame(TreeNode root, TreeNode subRoot) {
+        if (root == null && subRoot == null) {
             return true;
         }
+        if (root == null || subRoot == null) {
+            return false;
+        }
+        if (root.val != subRoot.val) {
+            return false;
+        }
+        return isSame(root.left, subRoot.left) && isSame(root.right, subRoot.right);
+    }
 
-        recordSet.add(root.val);
-
-        if (recordSet.equals(set)) {
+    /*public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        if (root == null) return false;
+        // 현재 노드가 subRoot와 동일한지 확인
+        if (isSameTree(root, subRoot)) {//먼저 root노드가 subRoot와 동일한지 확인한다.
             return true;
         }
-        return false;
+        // 왼쪽과 오른쪽 서브트리에서도 동일한지 재귀적으로 확인
+        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);//isSubtree()를 재귀호출 하며 서브트리의 왼쪽-오른쪽 서브트리를 재귀적으로 탐색한다, 이는 모든 가능한 위치에서 subRoot를 찾기 위함이다.
+    }
+
+    // 두 트리가 동일한지 확인하는 메소드
+    private boolean isSameTree(TreeNode s, TreeNode t) {
+        // 두 노드 모두 null인 경우 동일
+        if (s == null && t == null) return true;
+        // 한 쪽만 null인 경우 다름
+        if (s == null || t == null) return false;
+        // 현재 노드의 값이 다르면 다름
+        if (s.val != t.val) return false;
+        // 좌우 서브트리도 동일한지 재귀적으로 확인
+        return isSameTree(s.left, t.left) && isSameTree(s.right, t.right);
     }*/
 }
