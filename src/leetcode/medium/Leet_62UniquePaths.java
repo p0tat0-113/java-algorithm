@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class Leet_62UniquePaths {
     public static void main(String[] args) {
         Leet_62UniquePaths leet = new Leet_62UniquePaths();
-        leet.uniquePaths(3,7);
+        System.out.println(leet.uniquePaths(3, 7));
     }
 
     public int uniquePaths(int m, int n) {

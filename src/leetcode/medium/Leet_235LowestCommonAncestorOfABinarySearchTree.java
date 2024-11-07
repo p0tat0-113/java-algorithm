@@ -35,13 +35,13 @@ public class Leet_235LowestCommonAncestorOfABinarySearchTree {
     //문제의 조건에서 p and q will exist in the BST 라고 했으므로 target은 무조건 있다고 가정하고 탐색을 한다.
     //target을 탐색하는 동안 만나는 모든 노드들을 LinkedHashSet에 저장한다.
     private void search(TreeNode root, TreeNode target, LinkedHashSet<TreeNode> set){
+        set.add(root);
+
         if (root.val == target.val) {//target을 찾았다. 재귀호출을 멈춤.
-            set.add(target);
+            return;
         } else if (root.val > target.val) {
-            set.add(root);
             search(root.left, target, set);
         } else {//root.val < target.val
-            set.add(root);
             search(root.right, target, set);
         }
     }
