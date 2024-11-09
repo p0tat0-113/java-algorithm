@@ -52,7 +52,7 @@ public class 행렬곱셈순서문제_DP {
 
     private static void printMatrix(int[][] matrix){
         for (int i = 1; i < matrix.length; i++) {
-            for (int j = 1; j < matrix.length; j++) {
+            for (int j = 1; j < matrix[0].length; j++) {
                 System.out.printf("%-5d", matrix[i][j]);
             }
             System.out.println();
