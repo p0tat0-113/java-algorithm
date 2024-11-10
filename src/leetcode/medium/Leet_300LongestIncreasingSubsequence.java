@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
+/*
+https://imgur.com/a/0yNLeZr
+LCS문제의 응용버전이다. 처음에는 어떻게 풀어야 하나 좀 막막했는데 문제를 통해 힌트를 얻어서 LCS알고리즘을 약간 변형해서 해결함.
+*/
+
 public class Leet_300LongestIncreasingSubsequence {
     public static void main(String[] args) {
         Leet_300LongestIncreasingSubsequence leet = new Leet_300LongestIncreasingSubsequence();
@@ -38,6 +43,17 @@ public class Leet_300LongestIncreasingSubsequence {
             }
         }
 
+        //printMatrix(matrix);
+
         return matrix[nums.length][sortedNums.size()];
+    }
+
+    private static void printMatrix(int[][] matrix){
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                System.out.printf("%-3d", matrix[i][j]);
+            }
+            System.out.println();
+        }
     }
 }
