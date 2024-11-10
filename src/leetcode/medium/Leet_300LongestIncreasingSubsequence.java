@@ -1,6 +1,8 @@
 package leetcode.medium;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 public class Leet_300LongestIncreasingSubsequence {
     public static void main(String[] args) {
@@ -18,15 +20,17 @@ public class Leet_300LongestIncreasingSubsequence {
 
     public int lengthOfLIS(int[] nums) {
         //nums의 정렬된 버전인 sortedNums를 만든다. 이후 nums와 sortedNums의 LCS(Longest Common Subsequence)를 구할 것이다.
-        int[] sortedNums = new int[nums.length];
-        System.arraycopy(nums, 0, sortedNums, 0, nums.length);
-        Arrays.sort(sortedNums);
+        //중복을 제거하고 리스트로 만들어서 정렬한다. {7,7,7,7,7,7,7} 같은 케이스에 대응하기 위해 중복을 제거한다.
+        HashSet<Integer> set = new HashSet<>();
+        Arrays.stream(nums).forEach(e -> set.add(e));
+        ArrayList<Integer> sortedNums = new ArrayList<>(set);
+        sortedNums.sort(null);
 
-        int[][] matrix = new int[nums.length+1][nums.length+1];//i,j 둘 중 하나가 0인 상황을 위해 첫번째 열과 첫번째 행을 0으로 초기화 하는 과정은 생략해도 됨.
+        int[][] matrix = new int[nums.length+1][sortedNums.size()+1];//i,j 둘 중 하나가 0인 상황을 위해 첫번째 열과 첫번째 행을 0으로 초기화 하는 과정은 생략해도 됨.
 
         for (int i = 1; i <= nums.length; i++) {
-            for (int j = 1; j <= nums.length; j++) {
-                if (nums[i-1] == sortedNums[j-1]) {
+            for (int j = 1; j <= sortedNums.size(); j++) {
+                if (nums[i-1] == sortedNums.get(j-1)) {
                     matrix[i][j] = matrix[i-1][j-1] + 1;
                 } else {
                     matrix[i][j] = Math.max(matrix[i-1][j], matrix[i][j-1]);
@@ -34,6 +38,6 @@ public class Leet_300LongestIncreasingSubsequence {
             }
         }
 
-        return matrix[nums.length][nums.length];
+        return matrix[nums.length][sortedNums.size()];
     }
 }
