@@ -22,6 +22,8 @@ excludeCurrent = LIS(currentIdx+1,currentIdx)
 return max(includeCurrent, excludeCurrent)
 */
 
+import java.util.Arrays;
+
 public class Leet_300LIS_DP {
     public static void main(String[] args) {
         Leet_300LIS_DP leet = new Leet_300LIS_DP();
@@ -34,6 +36,9 @@ public class Leet_300LIS_DP {
 
         int[] arr3 = {7,7,7,7,7,7,7};
         System.out.println(leet.lengthOfLIS(arr3));
+
+        int[] arr4 = {1,3,6,7,9,4,10,5,6};
+        System.out.println(leet.lengthOfLIS(arr4));
     }
 
     public int lengthOfLIS(int[] nums) {
@@ -44,6 +49,7 @@ public class Leet_300LIS_DP {
     private int lisDP(int[] nums, int n){
         //length[i]는 배열 nums에서 인덱스 i까지 고려했을 때, nums[k]로 끝나는 LIS의 길이를 나타낸다.
         int[] length = new int[n];
+        int max = 1;
 
         //내부 반복문으로 k보다 작은 인덱스들을 하나씩 살펴 보면서 arr[i] < arr[k]인 것이 있을 경우, length[k] 를 업데이트
         for (int k = 0; k < n; k++){
@@ -59,10 +65,16 @@ public class Leet_300LIS_DP {
                 //이는 nums[k]를 포함한 새로운 LIS의 길이가 기존의 것보다 길다면 이를 반영하기 위함이다.
                 if(nums[i] < nums[k]){//nums[i]까지의 숫자로 이루어진 LIS에 nums[k]를 추가할 수 있는지 보는 것이다.
                     length[k] = Math.max(length[k], length[i] + 1);//length[i] + 1을 사용하는 이유는 현재 인덱스 k의 요소 nums[k]를 이전 인덱스 i에서 끝나는 증가 부분 수열에 추가함으로써 새로운 증가 부분 수열을 형성할 수 있기 때문
+                    if (length[k] > max) {
+                        max = length[k];
+                    }
                 }
             }
         }
-        return length[n-1];
+
+        System.out.println(Arrays.toString(length));
+        //return length[n-1];//배열의 맨 끝 값을 반환하는게 아니라 배열에서 가장 큰 값을 반환하는거다. 멍청아.
+        return max;
     }
 
     private int lisRecursion(int[] nums, int n, int currentIdx, int previousIdx){
