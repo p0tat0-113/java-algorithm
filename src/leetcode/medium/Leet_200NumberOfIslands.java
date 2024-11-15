@@ -2,9 +2,20 @@ package leetcode.medium;
 
 public class Leet_200NumberOfIslands {
     public static void main(String[] args) {
+        Leet_200NumberOfIslands leet = new Leet_200NumberOfIslands();
 
+        char[][] grid1 = new char[][] {
+                {'1','1','1','1','0'},{'1','1','0','1','0'},{'1','1','0','0','0'},{'0','0','0','0','0'}
+        };
+        System.out.println(leet.numIslands(grid1));
+
+        char[][] grid2 = new char[][] {
+                {'1','1','0','0','0'},{'1','1','0','0','0'},{'0','0','1','0','0'},{'0','0','0','1','1'}
+        };
+        System.out.println(leet.numIslands(grid2));
     }
 
+    //계속 방문하면 안될 곳까지 방문하는 문제가 있었는데 입력으로 '1' 이렇게 문자라 들어오는데 나는 이걸 계속 단순 숫자라고 생각하고 있어서 조건문에서 처리가 안되던 거였음.
     public int numIslands(char[][] grid) {
         //섬의 수
         int numberOfIslands = 0;
@@ -14,16 +25,16 @@ public class Leet_200NumberOfIslands {
 
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[0].length; column++) {
-                if (grid[row][column] == 2 || grid[row][column] == 0) {
+                if (grid[row][column] == '2' || grid[row][column] == '0') {
                     continue;
                 }
-
                 dfs(row, column, grid);
                 numberOfIslands++;
+                printMatrix(grid);
             }
         }
 
-        printMatrix(grid);
+        //printMatrix(grid);
         return numberOfIslands;
     }
 
@@ -31,12 +42,12 @@ public class Leet_200NumberOfIslands {
 
         //row, column값이 유효하지 않거나, grid[row][column]이 이미 방문한 곳인 경우, 혹은 바다인 경우
         if ((row<0 || row >= grid.length) || (column<0 || column >= grid[0].length)
-                || grid[row][column] == 2
-                || grid[row][column] == 0) {
+                || grid[row][column] == '2'
+                || grid[row][column] == '0') {
             return;
         }
 
-        grid[row][column] = 2;//방문한 곳에 2 표시
+        grid[row][column] = '2';//방문한 곳에 2 표시
 
         //4방향으로 뻗어나감.
         dfs(row-1, column, grid);
@@ -49,9 +60,10 @@ public class Leet_200NumberOfIslands {
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[0].length; column++) {
                 int num = grid[row][column];
-                System.out.printf("%-2d ", num);
+                System.out.printf("%-2c ", num);
             }
             System.out.println();
         }
+        System.out.println("--------------------------");
     }
 }
