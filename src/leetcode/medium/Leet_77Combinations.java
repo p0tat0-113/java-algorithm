@@ -19,44 +19,29 @@ Note that combinations are unordered, i.e., [1,2] and [2,1] are considered to be
 
 public class Leet_77Combinations {
     public static void main(String[] args) {
-        /*ArrayDeque<Integer> deque = new ArrayDeque<>();
-        deque.add(1);
-        deque.add(2);
-        System.out.println(deque.pollLast());
-        System.out.println(deque.pollLast());*/
-
         Leet_77Combinations leet = new Leet_77Combinations();
         System.out.println(leet.combine(4, 2));
     }
 
+    //기존코드는 속도가 느려서 좀 더 개선해본다. 수열이 오름차순이 되게 해야 하는 특성 상 uesd배열을 제거해도 됨.
     public List<List<Integer>> combine(int n, int k) {
         ArrayList<List<Integer>> result = new ArrayList<>();
-        boolean[] used = new boolean[n];
         ArrayDeque<Integer> stack = new ArrayDeque<>();
 
-        dfs(result, stack, used, n, k);
+        dfs(result, stack, 0, n, k);
         return result;
     }
 
-    private void dfs(List<List<Integer>> result, ArrayDeque<Integer> stack, boolean[] used, int n, int depth){
+    private void dfs(List<List<Integer>> result, ArrayDeque<Integer> stack, int previousNum,int n, int depth){
         if (depth == 0) {
             result.add(new ArrayList<>(stack));
             return;
         }
 
-        for (int i = 1; i <= n; i++) {//1~n
-            //처음에는 (used[i-1] || stack.peekLast() > i)이렇게 해서 스택이 비어있는 상황에서 NullPointerException이 발생했었다.
-            if (used[i-1] || (!stack.isEmpty() && stack.peekLast() > i)) {//이미 사용된 숫자이거나, 스택에 가장 마지막에 들어간 숫자보다 작은 쪽으로는 뻗어나가지 않음.
-                continue;
-            }
-
+        for (int i = previousNum+1; i <= n; i++) {//previousNum+1 ~ n used배열이 없어도 된다.
             stack.add(i);
-            used[i-1] = true;
-
-            dfs(result, stack, used, n, depth-1);
-
+            dfs(result, stack, i, n, depth-1);
             stack.pollLast();
-            used[i-1] = false;
         }
     }
 }
