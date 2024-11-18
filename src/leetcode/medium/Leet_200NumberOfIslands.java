@@ -15,6 +15,7 @@ public class Leet_200NumberOfIslands {
         System.out.println(leet.numIslands(grid2));
     }
 
+    //근데 생각해보니까 방문한 곳도 그냥 '0'으로 바꿔버리면 되네. 굳이 방문한 곳과 바다를 구분할 필요가 없음.
     //계속 방문하면 안될 곳까지 방문하는 문제가 있었는데 입력으로 '1' 이렇게 문자라 들어오는데 나는 이걸 계속 단순 숫자라고 생각하고 있어서 조건문에서 처리가 안되던 거였음.
     public int numIslands(char[][] grid) {
         //섬의 수
@@ -25,12 +26,12 @@ public class Leet_200NumberOfIslands {
 
         for (int row = 0; row < grid.length; row++) {
             for (int column = 0; column < grid[0].length; column++) {
-                if (grid[row][column] == '2' || grid[row][column] == '0') {
+                if (grid[row][column] == '0') {
                     continue;
                 }
                 dfs(row, column, grid);
                 numberOfIslands++;
-                printMatrix(grid);
+                //printMatrix(grid);
             }
         }
 
@@ -41,13 +42,11 @@ public class Leet_200NumberOfIslands {
     private void dfs(int row, int column, char[][] grid) {
 
         //row, column값이 유효하지 않거나, grid[row][column]이 이미 방문한 곳인 경우, 혹은 바다인 경우
-        if ((row<0 || row >= grid.length) || (column<0 || column >= grid[0].length)
-                || grid[row][column] == '2'
-                || grid[row][column] == '0') {
+        if ((row<0 || row >= grid.length) || (column<0 || column >= grid[0].length) || grid[row][column] == '0') {
             return;
         }
 
-        grid[row][column] = '2';//방문한 곳에 2 표시
+        grid[row][column] = '0';//방문한 곳은 0으로 바꿔버림.
 
         //4방향으로 뻗어나감.
         dfs(row-1, column, grid);
