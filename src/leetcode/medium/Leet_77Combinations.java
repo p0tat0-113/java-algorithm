@@ -23,25 +23,38 @@ public class Leet_77Combinations {
         System.out.println(leet.combine(4, 2));
     }
 
-    //기존코드는 속도가 느려서 좀 더 개선해본다. 수열이 오름차순이 되게 해야 하는 특성 상 uesd배열을 제거해도 됨.
+    //이번에는 dfs가 아닌 큐를 사용하는 bfs방식으로 구현해보자!!! 이 문제는 bfs로 구현하는게 효율적인지는 모르겠음. 숫자 조합을 경계조건까지 계속 끌고가야 해서....
     public List<List<Integer>> combine(int n, int k) {
         ArrayList<List<Integer>> result = new ArrayList<>();
-        ArrayDeque<Integer> stack = new ArrayDeque<>();
+        ArrayDeque<ArrayList<Integer>> queue = new ArrayDeque<>();
 
-        dfs(result, stack, 0, n, k);
+        bfs(result, queue, n, k);
         return result;
     }
 
-    private void dfs(List<List<Integer>> result, ArrayDeque<Integer> stack, int previousNum,int n, int depth){
-        if (depth == 0) {
-            result.add(new ArrayList<>(stack));
-            return;
+    private void bfs(List<List<Integer>> result, ArrayDeque<ArrayList<Integer>> queue, int n, int k){
+        //queue를 초기화. 각 숫자들을 가지고 있는 n개의 리스트를 큐에 집어넣는다.
+        for (int num = 1; num <= n; num++) {
+            ArrayList<Integer> innerList = new ArrayList<>();
+            innerList.add(num);
+            queue.add(innerList);
         }
 
-        for (int i = previousNum+1; i <= n; i++) {//previousNum+1 ~ n used배열이 없어도 된다.
-            stack.add(i);
-            dfs(result, stack, i, n, depth-1);
-            stack.pollLast();
+        //큐가 빌 때까지 반복
+        while(!queue.isEmpty()) {//큐에 값들이 들어있는 동안
+            ArrayList<Integer> innerList = queue.pollFirst();//큐의 가장 앞에 있는 리스트를 꺼낸다.
+
+            if (innerList.size() == k) {//만약 innerList의 크기가 k, 즉 목표에 도달했으면 result에 추가하고 continue한다. 더 이상 뻗어나가지 않음.
+                result.add(innerList);
+                continue;
+            }
+
+            //해당 리스트의 가장 뒤에 있는 숫자를 가져옴. 가장 최근에 추가된 가장 큰 숫자다.
+            int lastNum = innerList.getLast();
+            for (int num = lastNum+1; num <= n; num++) {//맨뒤의 숫자+1 ~ n 범위에서 innerList에 해당 숫자를 추가한 리스트를 만들어 큐에 집어넣는다.
+                queue.add(new ArrayList<>(innerList));
+                queue.getLast().add(num);
+            }
         }
     }
 }
