@@ -16,12 +16,11 @@ public class Leet_79WordSearch {
         */
     }
 
+    //다른 사람들 코드보다 실행속도가 좀 느렸는데, 잘 생각해보니까 visited를 따로 운용할 필요가 없다!!! 200번 number of islands문제와 비슷함.
     public boolean exist(char[][] board, String word) {
-        boolean[][] visited = new boolean[board.length][board[0].length];
-
         for (int row = 0; row < board.length; row++) {
             for (int column = 0; column < board[0].length; column++) {
-                if (dfs(row, column,0, word, board, visited)) {
+                if (dfs(row, column,0, word, board)) {
                     return true;
                 }
             }
@@ -30,7 +29,7 @@ public class Leet_79WordSearch {
     }
 
     //이론상 문제 없어 보였는데 한가지 간과한게 있었음. 이미 한 번 방문한 곳을 또 방문해버릴 수도 있다.
-    private boolean dfs(int row, int column, int depth, String word, char[][] board, boolean[][] visited){
+    private boolean dfs(int row, int column, int depth, String word, char[][] board){
         if (depth == word.length()) {
             return true;
         }
@@ -38,18 +37,19 @@ public class Leet_79WordSearch {
         //row, column값이 범위를 벗어나거나, 앞서 이미 방문한 곳이거나, 깊이와 문자가 일치하지 않는 경우 false를 반환한다.
         if ((row < 0 || row >= board.length)
                 || (column < 0 || column >= board[0].length)
-                || visited[row][column]
+                || board[row][column] == '@'
                 || board[row][column] != word.charAt(depth)) {
             return false;
         }
-        visited[row][column] = true;
+        char temp = board[row][column];
+        board[row][column] = '@';//별도의 visited를 운용하지 않고, 방문한 곳은 board에다가 바로 @표시를 한다.
 
-        boolean goUP = dfs(row + 1, column, depth + 1, word, board, visited);
-        boolean goDOWN = dfs(row - 1, column, depth + 1, word, board, visited);
-        boolean goLEFT = dfs(row, column + 1, depth + 1, word, board, visited);
-        boolean goRIGHT = dfs(row, column - 1, depth + 1, word, board, visited);
+        boolean goUP = dfs(row + 1, column, depth + 1, word, board);
+        boolean goDOWN = dfs(row - 1, column, depth + 1, word, board);
+        boolean goLEFT = dfs(row, column + 1, depth + 1, word, board);
+        boolean goRIGHT = dfs(row, column - 1, depth + 1, word, board);
 
-        visited[row][column] = false;//계속 테스트케이스가 하나씩 걸려서 뭐가 문제인가 했는데 이 부분이 없어서 그랬다. dfs면 재귀호출이 끝나고 돌와왔을 때 visited를 다시 해제해주는게 당연한건데 이걸 빼먹었네.
+        board[row][column] = temp;//다시 원래의 문자로 되돌림.
 
         return (goUP || goDOWN || goLEFT || goRIGHT);
     }
