@@ -1,5 +1,7 @@
 package leetcode.medium;
 
+import java.util.ArrayDeque;
+
 public class Leet_200NumberOfIslands {
     public static void main(String[] args) {
         Leet_200NumberOfIslands leet = new Leet_200NumberOfIslands();
@@ -29,30 +31,35 @@ public class Leet_200NumberOfIslands {
                 if (grid[row][column] == '0') {
                     continue;
                 }
-                dfs(row, column, grid);
+                bfs(row, column, grid);
                 numberOfIslands++;
                 //printMatrix(grid);
             }
         }
 
-        //printMatrix(grid);
         return numberOfIslands;
     }
 
-    private void dfs(int row, int column, char[][] grid) {
+    //이번에는 한 섬을 모두 0으로 바꾸어 가는 과정을 bfs로 구현해보자.
+    private void bfs(int row, int column, char[][] grid) {
+        ArrayDeque<int[]> queue = new ArrayDeque<>();
+        queue.add(new int[] {row, column});
 
-        //row, column값이 유효하지 않거나, grid[row][column]이 이미 방문한 곳인 경우, 혹은 바다인 경우
-        if ((row<0 || row >= grid.length) || (column<0 || column >= grid[0].length) || grid[row][column] == '0') {
-            return;
+        while(!queue.isEmpty()) {
+            int[] polled = queue.pollFirst();
+
+            if ((polled[0] < 0 || polled[0] >= grid.length)
+                    || (polled[1] < 0 || polled[1] >= grid[0].length)
+                    || grid[polled[0]][polled[1]] == '0') {
+                continue;
+            }
+            grid[polled[0]][polled[1]] = '0';
+
+            queue.add(new int[] {polled[0]+1, polled[1]});
+            queue.add(new int[] {polled[0]-1, polled[1]});
+            queue.add(new int[] {polled[0], polled[1]+1});
+            queue.add(new int[] {polled[0], polled[1]-1});
         }
-
-        grid[row][column] = '0';//방문한 곳은 0으로 바꿔버림.
-
-        //4방향으로 뻗어나감.
-        dfs(row-1, column, grid);
-        dfs(row+1, column, grid);
-        dfs(row, column-1, grid);
-        dfs(row, column+1, grid);
     }
 
     private void printMatrix(char[][] grid) {
