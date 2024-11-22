@@ -25,14 +25,14 @@ public class Permutation {
         }
 
         for (int i = 0; i < nums.length; i++) {
-            if (used[i] /*|| (!stack.isEmpty() && nums[i] < stack.peekLast())*/) {
+            if (used[i] || (!stack.isEmpty() && nums[i] < stack.peekLast())) {
                 continue;
             }
 
             used[i] = true;
             stack.add(nums[i]);
 
-            permutation_dfs(result, used, nums, stack, k);
+            permutation_dfs(result, used, nums, stack,k);
 
             used[i] = false;
             stack.pollLast();
