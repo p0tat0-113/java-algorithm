@@ -30,11 +30,11 @@ public class 행렬곱셈순서문제_DP {
             matrix[i][i] = 0;
         }
 
-        for (int r = 1; r <= n; r++) {
-            for (int i = 1; i <= n - r; i++) {
-                int j = i+r;
+        for (int r = 1; r <= n-1; r++) {//r은 문제의 크기를 설정하는 변수다. 문제의 크기는 r+1이 됨.
+            for (int i = 1; i <= n - r; i++) {//i에 r을 더해야 하니까 당연히 n-r까지만 커져야 함.
+                int j = i+r;//j = i + 문제의 크기r
 
-                //m[i][j] = min{m[i][k] + m[k+1][j] + p[i]*p[k]*p[j]}
+                //m[i][j] = min{m[i][k] + m[k+1][j] + p[i-1]*p[k]*p[j]}
                 int min = Integer.MAX_VALUE;
 
                 for (int k = i; k < j; k++) {//k에 따라 분할되는 비율, 괄호가 처지는 비율이 달라진다. i:j-i
