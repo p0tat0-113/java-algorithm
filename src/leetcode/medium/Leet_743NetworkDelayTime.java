@@ -29,9 +29,9 @@ public class Leet_743NetworkDelayTime {
     }
 
     public int networkDelayTime(int[][] times, int n, int k) {
-        int maxCost = Integer.MIN_VALUE;
         HashMap<Integer, Node> mapQ = new HashMap<>();
 
+        //1~n노드들을 생성해서 mapQ에 넣어준다. k노드의 경우 cost를 0으로 설정한다.
         for (int label = 1; label <= n; label++) {
             Node newNode = new Node(label, Integer.MAX_VALUE);
             if (label == k) {
@@ -39,44 +39,40 @@ public class Leet_743NetworkDelayTime {
             }
             mapQ.put(label, newNode);
         }
+        //노드들에 간선 정보를 입력
         for (int[] time : times) {
             Node node = mapQ.get(time[0]);
-            node.addEdge(time);
+            node.edge.add(time);
         }
 
-        PriorityQueue<Node> priorityQueue = new PriorityQueue<>(mapQ.values());
-        while(!mapQ.isEmpty()) {
-            Node u = priorityQueue.poll();
-            mapQ.remove(u.label);
+        PriorityQueue<Node> priorityQueue = new PriorityQueue<>(mapQ.values());//노드들을 가지고 있는 priorityQueue생성. cost를 기준으로 최소힙 구성.
+        while(true) {
+            Node u = priorityQueue.poll();//cost가 가장 작은 것을 꺼냄. 맨 처음에는 시작정점 k가 나올 것이다.
+            mapQ.remove(u.label);//mapQ에서도 제거
+
+            //만약 꺼낸 노드의 cost가 Integer.MAX_VALUE라면 얘는 지금 아무 노드와도 연결되어 있지 않아서 여태껏 cost가 업데이트 되지 못한 것이다. 즉 모든 n개 노드가 신호를 수신하는 것이 불가능한 경우
             if (u.cost == Integer.MAX_VALUE) {
                 return -1;
             }
 
-            ArrayList<Node> updatedNodes = new ArrayList<>();
-            //u의 인접노드들에 대해
-            for (int[] time : u.getEdge()) {
+            //mapQ가 빈 상태라면 방금 꺼낸 u가 마지막 노드인 것. u의 cost가 답이다.
+            if (mapQ.isEmpty()) {
+                return u.cost;
+            }
+
+            //u의 인접노드들에 대해 cost 업데이트 - for v in u.adjlist: if(v=V-S and d(v)>d(u)+w(u,v))
+            for (int[] time : u.edge) {
                 if (mapQ.containsKey(time[1])) {//if(v = V-S)
                     Node v = mapQ.get(time[1]);
                     if (v.cost > u.cost + time[2]) {//if(d(v) > d(u) + w(u,v))
                         v.cost = u.cost + time[2];
 
-                        updatedNodes.add(v);
-                        priorityQueue.remove(v);
-
-
+                        priorityQueue.remove(v);//cost가 업데이트 되면서 힙이 깨져서 우선 삭제하고 다시 집어넣는다.
+                        priorityQueue.add(v);
                     }
                 }
             }
-
-            for (Node v : updatedNodes) {
-                priorityQueue.add(v);
-                if (maxCost < v.cost) {
-                    maxCost = v.cost;
-                }
-            }
         }
-
-        return maxCost;
     }
 
     private static class Node implements Comparable<Node>{
@@ -91,14 +87,6 @@ public class Leet_743NetworkDelayTime {
         public Node(int label, int cost) {
             this.label = label;
             this.cost = cost;
-        }
-
-        public void addEdge(int[] edge){
-            this.edge.add(edge);
-        }
-
-        public List<int[]> getEdge() {
-            return edge;
         }
 
         @Override
@@ -117,15 +105,6 @@ public class Leet_743NetworkDelayTime {
         @Override
         public int compareTo(Node o) {
             return Integer.compare(this.cost, o.cost);
-        }
-
-        @Override
-        public String toString() {
-            return "Node{" +
-                    "label=" + label +
-                    ", cost=" + cost +
-                    ", edge=" + edge +
-                    '}';
         }
     }
 }
