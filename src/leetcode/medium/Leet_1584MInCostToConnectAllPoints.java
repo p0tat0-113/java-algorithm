@@ -44,16 +44,14 @@ public class Leet_1584MInCostToConnectAllPoints {
                 }
             }
 
-            // 업데이트된 노드를 제거 후 새로운 cost로 다시 삽입
             for (Node node : updatedNodes) {
-                priorityQueue.remove(node);  // O(n) 시간 복잡도
-                node.cost = Math.abs(polledNode.x - node.x) + Math.abs(polledNode.y - node.y);
-                priorityQueue.add(node);     // 힙에 다시 삽입하여 올바른 위치에 배치
+                priorityQueue.remove(node);
+                int newCost = Math.abs(polledNode.x - node.x) + Math.abs(polledNode.y - node.y);
+                node.cost = newCost;
+                priorityQueue.add(node);// 힙에 다시 삽입
             }
-
             //System.out.println(priorityQueue);
         }
-
         return sum;
     }
 
