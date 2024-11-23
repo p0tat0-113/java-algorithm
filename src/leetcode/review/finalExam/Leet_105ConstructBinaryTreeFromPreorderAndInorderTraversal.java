@@ -2,7 +2,7 @@ package leetcode.review.finalExam;
 
 import java.util.HashMap;
 
-public class Leet105_ConstructBinaryTreeFromPreorderAndInorderTraversal {
+public class Leet_105ConstructBinaryTreeFromPreorderAndInorderTraversal {
     public static void main(String[] args) {
 
     }
