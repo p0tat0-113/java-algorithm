@@ -12,10 +12,10 @@ n개의 노드로 이루어진 그래프가 주어진다. 각 노드는 1~n으�
 다익스트라 알고리즘은 기본적으로 프림알고리즘과 유사하다. 어떤 새로운 노드가 S에 추가되었을 때 그 노드의 인접노드들에 대해
 그 노드를 통해 연결되면 비용이 줄어드는 경우 비용을 업데이트 하는 방식으로 작동한다.
 
-각 노드들은 cost값을 가져야 한다. 각 노드는 자신이 어디에 연결되어 있는지는 모른다. 자신이 연결하는 노드만 알고있음.
+각 노드들은 distance값을 가져야 한다. 각 노드는 자신이 어디에 연결되어 있는지는 모른다. 자신이 연결하는 노드만 알고있음.
 각 노드는 자신이 연결하는 노드들과, 그 노드들과 연결되는 각 간선의 가중치 정보를 알고 있어야 한다.
 
-시작 노드 k의 cost는 0으로 설정해 놓아야 함.
+시작 노드 k의 distance는 0으로 설정해 놓아야 함.
 */
 
 import java.util.*;
@@ -31,62 +31,64 @@ public class Leet_743NetworkDelayTime {
     public int networkDelayTime(int[][] times, int n, int k) {
         HashMap<Integer, Node> mapQ = new HashMap<>();
 
-        //1~n노드들을 생성해서 mapQ에 넣어준다. k노드의 경우 cost를 0으로 설정한다.
+        //1~n노드들을 생성해서 mapQ에 넣어준다.
         for (int label = 1; label <= n; label++) {
             Node newNode = new Node(label, Integer.MAX_VALUE);
-            if (label == k) {
-                newNode.cost = 0;
-            }
             mapQ.put(label, newNode);
         }
+        mapQ.get(k).distance = 0;//k노드는 distance를 0으로 설정
+
         //노드들에 간선 정보를 입력
         for (int[] time : times) {
             Node node = mapQ.get(time[0]);
             node.edge.add(time);
         }
+        System.out.println(mapQ);
 
-        PriorityQueue<Node> priorityQueue = new PriorityQueue<>(mapQ.values());//노드들을 가지고 있는 priorityQueue생성. cost를 기준으로 최소힙 구성.
+        PriorityQueue<Node> priorityQueue = new PriorityQueue<>(mapQ.values());//노드들을 가지고 있는 priorityQueue생성. distance를 기준으로 최소힙 구성.
         while(true) {
-            Node u = priorityQueue.poll();//cost가 가장 작은 것을 꺼냄. 맨 처음에는 시작정점 k가 나올 것이다.
+            Node u = priorityQueue.poll();//distance가 가장 작은 것을 꺼냄. 맨 처음에는 시작정점 k가 나올 것이다.
             mapQ.remove(u.label);//mapQ에서도 제거
 
-            //만약 꺼낸 노드의 cost가 Integer.MAX_VALUE라면 얘는 지금 아무 노드와도 연결되어 있지 않아서 여태껏 cost가 업데이트 되지 못한 것이다. 즉 모든 n개 노드가 신호를 수신하는 것이 불가능한 경우
-            if (u.cost == Integer.MAX_VALUE) {
+            //만약 꺼낸 노드의 distance가 Integer.MAX_VALUE라면 얘는 지금 아무 노드와도 연결되어 있지 않아서 여태껏 distance가 업데이트 되지 못한 것이다. 즉 모든 n개 노드가 신호를 수신하는 것이 불가능한 경우
+            if (u.distance == Integer.MAX_VALUE) {
                 return -1;
             }
 
-            //mapQ가 빈 상태라면 방금 꺼낸 u가 마지막 노드인 것. u의 cost가 답이다.
+            //mapQ가 빈 상태라면 방금 꺼낸 u가 마지막 노드인 것. u의 distance가 답이다.
             if (mapQ.isEmpty()) {
-                return u.cost;
+                return u.distance;
             }
 
-            //u의 인접노드들에 대해 cost 업데이트 - for v in u.adjlist: if(v=V-S and d(v)>d(u)+w(u,v))
+            //u의 인접노드들에 대해 distance 업데이트 - for v in u.adjlist: if(v=V-S and d(v)>d(u)+w(u,v))
             for (int[] time : u.edge) {
                 if (mapQ.containsKey(time[1])) {//if(v = V-S)
                     Node v = mapQ.get(time[1]);
-                    if (v.cost > u.cost + time[2]) {//if(d(v) > d(u) + w(u,v))
-                        v.cost = u.cost + time[2];
+                    if (v.distance > u.distance + time[2]) {//if(d(v) > d(u) + w(u,v))
+                        v.distance = u.distance + time[2];
 
-                        priorityQueue.remove(v);//cost가 업데이트 되면서 힙이 깨져서 우선 삭제하고 다시 집어넣는다.
+                        priorityQueue.remove(v);//distance가 업데이트 되면서 힙이 깨져서 우선 삭제하고 다시 집어넣는다.
                         priorityQueue.add(v);
                     }
                 }
             }
+
+            System.out.println(mapQ);
         }
     }
 
     private static class Node implements Comparable<Node>{
         int label;
-        int cost;
+        int distance;
         List<int[]> edge = new ArrayList<>();//안에 [출발노드, 도착노드, 가중치] 배열이 들어간다.
 
         public Node(int label) {
             this.label = label;
         }
 
-        public Node(int label, int cost) {
+        public Node(int label, int distance) {
             this.label = label;
-            this.cost = cost;
+            this.distance = distance;
         }
 
         @Override
@@ -104,7 +106,21 @@ public class Leet_743NetworkDelayTime {
 
         @Override
         public int compareTo(Node o) {
-            return Integer.compare(this.cost, o.cost);
+            return Integer.compare(this.distance, o.distance);
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            for (int[] time : edge) {
+                sb.append(Arrays.toString(time));
+            }
+
+            return "Node{" +
+                    "label=" + label +
+                    ", distance=" + distance +
+                    ", edge=" + sb +
+                    '}';
         }
     }
 }
