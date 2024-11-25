@@ -24,6 +24,7 @@ public class Leet_787CheapestFlightWithinKStops {
         leet.minCost = Integer.MAX_VALUE;
     }
 
+    //dfs로 푸는게 불가능한건가 싶어서 solution을 찾아보니까 dfs로 푼 사례가 있음. 코드가 거의 비슷하긴 한데 나와 다른 점이 있다면 map이 아니라 2차원 리스트를 썼다는 점 정도....?
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
         HashMap<Integer, List<int[]>> edgeHashMap = new HashMap<>();
         for (int[] flight : flights) {
@@ -35,7 +36,18 @@ public class Leet_787CheapestFlightWithinKStops {
         }
         //System.out.println(edgeHashMap);
 
-        dfs(src, dst, 0, -1, k, edgeHashMap);
+        List<int[]>[] edgeList = new List[n];
+        for (int[] flight : flights) {
+            if(edgeList[flight[0]] == null) {
+                edgeList[flight[0]] = new ArrayList<>();
+            }
+            edgeList[flight[0]].add(flight);
+        }
+
+        boolean[] visited = new boolean[n];//혹시 사이클이 발생하는게 문제일 수도 있지 않을까 싶어서 방문한 노드를 기록시키려고 한다.
+        visited[src] = true;
+
+        dfs(src, dst, 0, -1, k, edgeHashMap, visited);
 
         if (minCost == Integer.MAX_VALUE) {
             return -1;
@@ -47,7 +59,8 @@ public class Leet_787CheapestFlightWithinKStops {
     int minCost = Integer.MAX_VALUE;
 
     //totalCost는 0, passedNode는 -1로 시작해야 한다.
-    private void dfs(int currentNode, int dst, int totalCost, int passedNode, int k, HashMap<Integer, List<int[]>> edgeHashMap) {
+    private void dfs(int currentNode, int dst, int totalCost, int passedNode, int k, HashMap<Integer, List<int[]>> edgeHashMap, boolean[] visited) {
+
         if (passedNode > k) {
             return;
         }
@@ -67,9 +80,16 @@ public class Leet_787CheapestFlightWithinKStops {
         }
 
         for (int[] flight : flights) {
+            if (visited[flight[1]]) {
+                continue;
+            }
             totalCost += flight[2];
-            dfs(flight[1], dst, totalCost, passedNode+1, k, edgeHashMap);
+            visited[flight[1]] = true;
+
+            dfs(flight[1], dst, totalCost, passedNode+1, k, edgeHashMap, visited);
+
             totalCost -= flight[2];
+            visited[flight[1]] = false;
         }
     }
 }
