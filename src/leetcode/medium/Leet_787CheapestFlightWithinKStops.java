@@ -51,10 +51,12 @@ public class Leet_787CheapestFlightWithinKStops {
         if (passedNode > k) {
             return;
         }
+        //이 부분의 코드를 약간 수정하여 성능을 끌어올렸지만, 노드가 100이고 간선은 훨씬 더 많은 상황에서는 여전히 시간초과가 발생함. 테스트 케이스가 좀 악랄함....
+        if (totalCost > minCost) {
+            return;
+        }
         if (currentNode == dst) {
-            if (minCost > totalCost) {
-                minCost = totalCost;
-            }
+            minCost = totalCost;
             return;
         }
 
