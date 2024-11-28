@@ -23,9 +23,9 @@ import java.util.*;
 public class Leet_743NetworkDelayTime {
     public static void main(String[] args) {
         Leet_743NetworkDelayTime leet = new Leet_743NetworkDelayTime();
-        System.out.println(leet.networkDelayTime(new int[][]{{2, 1, 1,}, {2, 3, 1}, {3, 4, 1}}, 4, 2));
-        System.out.println(leet.networkDelayTime(new int[][]{{1, 2, 1}}, 2, 1));
-        System.out.println(leet.networkDelayTime(new int[][]{{1, 2, 1}}, 2, 2));
+        System.out.println(leet.networkDelayTime(new int[][]{{2, 1, 1,}, {2, 3, 1}, {3, 4, 3}, {2, 4, 2}}, 4, 2));
+        //System.out.println(leet.networkDelayTime(new int[][]{{1, 2, 1}}, 2, 1));
+        //System.out.println(leet.networkDelayTime(new int[][]{{1, 2, 1}}, 2, 2));
     }
 
     public int networkDelayTime(int[][] times, int n, int k) {
@@ -89,19 +89,6 @@ public class Leet_743NetworkDelayTime {
         public Node(int label, int distance) {
             this.label = label;
             this.distance = distance;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Node node = (Node) o;
-            return label == node.label;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hashCode(label);
         }
 
         @Override
