@@ -5,47 +5,35 @@ import java.util.Arrays;
 public class Leet_300LIS {
     public static void main(String[] args) {
         Leet_300LIS leet = new Leet_300LIS();
-        System.out.println(leet.lengthOfLIS(new int[] {10,9,2,5,3,7,101,18}));
-        System.out.println(leet.lengthOfLIS(new int[] {0,1,0,3,2,3}));
-        System.out.println(leet.lengthOfLIS(new int[] {7,7,7,7,7,7}));
+        System.out.println(leet.lengthOfLIS(new int[]{10,9,2,5,3,7,101,18}));
+        System.out.println(leet.lengthOfLIS(new int[]{0,1,0,3,2,3}));
+        System.out.println(leet.lengthOfLIS(new int[]{7,7,7,7,7,7}));
     }
 
-    //LIS longest increasing subsequence의 길이를 구해야 하는 문제다.
     public int lengthOfLIS(int[] nums) {
-        int[] dp = new int[nums.length];//dp[i]는 i번째 원소까지 고려했을 때의 LIS길이다.
-        Arrays.setAll(dp, e -> 1);//어떠한 경우에도 LIS의 길이는 최소한 1이다.
+        //System.out.println(Arrays.toString(nums));
+        int[] arr = new int[nums.length];//arr[i]는 nums[i]로 끝나는 LIS의 길이를 의미한다.
+        Arrays.setAll(arr, e -> 1);
+
+        for (int i = 1; i < nums.length; i++) {//1 ~ n-1까지 순회
+            for (int k = 0; k < i; k++) {//0 ~ i-1까지 순회
+                if (nums[i] > nums[k]) {
+                    arr[i] = Integer.max(arr[k]+1, arr[i]);
+                    //처음에 이 부분을 arr[i] = Integer.max(arr[k]+1, arr[i]) 이렇게 처리하고 있어서 계속 너무 큰 값이 나오고 있었음. 원리를 잘 생각하고 문제를 풀자.
+                    //2,5,3,7 이런 상황에서 문제가 발생했었다.
+                }
+            }
+            //System.out.println(Arrays.toString(arr));
+        }
+
+        //System.out.println(Arrays.toString(arr));
 
         int max = Integer.MIN_VALUE;
-
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = 0; j < i; j++) {
-                if (nums[i] > nums[j]) {//i번째 원소가 그 앞에 있는 j번째 원소보다 크다면, i번째 원소까지 고려했을 때의 LIS의 길이는 최소한 j번째 원소까지 고려했을 때의 LIS의 길이 + 1이 된다.
-                    dp[i] = Math.max(dp[i], dp[j]+1);
-                }
-            }
-            //dp의 숫자들 중 가장 큰 수를 고르는 과정
-            if (max < dp[i]) {
-                max = dp[i];
+        for (int i : arr) {
+            if (max < i) {
+                max = i;
             }
         }
-        //System.out.println(Arrays.toString(dp));
         return max;
     }
-
-    //LIS longest increasing subsequence의 길이를 구해야 하는 문제다.
-    //처음에 여기까지만 하고 끝냈었는데 여기에서 끝내면 안된다. 원리를 생각해보면 당연하게도 nums의 마지막 원소라고 답이 아니다.
-    /*public int lengthOfLIS(int[] nums) {
-        int[] dp = new int[nums.length];//dp[i]는 i번째 원소까지 고려했을 때의 LIS길이다.
-        Arrays.setAll(dp, e -> 1);//어떠한 경우에도 LIS의 길이는 최소한 1이다.
-
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = 0; j < i; j++) {
-                if (nums[i] > nums[j]) {
-                    dp[i] = Math.max(dp[i], dp[j]+1);
-                }
-            }
-        }
-        //System.out.println(Arrays.toString(dp));
-        return dp[nums.length-1];
-    }*/
 }
