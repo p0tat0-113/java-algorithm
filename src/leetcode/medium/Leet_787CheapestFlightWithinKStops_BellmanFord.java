@@ -51,21 +51,28 @@ public class Leet_787CheapestFlightWithinKStops_BellmanFord {
         distanceArr[src] = 0;
 
         for (int i = 0; i <= k; i++) {
+            int[] tempDistanceArr = Arrays.copyOf(distanceArr, distanceArr.length);//모든 간선을 검사하기 전의 distanceArr을 박제해놓는다.
+
             for (int[] flight : flights) {
-                int dU = distanceArr[flight[0]];
-                int dV = distanceArr[flight[1]];
+                //계산할 때 필요한 가중치들은 tempDistanceArr에서 가져오고
+                int dU = tempDistanceArr[flight[0]];
+                int v = flight[1];
+                int dV = distanceArr[v];//dV = tempDistanceArr[v]로 해서 값이 이상하게 나오고 있었다. 중요!!!!
+                //dV = tempDistanceArr[v]로 했을 때의 문제점이 뭐냐면 v로 가는 경로가 이렇게 (u1,v,100) (u2,v,200) 2개가 있다고 치자. 100으로 가는 짧은 길을 찾아서 이걸로 원본 distanceArr을 업데이트 해 놓았음에도
+                //이걸 모르고 (u2,v,200) 이 경로로 가는 비용으로 덮어버릴 수가 있다. 내가 d값을 계속 반영하고 있는 distanceArr에 있는 가장 최신의 작은 값을 가져와야 하는 것이다.
                 int Wuv = flight[2];
 
                 if (dU == Integer.MAX_VALUE) {
                     continue;
                 }
                 if (dV > dU + Wuv) {
-                    distanceArr[flight[1]] = dU + Wuv;
+                    //저장만 distanceArr에 이루어지게 하는 식으로 최단거리를 구하는 것이 연쇄적으로 일어나지 않게 할 수 있다.
+                    distanceArr[v] = dU + Wuv;
                 }
             }
         }
 
-        System.out.println(Arrays.toString(distanceArr));
-        return 0;
+        //System.out.println(Arrays.toString(distanceArr));
+        return (distanceArr[dst] != Integer.MAX_VALUE) ? distanceArr[dst] : -1;
     }
 }
