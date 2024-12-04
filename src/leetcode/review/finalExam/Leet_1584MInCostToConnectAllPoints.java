@@ -1,7 +1,6 @@
 package leetcode.review.finalExam;
 
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.PriorityQueue;
 
 public class Leet_1584MInCostToConnectAllPoints {
@@ -15,8 +14,9 @@ public class Leet_1584MInCostToConnectAllPoints {
         int totalCost = 0;
         boolean[] used = new boolean[n];
 
-        HashMap<Integer, Integer> map = new HashMap<>();//노드번호 : MST에 연결되기 위한 가중치 쌍으로 저장
-        map.put(0,0);//0번 노드가 MST에 추가되기 위한 가중치는 0
+        int[] costArr = new int[n];
+        Arrays.setAll(costArr, e -> Integer.MAX_VALUE);
+        costArr[0] = 0;
 
         PriorityQueue<int[]> minHeap = new PriorityQueue<>((o1, o2) -> Integer.compare(o1[1], o2[1]));//처음에 o[0]으로 값을 비교해서 계속 틀리고 있었음.
         minHeap.add(new int[]{0,0});
@@ -37,8 +37,8 @@ public class Leet_1584MInCostToConnectAllPoints {
                 if (!used[v]) {//if v = V-S
                     int newDistance = calculateManhattan(points[nodeNum], points[v]);//u를 통해 MST에 추가되는 비용을 계산
 
-                    if (map.getOrDefault(v, Integer.MAX_VALUE) > newDistance) {//if v.cost > Wuv 처음에 map.getOrDefault(v, Integer.MAX_VALUE)가 아니라 cost를 넣는 이상한 짓을 해서 계속 틀리고 있었음. cost는 u가 MST에 추가되기 위한 비용이고 v와는 아무런 관련이 없음.
-                        map.put(v, newDistance);
+                    if (costArr[v] > newDistance) {//if v.cost > Wuv 처음에 map.getOrDefault(v, Integer.MAX_VALUE)가 아니라 cost를 넣는 이상한 짓을 해서 계속 틀리고 있었음. cost는 u가 MST에 추가되기 위한 비용이고 v와는 아무런 관련이 없음.
+                        costArr[v] = newDistance;
                         minHeap.add(new int[] {v, newDistance});
                     }
                 }
