@@ -19,7 +19,7 @@ public class Leet_300LIS {
             for (int k = 0; k < i; k++) {//0 ~ i-1까지 순회
                 if (nums[i] > nums[k]) {
                     arr[i] = Integer.max(arr[k]+1, arr[i]);
-                    //처음에 이 부분을 arr[i] = Integer.max(arr[k]+1, arr[i]) 이렇게 처리하고 있어서 계속 너무 큰 값이 나오고 있었음. 원리를 잘 생각하고 문제를 풀자.
+                    //처음에 이 부분을 arr[i] = Integer.max(arr[k]+1, arr[i]+1) 이렇게 처리하고 있어서 계속 너무 큰 값이 나오고 있었음. 원리를 잘 생각하고 문제를 풀자.
                     //2,5,3,7 이런 상황에서 문제가 발생했었다.
                 }
             }
