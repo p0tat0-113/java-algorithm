@@ -1,6 +1,7 @@
 package leetcode.review.finalExam;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Leet_128LongestConsecutiveSequence {
     public static void main(String[] args) {
@@ -10,51 +11,44 @@ public class Leet_128LongestConsecutiveSequence {
     }
 
     public int longestConsecutive(int[] nums) {
-        if (nums.length == 0) {
+        if (nums == null || nums.length == 0) {
             return 0;
         }
 
-        //이 문제를 풀기 위해서는 2개의 HashMap이 필요하다.
-        //하나는 어떤 숫자가 nums에 존재하는지 확인하고, 그 숫자가 어떤 수열을 만들기 위해 사용되었는지 확인하기 위해 필요하다.
-        //다른 하나는 어떤 숫자로 시작되는 수열의 길이를 기록하기 위해 필요하다.
+        int max = Integer.MIN_VALUE;
 
-        HashMap<Integer, Boolean> used = new HashMap<>();
+        HashMap<Integer, Integer> used = new HashMap<>();
         for (int num : nums) {
-            used.put(num, false);//num이 아직 수열을 만들기 위해 사용되지 않았음을 의미한다.
+            used.put(num, 0);
         }
-        HashMap<Integer, Integer> lengthOfSequence = new HashMap<>();
 
-        for (int num : nums) {
-            if (used.get(num)) {//이미 사용된 숫자이므로 continue
+        HashMap<Integer, Integer> lengthOfStartFrom = new HashMap<>();
+
+        for (Integer integer : used.keySet()) {
+            if (used.get(integer) == 1) {//이 부분이 없어서 계속 시간초과가 발생하고 있었다. 이미 수열을 만드는데 쓰인 숫자는 다시 검사하지 않는 것이 중요함.
                 continue;
             }
 
-            used.put(num, true);
-            lengthOfSequence.put(num, 1);
+            used.put(integer, 1);
+            lengthOfStartFrom.put(integer, 1);
+            int nextNum = integer + 1;
 
-            int nextNum = num+1;
             while (true) {
                 if (!used.containsKey(nextNum)) {
                     break;
                 }
-                if (used.get(nextNum)) {//이미 사용된 숫자를 만나게 된다면 분명히 이 숫자로 시작하는 수열이 있을 것이다.
-                    lengthOfSequence.put(num, lengthOfSequence.get(num) + lengthOfSequence.get(nextNum));
+
+                if (lengthOfStartFrom.containsKey(nextNum)) {
+                    lengthOfStartFrom.put(integer, lengthOfStartFrom.get(integer) + lengthOfStartFrom.get(nextNum));
                     break;
                 }
 
-                //여기까지 오면 nextNum이 nums에 존재하고, 아직 사용되지도 않은 상태다. 그대로 num으로 시작하는 수열에 포함시키면 됨.
-                used.put(nextNum, true);
-                lengthOfSequence.put(num, lengthOfSequence.get(num) + 1);
-
+                used.put(nextNum, 1);
+                lengthOfStartFrom.put(integer, lengthOfStartFrom.get(integer) + 1);
                 nextNum++;
             }
-        }
-
-        //System.out.println(lengthOfSequence);
-        int max = Integer.MIN_VALUE;
-        for (Integer value : lengthOfSequence.values()) {
-            if (max < value) {
-                max = value;
+            if (max < lengthOfStartFrom.get(integer)) {
+                max = lengthOfStartFrom.get(integer);
             }
         }
 
