@@ -1,54 +1,59 @@
 package leetcode.review.finalExam;
 
-import java.util.Arrays;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Leet_1584MInCostToConnectAllPoints {
     public static void main(String[] args) {
         Leet_1584MInCostToConnectAllPoints leet = new Leet_1584MInCostToConnectAllPoints();
-        System.out.println(leet.minCostConnectPoints(new int[][]{{0,0}, {2,2}, {3,10}, {5,2}, {7,0}}));
+        System.out.println(leet.minCostConnectPoints(new int[][]{{0, 0}, {2, 2}, {3, 10}, {5, 2}, {7, 0}}));
+        System.out.println(leet.minCostConnectPoints(new int[][]{{3, 12}, {-2, 5}, {-4, 1}}));
     }
 
     public int minCostConnectPoints(int[][] points) {
-        int n = points.length;//정점의 수
-        int totalCost = 0;
-        boolean[] used = new boolean[n];
+        int n = points.length;
 
-        int[] costArr = new int[n];
-        Arrays.setAll(costArr, e -> Integer.MAX_VALUE);
-        costArr[0] = 0;
+        int[] costs = new int[n];//각 노드의 MST에 추가되기 위한 최소비용을 저장하는 배열
+        Arrays.setAll(costs, e -> Integer.MAX_VALUE);
+        costs[0] = 0;
 
-        PriorityQueue<int[]> minHeap = new PriorityQueue<>((o1, o2) -> Integer.compare(o1[1], o2[1]));//처음에 o[0]으로 값을 비교해서 계속 틀리고 있었음.
-        minHeap.add(new int[]{0,0});
+        HashSet<Integer> setS = new HashSet<>();//MST에 추가된 노드들은 여기에 보관
+
+        //MST에 추가되기 위한 비용이 적은 순으로 나오는 minHeap
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((o1, o2) -> Integer.compare(o1[1], o2[1]));
+        minHeap.add(new int[] {0,0});//노드번호 - MST에 추가되기 윈한 cost쌍으로 저장
+
+        int costSum = 0;//MST의 간선 가중치 총합
 
         while (!minHeap.isEmpty()) {
-            int[] polledNode = minHeap.poll();
-            int nodeNum = polledNode[0];
-            int cost = polledNode[1];
+            int[] uStatus = minHeap.poll();//비용이 가장 작은 노드 u를 꺼낸다. 처음에는 0번 노드가 나오게 되어있음.
+            int u = uStatus[0];
 
-            if (used[nodeNum]) {
+            if (setS.contains(u)) {//이미 S에 추가된 노드인 경우 continue, 이런 코드가 필요한 이유는 아래에서 minHeap을 사용하는 방식과 관련이 있다.
                 continue;
             }
 
-            used[nodeNum] = true;
-            totalCost += cost;
+            costSum += uStatus[1];//costSum에 더함.
+            setS.add(u);//집합 S에 u를 집어넣음.
 
-            for (int v = 0; v < n; v++) {//모든 노드들을 검사한다.
-                if (!used[v]) {//if v = V-S
-                    int newDistance = calculateManhattan(points[nodeNum], points[v]);//u를 통해 MST에 추가되는 비용을 계산
-
-                    if (costArr[v] > newDistance) {//if v.cost > Wuv 처음에 map.getOrDefault(v, Integer.MAX_VALUE)가 아니라 cost를 넣는 이상한 짓을 해서 계속 틀리고 있었음. cost는 u가 MST에 추가되기 위한 비용이고 v와는 아무런 관련이 없음.
-                        costArr[v] = newDistance;
-                        minHeap.add(new int[] {v, newDistance});
-                    }
+            for (int v = 0; v < n; v++) {//집합 S에 들어간 노드를 제외한 모든 노드를 검사
+                if (setS.contains(v)) {
+                    continue;
+                }
+                int Wuv = manhattan(points[u], points[v]);//u를 통해 MST에 추가되는 비용을 계산
+                int vCost = costs[v];
+                if (vCost > Wuv) {
+                    vCost = Wuv;
+                    costs[v] = vCost;
+                    minHeap.add(new int[] {v, vCost});//minHeap에 들어가있던 기존 v의 비용 정보를 삭제하지 않고, 그냥 새로운 비용으로 집어넣음. 기존 정보는 위에서 집합 S에 들어가 있는지 검사하는 부분에서 걸러짐.
                 }
             }
         }
 
-        return totalCost;
+        return costSum;
     }
 
-    private int calculateManhattan (int[] u, int[] v) {
-        return Math.abs(u[0] - v[0]) + Math.abs(u[1] - v[1]);
+    private int manhattan(int[] x, int[] y) {
+        return Math.abs(x[0] - y[0]) + Math.abs(x[1] - y[1]);
     }
 }
+

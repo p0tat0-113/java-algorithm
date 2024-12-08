@@ -1,39 +1,53 @@
 package leetcode.review.finalExam;
 
+import com.sun.source.tree.Tree;
+
 public class Leet_110BalancedBinaryTree {
     public static void main(String[] args) {
+        Leet_110BalancedBinaryTree leet = new Leet_110BalancedBinaryTree();
+        TreeNode root1 = new TreeNode(3);
+        root1.left = new TreeNode(9);
+        root1.right = new TreeNode(20);
+        root1.right.left = new TreeNode(15);
+        root1.right.right = new TreeNode(7);
+        //root1.right.right.right = new TreeNode(7);
+        System.out.println(leet.isBalanced(root1));
 
+        TreeNode root2 = new TreeNode(1);
+        root2.left = new TreeNode(2);
+        root2.right = new TreeNode(2);
+        root2.left.left = new TreeNode(3);
+        root2.left.right = new TreeNode(3);
+        root2.left.left.left = new TreeNode(4);
+        root2.left.left.right = new TreeNode(4);
+        System.out.println(leet.isBalanced(root2));
     }
 
     public boolean isBalanced(TreeNode root) {
-        return recursion(root, 0);
+        return process(root, 0);
     }
 
-    //문제를 다시 풀어보고, 다른 풀이들이 더 낫다 싶으면 그걸로 바꾸려고 했는데, 다른 풀이들도 핵심은 내 방식이랑 똑같음.
-    //다만 조금 더 세련되게 바꿈. 이래도 똑같이 0ms로 시간 잘 나오네.
-
     int depth;
-    private boolean recursion(TreeNode root, int depth) {
+    private boolean process(TreeNode root, int depth){
         if (root == null) {
             this.depth = depth;
             return true;
         }
 
-        boolean leftResult = recursion(root.left, depth+1);
+        boolean leftResult = process(root.left, depth + 1);
         int leftDepth = this.depth;
-        boolean rightResult = recursion(root.right, depth+1);
+
+        boolean rightResult = process(root.right, depth + 1);
         int rightDepth = this.depth;
 
-        if (!leftResult || !rightResult) {//둘 중 하나라도 false이면 false반환.
+        if (!leftResult || !rightResult) {
             return false;
         }
 
-        if (Math.abs(leftDepth - rightDepth) > 1) {//양쪽의 깊이 차이가 1보다 크면 false를 반환한다.
+        if (Math.abs(leftDepth - rightDepth) > 1) {
             return false;
         }
-
         this.depth = Integer.max(leftDepth, rightDepth);
-
         return true;
     }
 }
