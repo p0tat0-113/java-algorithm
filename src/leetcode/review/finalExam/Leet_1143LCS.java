@@ -22,7 +22,8 @@ public class Leet_1143LCS {
                 }
             }
         }
-        //printMatrix(dp);
+        printMatrix(dp);
+        System.out.println(getLCS(dp, text1, text2));
         return dp[text1.length()][text2.length()];
     }
 
@@ -30,5 +31,29 @@ public class Leet_1143LCS {
         for (int i = 0; i < matrix.length; i++) {
             System.out.println(Arrays.toString(matrix[i]));
         }
+    }
+
+    //dp 테이블을 역추적해서 실제 LCS가 뭔지 알아낸다.
+    private String getLCS(int[][] matrix, String text1, String text2){
+        int row = text1.length();
+        int column = text2.length();
+
+        StringBuilder sb = new StringBuilder();
+        while (row > 0 && column > 0) {//현재위치 row, column이 0보다 큰 동안 반복한다.
+            if (text1.charAt(row-1) == text2.charAt(column-1)) {//text1.charAt(row-1) == text2.charAt(column-1 인 경우 sb에 해당 문자열을 추가하고, 대각선 방향으로 역으로 이동한다.
+                sb.append(text1.charAt(row - 1));
+                row--;
+                column--;
+            } else {
+                if (matrix[row - 1][column] > matrix[row][column - 1]) {//위에 있는 애가 더 크면 위로 이동
+                    row--;
+                } else {//아니면 왼쪽으로 이동
+                    column--;
+                }
+            }
+        }
+
+        sb.reverse();
+        return sb.toString();
     }
 }
