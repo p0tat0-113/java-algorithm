@@ -15,38 +15,8 @@ public class Leet_1334FindTheCityWithTheSmallestNumberOfNeighborsAtAThresholdDis
 
     private static int INF = 10_000_000;
 
-    private static class Score {
-        public Score(int label, int score) {
-            this.label = label;
-            this.score = score;
-        }
-
-        int label;
-        int score;
-
-        @Override
-        public String toString() {
-            return "Score{" +
-                    "label=" + label +
-                    ", score=" + score +
-                    '}';
-        }
-    }
-
     public int findTheCity(int n, int[][] edges, int distanceThreshold) {
         int[][] matrix = new int[n][n];
-
-        //matrix의 각 행에서 어떤 열에서 업데이트가 일어났는지 기록하기 위한 HashSet타입의 배열
-        Set<Integer>[] updated = new Set[n];//HashSet타입의 배열을 선언하려면 이렇게 하면 된다. new HashSet<Integer>[n] 이런식으로 직접적으로 표현하면 제네릭 타입의 배열 선언을 허용하지 않는다고 컴파일 에러 발생함.
-        for (int i = 0; i < n; i++) {
-            updated[i] = new HashSet<>();
-        }
-
-        //각 노드의 점수가 몇 점인지 기록하는 내부클래스 Score타입의 배열. 이후에 이걸 정렬해서 최종적인 답을 구할 것이다.
-        Score[] scores = new Score[n];
-        for (int i = 0; i < n; i++) {
-            scores[i] = new Score(i,0);
-        }
 
         //초기화 과정
         for (int i = 0; i < n; i++) {
@@ -70,8 +40,6 @@ public class Leet_1334FindTheCityWithTheSmallestNumberOfNeighborsAtAThresholdDis
             }
 
             if (matrix[i][j] > weight) {
-                updated[i].add(j);//각 행의 어떤 열에서 업데이트가 일어났는지 기록
-                updated[j].add(i);
                 matrix[i][j] = weight;
                 matrix[j][i] = weight;
             }
@@ -84,27 +52,35 @@ public class Leet_1334FindTheCityWithTheSmallestNumberOfNeighborsAtAThresholdDis
                     if (newDistance > distanceThreshold) {//비용이 distanceThreshold를 넘으면 업데이트 하지 않음.
                         continue;
                     }
-                    updated[i].add(j);
                     matrix[i][j] = newDistance;
                 }
             }
         }
 
+        //printMatrix(matrix);
+
+        int maxLabel = Integer.MIN_VALUE;
+        int minScore = Integer.MAX_VALUE;
         for (int i = 0; i < n; i++) {
-            scores[i].score = updated[i].size();
+            int tempLabel = i;
+            int tempScore = 0;
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] != 0 && matrix[i][j] != INF) {
+                    tempScore++;
+                }
+            }
+
+            if (minScore > tempScore) {
+                minScore = tempScore;
+                maxLabel = tempLabel;
+            } else if (minScore == tempScore) {
+                if (maxLabel < tempLabel) {
+                    maxLabel = tempLabel;
+                }
+            }
         }
 
-        //score를 기준으로 오름차순으로 정렬, score가 같은 경우 label을 기준으로 내림차순으로 정렬
-        Arrays.sort(scores, (o1, o2) -> {
-            if (Integer.compare(o1.score, o2.score) == 0) {
-                return Integer.compare(o1.label, o2.label) * -1;
-            }
-            return Integer.compare(o1.score, o2.score);
-        });
-
-        //System.out.println(Arrays.toString(scores));
-
-        return scores[0].label;
+        return maxLabel;
     }
 
     private void printMatrix(int[][] matrix) {
