@@ -11,10 +11,6 @@ import java.util.StringTokenizer;
 /*
 N개의 정점과 M개의 간선으로 구성된 무방향 그래프(undirected graph)가 주어진다. 정점 번호는 1번부터 N번이고 모든 간선의 가중치는 1이다. 정점 R에서 시작하여 깊이 우선 탐색으로 노드를 방문할 경우 노드의 방문 순서를 출력하자.
 깊이 우선 탐색 의사 코드는 다음과 같다. 인접 정점은 오름차순으로 방문한다.
-
-처음에 문제로 무방향 그래프가 주어진 다는 점을 까먹고 adjacentList[endPoint].add(startPoint); 이 코드를 넣지 않아서 틀리고 있었다.
-그리고 처음에는 인접 정점들을 담기 위해 PriorityQueue를 사용했는데 claude에게 물어보니까 PriorityQueue는 최소 힙이므로 poll()할 때만 오름차순이 보장되고, forEach로 순회할 때는 순서가 보장되지 않는다고 한다.
-ArrayList로 바꿔서 따로 정렬하니까 해결됨.
 */
 
 public class Baek_24444BFS1 {
