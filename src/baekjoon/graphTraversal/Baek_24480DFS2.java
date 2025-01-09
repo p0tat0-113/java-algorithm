@@ -17,7 +17,7 @@ N개의 정점과 M개의 간선으로 구성된 무방향 그래프(undirected 
 ArrayList로 바꿔서 따로 정렬하니까 해결됨.
 */
 
-public class Baek_24444DFS2 {
+public class Baek_24480DFS2 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
