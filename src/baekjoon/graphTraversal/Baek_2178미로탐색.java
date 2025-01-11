@@ -31,6 +31,7 @@ public class Baek_2178미로탐색 {
         for (int i = 0; i < n; i++) {
             maze[i] = br.readLine().split("");
         }
+        maze[0][0] = "0";
 
         int distanceCount = 0;
         LinkedList<int[]> queue = new LinkedList<>();
@@ -42,9 +43,8 @@ public class Baek_2178미로탐색 {
 
             for (int i = 0; i < currentQueueSize; i++) {
                 int[] polled = queue.poll();
-                maze[polled[0]][polled[1]] = "0";
 
-                if (polled[0] == n-1 && polled[1] == m-1) {
+                if (polled[0] == n-1 && polled[1] == m-1) {//도착지점이 나오면 현재까지의 distanceCount를 출력하고 끝낸다.
                     System.out.println(distanceCount);
                     return;
                 }
@@ -66,5 +66,6 @@ public class Baek_2178미로탐색 {
         }
 
         queue.add(new int[] {row, column});
+        maze[row][column] = "0";//이 부분이 문제였다. 바로바로 방문 표시를 해서 똑같은 좌표가 중복으로 큐에 들어가는 것을 막아주니까 메모리 초과 문제가 해결된다. 전에도 다른 문제를 풀면서 비슷한 문제를 한 번 겪었었다.
     }
 }
