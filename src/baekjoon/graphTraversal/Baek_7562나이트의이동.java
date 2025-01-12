@@ -1,31 +1,40 @@
 package baekjoon.graphTraversal;
 
-import java.util.HashSet;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
+import java.util.StringTokenizer;
 
 public class Baek_7562나이트의이동 {
-    public static void main(String[] args) {
-        /*process(8, 0,0,7,0);
-        process(8, 0,0,0,0);
-        process(100, 0,0,30,50);
-        process(100, 0,0,1,2);*/
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        process(7, 4,4,0,0);
+        int n = Integer.parseInt(br.readLine());
+        for (int i = 0; i < n; i++) {
+            int size = Integer.parseInt(br.readLine());
+
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int rowX = Integer.parseInt(st.nextToken());
+            int colX = Integer.parseInt(st.nextToken());
+
+            st = new StringTokenizer(br.readLine());
+            int rowY = Integer.parseInt(st.nextToken());
+            int colY = Integer.parseInt(st.nextToken());
+
+            process(size, rowX, colX, rowY, colY);
+        }
     }
 
-    private static HashSet<Integer> visitedRow = new HashSet<>();
-    private static HashSet<Integer> visitedColumn = new HashSet<>();
     private static LinkedList<int[]> queue = new LinkedList<>();
 
     private static void process(int size, int rowX, int colX, int rowY, int colY) {
-        visitedRow.clear();
-        visitedColumn.clear();
+        boolean[][] visited = new boolean[size][size];//결국 일반적인 방문 지점 표시 방식으로 돌아옴.
         queue.clear();
 
         int moveCount = -1;
         queue.add(new int[] {rowX, colX});
-        visitedRow.add(rowX);
-        visitedColumn.add(colX);
+        visited[rowX][colX] = true;
 
         while (!queue.isEmpty()) {
             moveCount++;
@@ -39,34 +48,27 @@ public class Baek_7562나이트의이동 {
                     return;
                 }
 
-                addToQueue(size, polled[0]-2, polled[1]+1);
-                addToQueue(size, polled[0]-1, polled[1]+2);
-                addToQueue(size, polled[0]+2, polled[1]+1);
-                addToQueue(size, polled[0]+1, polled[1]+2);
+                addToQueue(visited, size, polled[0]-2, polled[1]+1);
+                addToQueue(visited, size, polled[0]-1, polled[1]+2);
+                addToQueue(visited, size, polled[0]+2, polled[1]+1);
+                addToQueue(visited, size, polled[0]+1, polled[1]+2);
 
-                addToQueue(size, polled[0]-2, polled[1]-1);
-                addToQueue(size, polled[0]-1, polled[1]-2);
-                addToQueue(size, polled[0]+2, polled[1]-1);
-                addToQueue(size, polled[0]+1, polled[1]-2);
+                addToQueue(visited, size, polled[0]-2, polled[1]-1);
+                addToQueue(visited, size, polled[0]-1, polled[1]-2);
+                addToQueue(visited, size, polled[0]+2, polled[1]-1);
+                addToQueue(visited, size, polled[0]+1, polled[1]-2);
             }
         }
 
-        System.out.println("맨밑");
         System.out.println(moveCount);
     }
 
-    private static void addToQueue(int size, int row, int column) {
-        if (row < 0 || row >= size || column < 0 || column >= size || isVisited(row, column)) {
+    private static void addToQueue(boolean[][] visited, int size, int row, int column) {
+        if (row < 0 || row >= size || column < 0 || column >= size || visited[row][column]) {
             return;
         }
 
-        visitedRow.add(row);
-        visitedColumn.add(column);
+        visited[row][column] = true;
         queue.add(new int[] {row, column});
-    }
-
-    //해당 좌표에 방문한 적이 있는지 검사하는 메서드
-    private static boolean isVisited(int row, int column) {
-        return visitedRow.contains(row) && visitedColumn.contains(column);
     }
 }
