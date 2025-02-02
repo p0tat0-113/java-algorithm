@@ -151,10 +151,11 @@ public class Leet_2662MinimumCostOfAPathWithSpecialRoads {
                 System.out.println("answer:" + distanceU);
                 return distanceU;
             }
-            
-            if (setS.contains(u)) {
-                continue;
-            }
+
+            //생각해보니까 이 부분을 빠져도 됨. 아래 쪽에서 setS에 들어가있는지 검사해서 막아주는 코드가 있기 때문에ㄱㅊ함. 이걸 넣는 습관이 어디에서 생겼는지 모르겠네.
+//            if (setS.contains(u)) {
+//                continue;
+//            }
             setS.add(u);
 
             for (int v = 0; v < vertexCount; v++) {
